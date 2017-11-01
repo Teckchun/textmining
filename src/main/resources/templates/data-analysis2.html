@@ -1,0 +1,375 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/>
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css" integrity="sha384-/Y6pD6FV/Vv2HJnA6t+vslU6fwYXjCFtcEpHbNJ0lyAFsXTsjBbfaDjzALeQsN6M"
+          crossorigin="anonymous"/>
+    <!-- date picker css -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.6.4/css/bootstrap-datepicker.standalone.min.css"/>
+    <!--<link rel="stylesheet" th:href="@{/css/style.css}"/>-->
+    <link rel="stylesheet" th:href="@{/css/loading.css}"/>
+    <!-- trend graph -->
+    <link rel="stylesheet" th:href="@{/css/trend-graph.css}"/>
+    <link rel="stylesheet" th:href="@{/css/tree-graph.css}"/>
+    <!--highchart-->
+    <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+    <script src="https://code.highcharts.com/highcharts.js"></script>
+
+    <script src="https://code.highcharts.com/modules/series-label.js"></script>
+    <style>
+        .panel-heading span
+        {
+            margin-top: -26px;
+            font-size: 15px;
+            margin-right: -12px;
+        }
+
+        .clickable {
+            background: rgba(0, 0, 0, 0.15);
+            display: inline-block;
+            padding: 6px 12px;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+
+<body>
+<div class="container-fluid">
+
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <!-- <a class="navbar-brand" href="#">Navbar</a> -->
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
+                aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item active">
+                    <a class="nav-link" href="/">Home <span class="sr-only">(current)</span></a>
+                </li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="http://example.com" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        제품안전모니터링
+                    </a>
+                    <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                        <a class="dropdown-item" href="/category">-수집데이터 모니터링
+                        </a>
+                        <a class="dropdown-item" href="/category1">-데이터 검색</a>
+                        <a class="dropdown-item" href="#">-시스템성능 모니터링</a>
+                    </div>
+                </li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="http://example.com" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        데이터 분석
+                    </a>
+                    <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                        <a class="dropdown-item" href="/data-analysis">-추이분석
+                        </a>
+                        <a class="dropdown-item" href="/data-analysis2">-연관어 분석</a>
+                        <a class="dropdown-item" href="#">-비교 분석</a>
+                    </div>
+                </li>
+            </ul>
+            <!-- <form class="form-inline my-2 my-lg-0">
+                      <input class="form-control mr-sm-2" type="text" placeholder="Search" aria-label="Search">
+                      <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+                    </form> -->
+            <form class="form-inline my-2 my-lg-0" id="search-form">
+                <input class="form-control mr-sm-2" text="갤럭시 노트 8" type="text" placeholder="Search" aria-label="Search">
+                <button class="btn btn-outline-danger my-2 my-sm-0" type="submit">Search</button>
+            </form>
+    </nav>
+    <div class="wrapper">
+        <!---->
+        <div class="row mx-auto">
+
+            <div class="col-12 mt-5">
+
+                <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                    <h5>[추이]</h5>
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+
+                    <dl>
+                        <dt>01 검색어입력</dt>
+                        <dd><span style="color: red;">검색어</span>갤럭시S8|갤럭시노트|갤S8|갤놋|갤8
+                        </dd>
+                        <dd><span style="color: red;">검색어</span>갤럭시S8|갤럭시노트|갤S8|갤놋|갤8
+                        </dd>
+                        <dd><span style="color: red;">제외어</span>광고|홍보|모집
+                        </dd>
+
+                    </dl>
+                    <dl>
+                        <dt>02 검색기간</dt>
+                        <dd><span>‘17.08.01  - ’17.08.31</span><img class="mx-5" src="../images/calendar.png" alt=""><button class="mx-2">1주</button><button class="mx-2">1개월</button></dd>
+                    </dl>
+                    <dl>
+                        <dt>03 검색실행</dt>
+                        <dd><button>검색하기</button>
+                            <button>설정저장</button>
+                            <button>설정저장</button>
+
+                        </dd>
+                    </dl>
+
+                </div>
+            </div>
+
+        </div>
+
+
+
+        <hr>
+        <!--Search area-->
+        <div class="p-3 mb-2 bg-light text-gray-dark text-right">
+            <div class="row mx-auto">
+                <div class="col-6 col-md-offset-6">
+                    <form class="form-inline my-2 my-lg-0" id="search-form">
+                        <span id="search-period">검색기간 : ‘17.08-’17.10</span>
+                        <img src="../images/calendar.png" alt="">
+                        <input class="form-control mr-sm-2" text="갤럭시 노트 8" type="text" placeholder="Search" aria-label="Search">
+                        <button class="btn btn-outline-danger my-2 my-sm-0" type="submit">Search</button>
+                    </form>
+
+                </div>
+
+
+            </div>
+
+        </div>
+        <!--Search area-->
+        <!-- Graph area -->
+        <div class="row mx-auto">
+
+
+            <div class="col-9  mx-auto" id="issue-summary">
+
+
+
+
+
+
+                <!-- line graph -->
+                <!-- Result Info -->
+                <div id="graph-result">
+                    <div class="p-3 mb-2 bg-dark-red text-white"><span id="result-text">‘갤럭시노트8’의 연관문서 수집량
+
+                        </span>
+
+
+
+                    </div>
+                    <div class="row mx-auto text-center">
+                        <!-- <img src="./images/dashboard-line-graph.png" class="rounded img-fluid mx-auto" alt=""> -->
+
+                        <div class="col-12 mx-auto">
+                            <!--<div id="trend" style="border: 1px solid black;-->
+                            <!--width: 120%;" >-->
+                            <!--</div>-->
+                            <h5>[사이트별 추이] : [갤럭시S8|갤럭시노트|갤S8|갤놋|갤8] + [발열|과열|뜨거움|폭발|화상|불|부상] - [광고|홍보|모집]
+                            </h5>
+                            <div id="container" style="min-width: 500px; height: 400px; max-width: 600px;
+                           margin: 0 auto"></div>
+
+
+                        </div>
+
+
+
+                    </div>
+                </div>
+
+
+
+
+
+            </div>
+
+        </div>
+        <!-- Graph area -->
+        <!--Table area-->
+        <table class="table">
+            <thead class="thead-inverse">
+            <tr>
+                <th>구분</th>
+                <th>콘텐츠</th>
+                <th>조회수</th>
+                <th>댓글수</th>
+                <th>게시일</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <th scope="row">전체</th>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <th scope="row">뽐뿌</th>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <th scope="row">디시인사이드</th>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <th scope="row">지후맘</th>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <th scope="row">맘스홀릭</th>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+            </tbody>
+        </table>
+        <!--Table area-->
+
+        <div class="row mx-auto">
+
+
+        </div>
+
+
+    </div>
+
+
+    <!-- </div> -->
+</div>
+<!-- Optional JavaScript -->
+<!-- jQuery first, then Popper.js, then Bootstrap JS -->
+<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+        crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js" integrity="sha384-b/U6ypiBEHpOf/4+1nzFpr53nxSS+GLCkfwBdFNTxtclqqenISfwAzpKaMNFNmj4"
+        crossorigin="anonymous"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/js/bootstrap.min.js" integrity="sha384-h0AbiXch4ZDo7tp9hKZ4TsHbi047NrKGLO3SEJAg45jXxnGIfYzk4Si90RDIqNm1"
+        crossorigin="anonymous"></script>
+<script src="https://d3js.org/d3.v4.min.js"></script>
+<!-- date picker -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.6.4/js/bootstrap-datepicker.min.js"></script>
+<script>
+    $('#datepicker-start').datepicker();
+    $('#datepicker-end').datepicker();
+    // TODO: form product search
+    $('#form-product-search').submit(function(event){
+        //event.preventDefault();
+
+    });
+    $("#search-button").click(function(){
+        //$(".se-pre-con").fadeIn(1000);
+        $('.card-deck,#top-ten-search').fadeOut(1000,function(){
+            //$(".se-pre-con").fadeOut(3000);
+        });
+        $('#graph-result').show();
+
+    });
+</script>
+<script>
+    $(function(){
+        $('.clickable').on('click',function(){
+            var effect = $(this).data('effect');
+            $(this).closest('.panel')[effect]();
+        })
+    })
+
+</script>
+
+
+<!-- loading -->
+<div class="se-pre-con"></div>
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.5.2/jquery.min.js"></script>
+<script src="http://cdnjs.cloudflare.com/ajax/libs/modernizr/2.8.2/modernizr.js"></script>
+<script th:src="@{/js/loading.js}"></script>
+<!-- trend graph -->
+<script th:src="@{/js/trend-graph.js}"></script>
+<script th:src="@{/js/tree-graph.js}"></script>
+<script>
+    // highchart
+    Highcharts.chart('container', {
+
+        title: {
+//            text: 'Solar Employment Growth by Sector, 2010-2016'
+        },
+
+        subtitle: {
+//            text: 'Source: thesolarfoundation.com'
+        },
+
+        yAxis: {
+            title: {
+//                text: 'Number of Employees'
+            }
+        },
+        legend: {
+            layout: 'vertical',
+            align: 'right',
+            verticalAlign: 'middle'
+        },
+
+        plotOptions: {
+            series: {
+                label: {
+                    connectorAllowed: false
+                },
+                pointStart: 2010
+            }
+        },
+
+        series: [{
+            name: 'Installation',
+            data: [43934, 52503, 57177, 69658, 97031, 119931, 137133, 154175]
+        }, {
+            name: 'Manufacturing',
+            data: [24916, 24064, 29742, 29851, 32490, 30282, 38121, 40434]
+        }, {
+            name: 'Sales & Distribution',
+            data: [11744, 17722, 16005, 19771, 20185, 24377, 32147, 39387]
+        }, {
+            name: 'Project Development',
+            data: [null, null, 7988, 12169, 15112, 22452, 34400, 34227]
+        }, {
+            name: 'Other',
+            data: [12908, 5948, 8105, 11248, 8989, 11816, 18274, 18111]
+        }],
+
+        responsive: {
+            rules: [{
+                condition: {
+                    maxWidth: 500
+                },
+                chartOptions: {
+                    legend: {
+                        layout: 'horizontal',
+                        align: 'center',
+                        verticalAlign: 'bottom'
+                    }
+                }
+            }]
+        }
+
+    });
+
+
+
+</script>
+
+</body>
+
+</html>

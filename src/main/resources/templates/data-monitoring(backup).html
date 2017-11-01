@@ -1,0 +1,549 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8" />
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+
+    <!-- date picker css -->
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/0.0.11/css/bootstrap-datetimepicker.min.css" />
+    <script
+            src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/0.0.11/js/bootstrap-datetimepicker.min.js"></script>
+
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.6.4/css/bootstrap-datepicker.standalone.min.css" />
+    <!--<link rel="stylesheet" th:href="@{/css/style.css}"/>-->
+    <link rel="stylesheet" th:href="@{/css/loading.css}"/>
+    <!-- trend graph -->
+    <script
+            src="http://cdnjs.cloudflare.com/ajax/libs/raphael/2.1.0/raphael-min.js"></script>
+    <script src="http://code.jquery.com/jquery-1.8.2.min.js"></script>
+    <script src="http://cdn.oesmith.co.uk/morris-0.4.1.min.js"></script>
+    <link rel="stylesheet" th:href="@{/css/trend-graph.css}" />
+    <link rel="stylesheet" th:href="@{/css/tree-graph.css}" />
+    <!--highchart-->
+    <script src="https://code.highcharts.com/highcharts.js"></script>
+    <!--<script src="https://code.highcharts.com/modules/exporting.js"></script>-->
+    <style>
+        .panel-heading span {
+            margin-top: -26px;
+            font-size: 15px;
+            margin-right: -12px;
+        }
+
+        .clickable {
+            background: rgba(0, 0, 0, 0.15);
+            display: inline-block;
+            padding: 6px 12px;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+    </style>
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet"
+          href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css"
+          integrity="sha384-/Y6pD6FV/Vv2HJnA6t+vslU6fwYXjCFtcEpHbNJ0lyAFsXTsjBbfaDjzALeQsN6M"
+          crossorigin="anonymous" />
+</head>
+
+<body>
+<div class="container-fluid">
+
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <!-- <a class="navbar-brand" href="#">Navbar</a> -->
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
+                aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item active">
+                    <a class="nav-link" href="/">Home <span class="sr-only">(current)</span></a>
+                </li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="http://example.com" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        제품안전모니터링
+                    </a>
+                    <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                        <a class="dropdown-item" href="/data-monitoring">-수집데이터 모니터링
+                        </a>
+                        <a class="dropdown-item" href="/advanced-search">-데이터 검색</a>
+                        <a class="dropdown-item" href="#">-시스템성능 모니터링</a>
+                    </div>
+                </li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="http://example.com" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        데이터 분석
+                    </a>
+                    <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                        <a class="dropdown-item" href="/advanced-search">-추이분석
+                        </a>
+                        <a class="dropdown-item" href="/data-analysis2">-연관어 분석</a>
+                        <a class="dropdown-item" href="#">-비교 분석</a>
+                    </div>
+                </li>
+            </ul>
+
+
+    </nav>
+    <div class="wrapper">
+
+
+
+        <h5 class="mt-3">[수집데이터현황]</h5>
+        <!-- Data status area -->
+        <div class="row mx-auto" id="statistic">
+
+
+           <!--  <div class="mx-auto col-3 mt-5">
+                <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                    <h2 ><span class="badge badge-warning">뽐뿌</span></h2> <br>
+                    <p>39,679건</p>
+                </div>
+            </div>
+            <div class="mx-auto col-3 mt-5">
+                <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                    <h2 ><span class="badge badge-warning">디시인사이드</span></h2> <br>
+                    <p>37,010건</p>
+                </div>
+            </div>
+            <div class="mx-auto col-3 mt-5">
+                <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                    <h2 ><span class="badge badge-warning">지후맘카페</span></h2> <br>
+                    <p>49,123건</p>
+                </div>
+            </div>
+            <div class="mx-auto col-3 mt-5">
+                <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                    <h2 ><span class="badge badge-warning">맘스홀릭카페</span></h2> <br>
+                    <p>12,312건</p>
+                </div>
+            </div> -->
+
+
+
+
+        </div>
+        <!-- Data status area -->
+        <hr>
+        <!--Search area-->
+        <div class="p-3 mb-2 bg-light text-gray-dark text-right">
+            <div class="row mx-auto">
+                <div class="col-6 col-md-offset-6">
+                    <form class="form-inline" id="search-form">
+                        <div class="form-group">
+                            <!-- Date Picker -->
+                            <div class="input-group date ">
+                                <input type="text" class="form-control" id="datepicker-start"
+                                       value="2017-10-11" placeholder="YYYY/MM/DD" /> <span
+                                    class="input-group-addon">
+							</span>
+                            </div>
+                            <!-- Time Picker -->
+                            <div class="input-group date">
+                                <input type="text" class="form-control" id="datepicker-end"
+                                       value="2017-10-22" placeholder="YYYY/MM/DD" /> <span
+                                    class="input-group-addon">
+							</span>
+                            </div>
+                            &nbsp;&nbsp;&nbsp;&nbsp;
+                            <div style="paddding-left: 20px;">
+                                <input id="txtSearch" class="form-control" value="갤s7"
+                                       type="text" placeholder="Search" aria-label="Search">
+
+                                <button class="btn btn-outline-danger my-2 my-sm-0" type="submit"
+                                        id="btnSearch">Search</button>
+                            </div>
+
+                        </div>
+                    </form>
+
+                </div>
+
+
+            </div>
+
+        </div>
+        <!--Search area-->
+        <!--Table area-->
+
+        <!--tab-->
+
+   <div id="result" style="display:none">
+       <div class="btn-group" style="float: left;">
+
+           <select class="custom-select mr-3" id="searchOption">
+               <option selected value="all">전체</option>
+               <option  value="ppomppu" >뽐뿌</option>
+               <option  value="dcinside">디시인사이드</option>
+               <option  value="momcafe">지후맘</option>
+           </select>
+
+       </div>
+    
+    <div style="height:500px;overflow: scroll;">
+        <table class="table" id="searchResult" style="">
+        <thead class="thead-inverse">
+
+        <tr>
+
+            <th>콘텐츠</th>
+            <th>조회수</th>
+            <th>댓글수</th>
+            <th>게시일</th>
+        </tr>
+        </thead>
+
+            <tbody id="searchResultData">
+                <h1 id="nodata" style="display: none">No Data Found</h1>
+            </tbody>
+        </table>
+    </div>
+   </div>
+
+        <!--Table area-->
+        <!-- Graph area -->
+        <div class="row mx-auto">
+
+
+            <div class="col-9  mx-auto" id="issue-summary">
+
+                <!-- line graph -->
+                <!-- Result Info -->
+                <div id="graph-result">
+                    <div class="p-3 mb-2 bg-dark-red text-white"><span id="result-text">‘갤럭시노트8’의 연관문서 수집량
+
+                        </span>
+
+
+
+                    </div>
+                    <div class="row mx-auto text-center" id="resultdiv" style="display:none">
+                        <!-- <img src="./images/dashboard-line-graph.png" class="rounded img-fluid mx-auto" alt=""> -->
+
+                       <div class="col-4 mx-auto">
+                           <!--<div id="trend" style="border: 1px solid black;-->
+<!--width: 120%;" >-->
+                           <!--</div>-->
+                           <h5>[검색어 추이]</h5>
+                           <div id="container" style="min-width: 310px; height: 400px; max-width: 600px;
+                           margin: 0 auto"></div>
+
+
+                       </div>
+                        <div class="col-2 mx-auto" id="dataCount" >
+                            <h5>[검색결과]</h5>
+                           <!--  <div class="alert alert-warning" role="alert">
+                                <strong>뽐뿌</strong>
+                            </div>
+                            <div class="alert alert-warning" role="alert">
+                                <strong>디갤</strong>
+                            </div>
+                            <div class="alert alert-warning" role="alert">
+                                <strong>지후</strong>
+                            </div>
+                            <div class="alert alert-warning" role="alert">
+                                <strong>지후</strong>
+                            </div>
+                            <div class="alert alert-warning" role="alert">
+                                <strong>뽐뿌</strong>
+                            </div>
+ -->
+
+
+
+                        </div>
+
+                    </div>
+                </div>
+
+
+
+
+
+            </div>
+
+        </div>
+        <!-- Graph area -->
+        <div class="row mx-auto">
+
+
+        </div>
+
+
+    </div>
+
+
+    <!-- </div> -->
+</div>
+<!-- Optional JavaScript -->
+<!-- jQuery first, then Popper.js, then Bootstrap JS -->
+<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+        crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js" integrity="sha384-b/U6ypiBEHpOf/4+1nzFpr53nxSS+GLCkfwBdFNTxtclqqenISfwAzpKaMNFNmj4"
+        crossorigin="anonymous"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/js/bootstrap.min.js" integrity="sha384-h0AbiXch4ZDo7tp9hKZ4TsHbi047NrKGLO3SEJAg45jXxnGIfYzk4Si90RDIqNm1"
+        crossorigin="anonymous"></script>
+<script src="https://d3js.org/d3.v4.min.js"></script>
+<!-- date picker -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.6.4/js/bootstrap-datepicker.min.js"></script>
+<script>
+
+    $(document).ready(function(){
+        var BASE_URL = 'http://localhost:8080/rest';
+//        statistic
+        $.ajax({
+            url: BASE_URL+`/data-monitoring/count`
+
+        }).done(function(res) {
+            console.log(res);
+            data = res.total;
+			var type = ["뽐뿌","디시인사이드","지후맘카페","맘스홀릭카페"];
+            
+            
+            for(var i =0; i<res.data.length;i++){
+                $("#statistic").append(`
+            <div class="mx-auto col-3 mt-5">
+                <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                    <h2 ><span class="badge badge-warning">${type[i]}</span></h2> <br>
+                    <p>${res.data[i].total}건</p>
+                </div>
+            </div>
+`);
+
+
+            }
+        })
+    })
+    $('#datepicker-start').datepicker({
+        format: 'yyyy-mm-dd'
+    });
+    $('#datepicker-end').datepicker({
+        format: 'yyyy-mm-dd'
+    });
+
+    // TODO search data
+    var BASE_URL = 'http://localhost:8080/rest';
+    var data = [];
+    var ppumppo = [];
+
+    $("#btnSearch").click(function(e){
+        $(".se-pre-con").fadeIn(500);
+        e.preventDefault();
+        var boardTitle = $("#txtSearch").val();
+        var startDate = $("#datepicker-start").val();
+        var endDate = $("#datepicker-end").val();
+
+
+        $.ajax({
+            url: BASE_URL+`/data-monitoring/getBoards?board_title=${boardTitle}&start_date=${startDate}&end_date=${endDate}`,
+
+        }).done(function(res) {
+            console.log(res);
+            data = res.data;
+
+
+        },function(){
+            constructTable(data);
+            $(".se-pre-con").fadeOut(500);
+            $("#result").show();
+        });
+
+
+
+
+
+    });
+    function constructTable(data, mytype,callback){
+        if(data.length==0){
+            $("#nodata").show(1000);
+        }
+        $("#searchResultData").html("");
+        console.log(mytype);
+            for(var i=0; i<data.length; i++){
+                console.log(data[i].type);
+                if(mytype!=null && data[i].type!=mytype){
+                    continue;
+                }
+                $("#searchResultData").append(`
+                <tr>
+                    <th style="width:70%"><a href="">${data[i].boardTitle}</a></th>
+                    <td>${data[i].boardView}</td>
+                    <td>${data[i].boardRecommand}</td>
+                    <td>${data[i].insertDate}</td>
+
+                 </tr>
+                `);
+            }
+
+	if(data.length>0)
+		$("#resultdiv").show();
+	else
+		$("#resultdiv").hide();
+		
+        var rows = data;
+
+        var occurences = rows.reduce(function (r, row) {
+            r[row.insertDate] = ++r[row.insertDate] || 1;
+            return r;
+        }, {});
+
+        var result = Object.keys(occurences).map(function (key) {
+            return { key: key, value: occurences[key] };
+        });
+
+
+
+        container.innerHTML='';
+
+        Morris.Line({
+            // ID of the element in which to
+            // draw the chart.
+            element : 'container',
+
+            // Chart data records -- each
+            // entry in this array
+            // corresponds to a point
+            // on the chart.
+            data : result,
+
+            // The name of the data record
+            // attribute that contains
+            // x-values.
+            xkey : [ 'key' ],
+
+            // A list of names of data
+            // record attributes that
+            // contain y-values.
+            ykeys : [ 'value' ],
+            xmin : 1,
+            xmax : 12,
+            // Labels for the ykeys -- will
+            // be displayed when you hover
+            // over the
+            // chart.
+            labels : [ '검색건수' ],
+
+            xLabels : [ '날짜' ],
+            lineColors : [ '#0b62a4' ],
+            parseTime : false,
+
+            // Disables line smoothing
+            smooth : true,
+            resize : true
+        });
+
+
+
+
+        var rows = data;
+
+        var occurences2 = rows.reduce(function (r, row) {
+            r[row.type] = ++r[row.type] || 1;
+            return r;
+        }, {});
+
+        var result2 = Object.keys(occurences2).map(function (key) {
+            return { key: key, value: occurences2[key] };
+        });
+
+        console.log("result2=> ",result2)
+        var type = ["뽐뿌","디시인사이드","지후맘카페"];
+        
+        for(i=0; i<result2.length; i++){
+        
+        	
+        	
+        	 $("#dataCount").append(`
+             		<div class="alert alert-warning" role="alert">
+            				 <strong>${type[i]}:${result2[i].value}</strong>
+        				 </div>
+             		
+             		`)
+        }
+
+
+       // myCacallbackllback(showResult);
+
+    }
+
+    function myCacallbackllback(callback){
+        showResult();
+
+    }
+    function showResult(){
+
+        $("#result").show();
+
+    }
+
+
+
+
+
+    $("#searchOption").change(function(e){
+        e.preventDefault();
+       // alert($("#searchOption").val())
+        switch($("#searchOption").val()){
+
+
+            case "ppomppu":
+                constructTable(data, "ppomppu");
+            break;
+            case "dcinside":
+                constructTable(data, "dcinside");
+            break;
+
+            case "momcafe":
+                constructTable(data, "momcafe");
+            break;
+            default:
+                 constructTable(data);
+            break;
+
+
+
+        }
+
+
+    })
+
+
+
+
+
+
+
+</script>
+
+
+<!-- loading -->
+<div class="se-pre-con"></div>
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.5.2/jquery.min.js"></script>
+<script src="http://cdnjs.cloudflare.com/ajax/libs/modernizr/2.8.2/modernizr.js"></script>
+<script th:src="@{/js/loading.js}"></script>
+
+</body>
+
+</html>

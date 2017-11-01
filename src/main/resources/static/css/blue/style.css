@@ -1,0 +1,53 @@
+/* index */
+.container{
+  border-left: 1px solid gray;
+  border-right: 1px solid gray;
+}
+
+.navbar-nav > li > a:hover{
+  color:blue;
+  /* background-color:#ff9900 !important; */
+
+}
+
+
+div.wrapper{
+  background-color:#0D47A1;
+
+
+}
+
+div.wrapper.result-page{
+  background-color: white;
+}
+
+#issue-product{
+  background-color: #0D47A1;
+  color: white;
+  margin-top: 2em;
+}
+#issue-summary{
+  margin-top: 2em;
+  background-color: white;
+}
+
+#filter-area{
+color: white;
+}
+
+.table-head{
+  background-color:#0D47A1;
+  color: white;
+}
+
+table tr.size{
+
+}
+
+.bg-dark-red{
+  background-color:#0D47A1;
+}
+
+#graph-result{
+  display: none;
+}

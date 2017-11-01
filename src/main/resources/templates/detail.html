@@ -1,0 +1,376 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css" integrity="sha384-/Y6pD6FV/Vv2HJnA6t+vslU6fwYXjCFtcEpHbNJ0lyAFsXTsjBbfaDjzALeQsN6M" crossorigin="anonymous">
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+   </head>
+  <body>
+    <div class="container-fluid">
+
+        <nav class="navbar navbar-expand-lg navbar-light bg-light">
+            <!-- <a class="navbar-brand" href="#">Navbar</a> -->
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
+                    aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav mr-auto">
+                    <li class="nav-item active">
+                        <a class="nav-link" href="/">Home <span class="sr-only">(current)</span></a>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="http://example.com" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            제품안전모니터링
+                        </a>
+                        <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                            <a class="dropdown-item" href="/category">-수집데이터 모니터링
+                            </a>
+                            <a class="dropdown-item" href="/category1">-데이터 검색</a>
+                            <a class="dropdown-item" href="#">-시스템성능 모니터링</a>
+                        </div>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="http://example.com" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            데이터 분석
+                        </a>
+                        <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                            <a class="dropdown-item" href="/data-analysis">-추이분석
+                            </a>
+                            <a class="dropdown-item" href="/data-analysis2">-연관어 분석</a>
+                            <a class="dropdown-item" href="#">-비교 분석</a>
+                        </div>
+                    </li>
+                </ul>
+                <!-- <form class="form-inline my-2 my-lg-0">
+                          <input class="form-control mr-sm-2" type="text" placeholder="Search" aria-label="Search">
+                          <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+                        </form> -->
+                <form class="form-inline my-2 my-lg-0" id="search-form">
+                    <input class="form-control mr-sm-2" text="갤럭시 노트 8" type="text" placeholder="Search" aria-label="Search">
+                    <button class="btn btn-outline-danger my-2 my-sm-0" type="submit">Search</button>
+                </form>
+        </nav>
+
+            <div class="wrapper result-page">
+                <!-- Result Info -->
+                <div class="p-3 mb-2 bg-dark-red text-white"><span id="result-text">‘갤럭시 노트 8’  문서 검색
+                  </span>
+                </div>
+                <div class="p-3 mb-2 bg-light text-gray-dark text-right">
+                  <span id="search-period">검색기간 : ‘17.08-’17.10
+                    </span>
+                    <img src="../images/calendar.png" alt="">
+                </div>
+              <!-- Result Info -->
+              <!-- Product list -->
+              <div class="card-deck">
+                  <div class="card list-group-item-danger text-dark">
+                     <div class="card-block">
+                      <h5 class="card-title">연관 키워드 순위
+                        </h5>
+                        <div class="list-group">
+                            <a href="#" class="list-group-item list-group-item-action">1. 아이폰</a>
+                            <a href="#" class="list-group-item list-group-item-action ">2. 갤럭시 s8
+                              </a>
+                            <a href="#" class="list-group-item list-group-item-action ">3. 3 삼성
+                              </a>
+                            <a href="#" class="list-group-item list-group-item-action ">4. 아이폰7
+                              </a>
+                            <a href="#" class="list-group-item list-group-item-action ">5. 케이스
+                              </a>
+                              <a href="#" class="list-group-item list-group-item-action ">6. 노트
+
+                                </a>
+                                <a href="#" class="list-group-item list-group-item-action ">7. 기종
+
+                                  </a>
+                                  <a href="#" class="list-group-item list-group-item-action ">8. LG
+
+                                    </a>
+
+
+
+                          </div>
+
+
+
+                      </div>
+                  </div>
+                  <div class="card list-group-item-danger text-dark">
+                      <div class="card-block">
+                          <h5 class="card-title">연관 위해 키워드 순위
+
+                            </h5>
+                            <div class="list-group">
+                                <a href="#" class="list-group-item list-group-item-action">1. 발열
+                                  </a>
+                                <a href="#" class="list-group-item list-group-item-action ">2. 배터리
+                                  </a>
+                                <a href="#" class="list-group-item list-group-item-action ">3. 꺼짐
+                                  </a>
+                                <a href="#" class="list-group-item list-group-item-action ">4. 느림
+                                  </a>
+                                <a href="#" class="list-group-item list-group-item-action ">5.</a>
+                                <a href="#" class="list-group-item list-group-item-action ">6.</a>
+                                <a href="#" class="list-group-item list-group-item-action ">7.</a>
+                                <a href="#" class="list-group-item list-group-item-action ">8.</a>
+
+
+                              </div>
+
+
+
+                          </div>
+                  </div>
+                  <div class="card list-group-item-danger text-dark">
+                      <div class="card-block">
+                          <h5 class="card-title">주간 급증 연관 키워드 순위
+
+                            </h5>
+                            <div class="list-group">
+                                <a href="#" class="list-group-item list-group-item-action">1. 스마트폰
+
+                                  </a>
+                                <a href="#" class="list-group-item list-group-item-action ">2. 예약판매
+
+                                  </a>
+                                <a href="#" class="list-group-item list-group-item-action ">3. 지원금
+                                  </a>
+                                <a href="#" class="list-group-item list-group-item-action ">4. 사은품
+
+                                  </a>
+                                <a href="#" class="list-group-item list-group-item-action ">5. 상담
+                                  </a>
+                                <a href="#" class="list-group-item list-group-item-action ">6. 갤럭시
+                                  </a>
+                                <a href="#" class="list-group-item list-group-item-action ">7. 반환금
+                                  </a>
+                                <a href="#" class="list-group-item list-group-item-action ">8. 노트
+                                  </a>
+
+
+                            </div>
+
+
+
+                          </div>
+                  </div>
+                </div>
+                <!-- Tab Navs -->
+                <!-- Nav tabs -->
+
+                    <ul class="nav nav-tabs" role="tablist" id="articles-nav-tab" style="margin-top:3em">
+                        <li class="nav-item">
+                          <a class="nav-link active" data-toggle="tab" href="#home" role="tab">뽐뿌</a>
+                        </li>
+                        <li class="nav-item">
+                          <a class="nav-link" data-toggle="tab" href="#profile" role="tab">디시인사이드</a>
+                        </li>
+                        <li class="nav-item">
+                          <a class="nav-link" data-toggle="tab" href="#messages" role="tab">지후맘카페</a>
+                        </li>
+                        <li class="nav-item">
+                          <a class="nav-link" data-toggle="tab" href="#settings" role="tab">맘스홀릭카페</a>
+                        </li>
+                      </ul>
+
+                      <!-- Tab panes -->
+                      <div class="tab-content">
+                        <div class="tab-pane active" id="home" role="tabpanel">
+
+                            <div class="form-group">
+
+                                <textarea class="form-control" id="exampleFormControlTextarea1" rows="3">
+                                    검색한 키워드 또는 제품리스트에서 선택한 제품과 관련된 수집한 글목록
+                                </textarea>
+                              </div>
+
+                        </div>
+                        <div class="tab-pane fade" id="profile" role="tabpanel">
+                            <div class="form-group">
+
+                                                                <textarea class="form-control" id="exampleFormControlTextarea1" rows="3">
+                                                                   Some text.....
+                                                                </textarea>
+                                                              </div>
+                        </div>
+                        <div class="tab-pane fade" id="messages" role="tabpanel">
+                            <div class="form-group">
+
+                                                                <textarea class="form-control" id="exampleFormControlTextarea1" rows="3">
+                                                                    Some text.....
+                                                                </textarea>
+                                                              </div>
+                        </div>
+                        <div class="tab-pane fade" id="settings" role="tabpanel">
+                            <div class="form-group">
+
+                                                                <textarea class="form-control" id="exampleFormControlTextarea1" rows="3">
+                                                                    Some text.....
+                                                                </textarea>
+                                                              </div>
+                        </div>
+                      </div>
+                </div>
+
+                <!-- Tab Navs -->
+
+                <table class="table table-striped table-bordered">
+                  <thead class="table-head">
+                    <tr>
+                      <th>사이트
+                      </th>
+                      <th>카테고리</th>
+                      <th>당일수집문서수</th>
+                      <th>누적문서수</th>
+                      <th>제품안전 관련문서건수</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <!-- first -->
+                    <tr class="size">
+                      <th scope="row" rowspan="4">뽐뿌</th>
+
+
+                    </tr>
+                    <tr>
+                      <td>휴대폰</td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+
+                    </tr>
+                    <tr>
+
+                      <td>생활가전</td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                    </tr>
+                    <tr>
+
+                      <td>미디어가전</td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                    </tr>
+                    <!-- second -->
+                    <tr>
+                      <th scope="row" rowspan="5">디시인사이드갤러리
+                      </th>
+
+
+
+                    </tr>
+                    <tr>
+                      <td>스마트폰
+                      </td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+
+                    </tr>
+                    <tr>
+
+                      <td>컴퓨터</td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                    </tr>
+                    <tr>
+
+                      <td>태블릿</td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                    </tr>
+                    <tr>
+
+                        <td>이어폰</td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                      </tr>
+
+                      <!-- third -->
+                      <tr>
+                          <th scope="row" rowspan="3">지후맘
+                          </th>
+
+
+
+                        </tr>
+                        <tr>
+                          <td>자유게시판
+                          </td>
+                          <td></td>
+                          <td></td>
+                          <td></td>
+
+                        </tr>
+                        <tr>
+
+                          <td>육아용품후기</td>
+                          <td></td>
+                          <td></td>
+                          <td></td>
+                        </tr>
+                        <!-- fourth -->
+                        <tr>
+                            <th scope="row" rowspan="3">맘스홀릭
+                            </th>
+
+
+
+                          </tr>
+                          <tr>
+                            <td>자유게시판
+                            </td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+
+                          </tr>
+                          <tr>
+
+                            <td>육아용품후기</td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                          </tr>
+                  </tbody>
+                </table>
+
+
+              <!-- Product list -->
+              </div>
+
+
+          <!-- </div> -->
+          </div>
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js" integrity="sha384-b/U6ypiBEHpOf/4+1nzFpr53nxSS+GLCkfwBdFNTxtclqqenISfwAzpKaMNFNmj4" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/js/bootstrap.min.js" integrity="sha384-h0AbiXch4ZDo7tp9hKZ4TsHbi047NrKGLO3SEJAg45jXxnGIfYzk4Si90RDIqNm1" crossorigin="anonymous"></script>
+    <script th:src="@{/js/detail.js}"></script>
+
+          <!--Tab Navs Script  -->
+    <script>
+    $('#articles-nav-tab a').click(function (e) {
+  e.preventDefault()
+  $(this).tab('show')
+})
+// $('#articles-nav-tab a[href="#profile"]').tab('show') // Select tab by name
+// $('#articles-nav-tab a:first').tab('show') // Select first tab
+// $('#articles-nav-tab a:last').tab('show') // Select last tab
+// $('#articles-nav-tab li:eq(2) a').tab('show') // Select third tab (0-indexed)
+    </script>
+  </body>
+</html>
