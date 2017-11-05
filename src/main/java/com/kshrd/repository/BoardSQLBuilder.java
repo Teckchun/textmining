@@ -60,7 +60,7 @@ public class BoardSQLBuilder {
 		
 		
 		System.out.println(dcinside+" union "+ ppomppu + " union "+momcafe);
-		return dcinside+" union "+ ppomppu + " union "+momcafe;
+		return dcinside+" union "+ ppomppu + " union "+momcafe+" order by insert_date desc";
 	}
 	
 	
@@ -97,7 +97,7 @@ public class BoardSQLBuilder {
 			WHERE(" a.insert_date <= '"+board.getEndDate()+"'"+")");
 			
 		}}.toString();
-		String sql = dcinside +" union "+ ppomppu +" union "+ momcafe;
+		String sql = dcinside +" union "+ ppomppu +" union "+ momcafe+" order by insert_date desc ";
 		String limit = pagination.getLimit()+"";
 		String offset = pagination.getOffset()+"";
 		sql += " limit "+limit+" offset "+offset;

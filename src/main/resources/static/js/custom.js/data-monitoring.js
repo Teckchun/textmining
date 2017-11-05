@@ -1,4 +1,6 @@
 
+    var REQUEST_URL = 'http://localhost:8080/rest';
+    // localhost:8080
 	var request = function() {
 
 		return {	
@@ -7,9 +9,9 @@
 			    var SERVER_URL = 'http://110.74.194.125:15019/rest';
 					console.log('initData calling..')
 				//$(".se-pre-con").fadeIn(500);
-			    	$('#startDate').datepicker('setDate', new Date(2017, 9, 10));
-				$('#endDate').datepicker('setDate', new Date(2017, 9, 22));
-				$("#keyword").val("갤s7"); 
+			    	$('#startDate').datepicker('setDate', new Date());
+				$('#endDate').datepicker('setDate', new Date());
+				/*$("#keyword").val("갤s7"); */
 			        
 				 var startDate = $("#startDate").val();
 				 var endDate = $("#endDate").val();
@@ -65,7 +67,7 @@
 		        		columnDefs: [
 	                    { type: 'date-custom', targets: [4] }
 	                ],
-	                "ordering": false,
+	                "ordering": true,
 	                "searching": false,
 		            "processing": true,
 		            "serverSide": true,
@@ -84,7 +86,7 @@
 		            stateSave: true,
 		            //TODO: 
 		            "ajax":{
-		            	"url" : SERVER_URL+`/data-monitoring/getBoards`,
+		            	"url" : REQUEST_URL+'/data-monitoring/getBoards',
 		            	//TODO: Custom parameter sent to server!
 		            	"data": filter,
 		            	//TODO: Custom return parameter from server!
@@ -197,12 +199,11 @@
 		     	              
 		     	              	
 		     	              	
-		     	              	 $("#dataCount").append(`
-		     	                   		<div class="alert alert-warning" role="alert">
-		     	                  				 <strong>${type[i]}:${result2[i].value}</strong>
-		     	              				 </div>
+		     	              	 $("#dataCount").append('<div class="alert alert-warning" role="alert">'+
+		     	                  				 '<strong>'+type[i]+':'+result2[i].value+'</strong>'+
+		     	              				 '</div>'
 		     	                   		
-		     	                   		`)
+		     	                   		);
 		     	              }
 
 		     	            
@@ -215,7 +216,13 @@
 	     		            { "data": "board_index" },
 	     		            { "data": "type" },
 	     		            { "data": "board_title" },
-	     		            { "data": "board_url" },
+	     		            { "data": "board_url","render": function(data, type, row, meta){
+	     		               if(type === 'display'){
+	     		                  data = '<a href="' + data + '">' + data + '</a>';
+	     		              }
+
+	     		              return data;
+	     		           } },
 	     		            { "data": "board_recommand" },
 	     		            { "data": "board_view" },
 	     		            { "data": "insert_date" }
@@ -248,7 +255,7 @@
 				        
 //				        statistic
 				        $.ajax({
-				            url: SERVER_URL+`/data-monitoring/count`
+				            url: REQUEST_URL+'/data-monitoring/count'
 
 				        }).done(function(res) {
 				            console.log(res);
@@ -257,21 +264,23 @@
 				            
 				            
 				            for(var i =0; i<res.data.length;i++){
-				                $("#statistic").append(`
-				                		<div class="col-sm-6 col-lg-3">
-				    					<a href="javascript:void(0)" class="widget widget-hover-effect2">
-				    						<div class="widget-extra themed-background">
-				    							<h4 class="widget-content-light"><strong>${type[i]}</strong></h4>
-				    						</div>
-				    						<div class="widget-extra-full themed-color-dark" style="background-color: #fff;">
-				    						<span class="h2 themed-color-dark animation-expandOpen" id="ppCount">${res.data[i].total}건</span ></div>
-				    					</a>
-				    				</div>
-						`);
+				                $("#statistic").append('<div class="col-sm-6 col-lg-3">'+
+				    					'<a href="javascript:void(0)" class="widget widget-hover-effect2">'+
+				    						'<div class="widget-extra themed-background">'+
+				    							'<h4 class="widget-content-light"><strong>'+type[i]+'</strong></h4>'+
+				    						'</div>'+
+				    						'<div class="widget-extra-full themed-color-dark" style="background-color: #fff;">'+
+				    						'<span class="h2 themed-color-dark animation-expandOpen" id="ppCount">'+res.data[i].total+'건'+'</span ></div>'+
+				    					'</a>'+
+				    				'</div>');
 
 
 				            }
 				        });
+				        
+				        
+				        
+				        
 				})
 			}
 			,
@@ -342,7 +351,7 @@
 		        		columnDefs: [
 	                    { type: 'date-custom', targets: [4] }
 	                ],
-	                "ordering": false,
+	                "ordering": true,
 	                "searching": false,
 		            "processing": true,
 		            "serverSide": true,
@@ -361,7 +370,7 @@
 		            stateSave: true,
 		            //TODO: 
 		            "ajax":{
-		            	"url" : SERVER_URL+`/data-monitoring/getBoards`,
+		            	"url" : REQUEST_URL+'/data-monitoring/getBoards',
 		            	//TODO: Custom parameter sent to server!
 		            	"data": filter,
 		            	//TODO: Custom return parameter from server!
@@ -469,12 +478,11 @@
 					     	              
 					     	              	
 					     	              	
-					     	              	 $("#dataCount").append(`
-					     	                   		<div class="alert alert-warning" role="alert">
-					     	                  				 <strong>${type[i]}:${result2[i].value}</strong>
-					     	              				 </div>
-					     	                   		
-					     	                   		`)
+					     	              	 $("#dataCount").append(
+					     	                   		'<div class="alert alert-warning" role="alert">'+
+					     	                  				 '<strong>'+type[i]+':'+result2[i].value+'</strong>'+
+					     	              				 '</div>'
+					     	                  				 )
 					     	              }
 				     	            
 				     	            //TODO: response pattern for DATATABLE
@@ -598,7 +606,7 @@
 		        		columnDefs: [
 	                    { type: 'date-custom', targets: [4] }
 	                ],
-	                "ordering": false,
+	                "ordering": true,
 	                "searching": false,
 		            "processing": true,
 		            "serverSide": true,
@@ -617,7 +625,7 @@
 		            stateSave: true,
 		            //TODO: 
 		            "ajax":{
-		            	"url" : SERVER_URL+`/data-monitoring/getBoards`,
+		            	"url" : REQUEST_URL+'/data-monitoring/getBoards',
 		            	//TODO: Custom parameter sent to server!
 		            	"data": filter,
 		            	//TODO: Custom return parameter from server!
