@@ -1,13 +1,14 @@
 
-    var REQUEST_URL = 'http://localhost:8080/rest';
-    // localhost:8080
+    var REQUEST_URL={
+    		server:'http://35.201.252.181:11008/rest',
+    		local:'http://localhost:8080/rest'
+    } 
+    
+
 	var request = function() {
 
 		return {	
 			init:function(){
-				var LOCAL_URL = 'http://localhost:8080/rest';
-			    var SERVER_URL = 'http://110.74.194.125:15019/rest';
-					console.log('initData calling..')
 				//$(".se-pre-con").fadeIn(500);
 			    	$('#startDate').datepicker('setDate', new Date());
 				$('#endDate').datepicker('setDate', new Date());
@@ -86,7 +87,7 @@
 		            stateSave: true,
 		            //TODO: 
 		            "ajax":{
-		            	"url" : REQUEST_URL+'/data-monitoring/getBoards',
+		            	"url" : REQUEST_URL.server+'/data-monitoring/getBoards',
 		            	//TODO: Custom parameter sent to server!
 		            	"data": filter,
 		            	//TODO: Custom return parameter from server!
@@ -250,12 +251,10 @@
 			//TODO: get data count
 			getDataCounts: function(){
 				$(function(){
-					 var LOCAL_URL = 'http://localhost:8080/rest';
-				        var SERVER_URL = 'http://110.74.194.125:15019/rest';
-				        
+					    
 //				        statistic
 				        $.ajax({
-				            url: REQUEST_URL+'/data-monitoring/count'
+				            url: REQUEST_URL.server+'/data-monitoring/count'
 
 				        }).done(function(res) {
 				            console.log(res);
@@ -289,9 +288,6 @@
 				
 				$('#datasetList').DataTable().clear().destroy();
 //				
-				var LOCAL_URL = 'http://localhost:8080/rest';
-			    var SERVER_URL = 'http://110.74.194.125:15019/rest';
-					console.log('getBoard calling..')
 				//$(".se-pre-con").fadeIn(500);
 //			    	$('#startDate').datepicker('setDate', new Date(2017, 9, 10));
 //				$('#endDate').datepicker('setDate', new Date(2017, 9, 22));
@@ -370,7 +366,7 @@
 		            stateSave: true,
 		            //TODO: 
 		            "ajax":{
-		            	"url" : REQUEST_URL+'/data-monitoring/getBoards',
+		            	"url" : REQUEST_URL.server+'/data-monitoring/getBoards',
 		            	//TODO: Custom parameter sent to server!
 		            	"data": filter,
 		            	//TODO: Custom return parameter from server!
@@ -545,9 +541,6 @@
 				
 				$('#datasetList').DataTable().clear().destroy();
 //				
-				var LOCAL_URL = 'http://localhost:8080/rest';
-			    var SERVER_URL = 'http://110.74.194.125:15019/rest';
-					console.log('initData calling..')
 				//$(".se-pre-con").fadeIn(500);
 //			    	$('#startDate').datepicker('setDate', new Date(2017, 9, 10));
 //				$('#endDate').datepicker('setDate', new Date(2017, 9, 22));
@@ -625,7 +618,7 @@
 		            stateSave: true,
 		            //TODO: 
 		            "ajax":{
-		            	"url" : REQUEST_URL+'/data-monitoring/getBoards',
+		            	"url" : REQUEST_URL.server+'/data-monitoring/getBoards',
 		            	//TODO: Custom parameter sent to server!
 		            	"data": filter,
 		            	//TODO: Custom return parameter from server!
