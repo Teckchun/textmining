@@ -10,8 +10,20 @@
 		return {	
 			init:function(){
 				//$(".se-pre-con").fadeIn(500);
-			    	$('#startDate').datepicker('setDate', new Date());
-				$('#endDate').datepicker('setDate', new Date());
+				var today = new Date();
+				var yesterday = today.setDate(today.getDate()-1);
+			  /*  $('#startDate').datepicker('setDate',yesterday);
+				$('#endDate').datepicker('setDate', yesterday);
+				*/
+				
+				var yesterday = (function(){this.setDate(this.getDate()-1); return this})
+                .call(new Date);
+				 $('#startDate').datepicker('setDate',yesterday);
+				 $('#endDate').datepicker('setDate',yesterday);
+				
+				/*$('#startDate').datepicker('setDate',new Date());
+				$('#endDate').datepicker('setDate', new Date());*/
+				
 				/*$("#keyword").val("갤s7"); */
 			        
 				 var startDate = $("#startDate").val();
@@ -68,7 +80,7 @@
 		        		columnDefs: [
 	                    { type: 'date-custom', targets: [4] }
 	                ],
-	                "ordering": true,
+	                "ordering": false,
 	                "searching": false,
 		            "processing": true,
 		            "serverSide": true,
@@ -87,7 +99,7 @@
 		            stateSave: true,
 		            //TODO: 
 		            "ajax":{
-		            	"url" : REQUEST_URL.server+'/data-monitoring/getBoards',
+		            	"url" : REQUEST_URL.local+'/data-monitoring/getBoards',
 		            	//TODO: Custom parameter sent to server!
 		            	"data": filter,
 		            	//TODO: Custom return parameter from server!
@@ -110,14 +122,26 @@
 		     	           		
 		     	           	}
 		     	           
+		     	           var jsonDatatable;
+		     	           	if(response.pagination!=null){
+		     	           			var jsonDatatable = {
+				     	            	"draw" : response.pagination.draw,
+				     	            	"recordsTotal": response.pagination.total_count,
+				     	            	"recordsFiltered": response.pagination.total_count,
+				     	            	"data": response.data
+				     	            
+				     	            };
+		     	           	}else{
+		     	           	  jsonDatatable = {
+				     	            	"draw" :1,
+				     	            	"recordsTotal": 0,
+				     	            	"recordsFiltered": 0,
+				     	            	"data": response.data
+				     	            
+				     	            };
+		     	           	}
+		     	           	
 		     	           
-		     	            var jsonDatatable = {
-		     	            "draw" : response.pagination.draw, 
-		     	            	"recordsTotal": response.pagination.total_count,
-		     	            	"recordsFiltered": response.pagination.total_count,
-		     	            	"data": response.data
-		     	            
-		     	            };
 		     	            
 		     	          
 		     	            
@@ -254,22 +278,33 @@
 					    
 //				        statistic
 				        $.ajax({
-				            url: REQUEST_URL.server+'/data-monitoring/count'
+				            url: REQUEST_URL.local+'/data-monitoring/count'
 
 				        }).done(function(res) {
-				            console.log(res);
+				            console.log("res ",res);
 				            data = res.total;
-							var type = ["뽐뿌","디시인사이드","지후맘카페","맘스홀릭카페"];
-				            
+							//var type = ["뽐뿌","디시인사이드","지후맘카페","맘스홀릭카페"];
+				            for(i in res.data){
+				            	if(res.data[i].type=="ppompu"){
+				            		res.data[i].type = "뽐뿌";
+				            		
+				            	}else if(res.data[i].type=="dcinside"){
+				            		res.data[i].type = "디시인사이드";
+				            	}else if(res.data[i].type=="jihumom"){
+				            		res.data[i].type = "지후맘카페";
+				            	}else if(res.data[i].type=="momsholic"){
+				            		res.data[i].type = "맘스홀릭카페";
+				            	}
+				            }
 				            
 				            for(var i =0; i<res.data.length;i++){
 				                $("#statistic").append('<div class="col-sm-6 col-lg-3">'+
 				    					'<a href="javascript:void(0)" class="widget widget-hover-effect2">'+
 				    						'<div class="widget-extra themed-background">'+
-				    							'<h4 class="widget-content-light"><strong>'+type[i]+'</strong></h4>'+
+				    							'<h4 class="widget-content-light"><strong>'+res.data[i].type+'</strong></h4>'+
 				    						'</div>'+
 				    						'<div class="widget-extra-full themed-color-dark" style="background-color: #fff;">'+
-				    						'<span class="h2 themed-color-dark animation-expandOpen" id="ppCount">'+res.data[i].total+'건'+'</span ></div>'+
+				    						'<span class="h2 themed-color-dark animation-expandOpen" id="ppCount">'+res.data[i].total.toLocaleString()+'건'+'</span ></div>'+
 				    					'</a>'+
 				    				'</div>');
 
@@ -347,7 +382,7 @@
 		        		columnDefs: [
 	                    { type: 'date-custom', targets: [4] }
 	                ],
-	                "ordering": true,
+	                "ordering": false,
 	                "searching": false,
 		            "processing": true,
 		            "serverSide": true,
@@ -366,7 +401,7 @@
 		            stateSave: true,
 		            //TODO: 
 		            "ajax":{
-		            	"url" : REQUEST_URL.server+'/data-monitoring/getBoards',
+		            	"url" : REQUEST_URL.local+'/data-monitoring/getBoards',
 		            	//TODO: Custom parameter sent to server!
 		            	"data": filter,
 		            	//TODO: Custom return parameter from server!
@@ -499,7 +534,13 @@
 	     		            { "data": "board_index" },
 	     		            { "data": "type" },
 	     		            { "data": "board_title" },
-	     		            { "data": "board_url" },
+	     		            { "data": "board_url","render": function(data, type, row, meta){
+	     		               if(type === 'display'){
+	     		                  data = '<a href="' + data + '"  target="_blank">' + data + '</a>';
+	     		              }
+
+	     		              return data;
+	     		            } },
 	     		            { "data": "board_recommand" },
 	     		            { "data": "board_view" },
 	     		            { "data": "insert_date" }
@@ -575,7 +616,8 @@
 		                "boardTitle":keyword,
 			       		"startDate":startDate,
 			       		"endDate":endDate,
-			       		"board_title" : settings.oPreviousSearch.sSearch
+			       		"board_title" : settings.oPreviousSearch.sSearch,
+			       		"type":"ppompu"
 		            };
 		            console.log('filter', obj);
 		            return obj;
@@ -618,7 +660,7 @@
 		            stateSave: true,
 		            //TODO: 
 		            "ajax":{
-		            	"url" : REQUEST_URL.server+'/data-monitoring/getBoards',
+		            	"url" : REQUEST_URL.local+'/data-monitoring/getBoards',
 		            	//TODO: Custom parameter sent to server!
 		            	"data": filter,
 		            	//TODO: Custom return parameter from server!

@@ -29,6 +29,13 @@ public class DataMonitorServiceimpl implements DataMonitorService {
 	  pagination.setTotalCount(dataMonitorRepository.countBoards(board));
 	return dataMonitorRepository.getBoards(board, pagination);
    }
+   
+   @Override
+	public List<Map<String, Object>> advancedSearch(AdvancedSearchParams advancedSearchParams, Pagination pagination) {
+		// TODO Auto-generated method stub
+	    pagination.setTotalCount(dataMonitorRepository.countAdvancedSearchBoard(advancedSearchParams));
+		return dataMonitorRepository.advancedSearch(advancedSearchParams,pagination);
+	}
 
     @Override
     public List<Map<String, Object>> getPpommpuContent(String productName, String contentLike, String excludeOne, String excludeTwo, String excludeThree) {
@@ -40,11 +47,7 @@ public class DataMonitorServiceimpl implements DataMonitorService {
         return dataMonitorRepository.getDCInside(productName,contentLike,excludeOne,excludeTwo,excludeThree);
     }
     
-	@Override
-	public List<Map<String, Object>> getAllType(AdvancedSearchParams advancedSearchParams) {
-		// TODO Auto-generated method stub
-		return dataMonitorRepository.getAllType(advancedSearchParams);
-	}
+	
 
     @Override
     public List<Map<String, Object>> countBoardByType() {

@@ -37,7 +37,7 @@ public interface DataMonitorService {
             String excludeTwo,
             String excludeThree);
     
-    public List<Map<String,Object>> getAllType(AdvancedSearchParams advancedSearchParams);
+    public List<Map<String,Object>> advancedSearch(AdvancedSearchParams advancedSearchParams,Pagination page);
   
     
 

@@ -28,40 +28,7 @@ public class DataMonitorRestController {
     DataMonitorService dataMonitorService;
 
 //    @RequestMapping(value = "/getBoards", method = RequestMethod.GET, headers = "Accept=application/json")
-    @GetMapping("/getBoards")
-    public ResponseEntity<ResponseList<Map<String,Object>>> getBaords(Board board,Pagination page) {
-    	System.out.println(board.toString());
-    	System.out.println("limit "+page.getLimit() +"offset"+ page.getOffset());
-    	
-    	ResponseList<Map<String,Object>> list = new ResponseList<>();
-        HttpStatus status = HttpStatus.OK;
-        try {
-
-        		Map<String,Object> responseMap = new HashMap<>();
-            List<Map<String, Object>> map = dataMonitorService.getBoards(board,page);
-            responseMap.put("boards",list);
-            responseMap.put("page",page);
-            
-           
-
-            if (!map.isEmpty()) {
-                list = new ResponseList.ResponseListSuccess<>(
-                        HttpMessage.success(Table.BOARD + "(s)", Transaction.Success.RETRIEVE), true, map,
-                        page);
-            } else {
-                list = new ResponseList.ResponseListFailure<>(
-                        HttpMessage.fail(Table.BOARD + "(s)", Transaction.Fail.RETRIEVE), false,
-                        ResponseHttpStatus.RECORD_NOT_FOUNT);
-            }
-
-        }catch(Exception e){
-            e.printStackTrace();
-        }
-
-        System.out.println(list.getData().toString());
-        System.out.println("COUNT => "+list.getData().size());
-        return new ResponseEntity<ResponseList<Map<String,Object>>>(list, status);
-    }
+    
 
 
     @GetMapping("/getPpommpuContent")
@@ -168,22 +135,26 @@ public class DataMonitorRestController {
     }
     
     */
-    @GetMapping("/advancedSearch")
-    public ResponseEntity<ResponseList<Map<String,Object>>> advancedSearch(AdvancedSearchParams advancedSearchParams)
-                                                    {
-    	System.out.println("aaaa");
-    	System.out.println("Search params "+advancedSearchParams.toString());
-    		// System.out.println(productName+"||"+contentLike+"||"+exclude_one+"||"+exclude_two+"||"+exclude_three);
-        ResponseList<Map<String,Object>> list = new ResponseList<>();
+    @GetMapping("/getBoards")
+    public ResponseEntity<ResponseList<Map<String,Object>>> getBaords(Board board,Pagination page) {
+    	System.out.println(board.toString());
+    	System.out.println("limit "+page.getLimit() +"offset"+ page.getOffset());
+    	
+    	ResponseList<Map<String,Object>> list = new ResponseList<>();
         HttpStatus status = HttpStatus.OK;
         try {
 
-            List<Map<String, Object>> map = dataMonitorService.getAllType(advancedSearchParams);
+        		Map<String,Object> responseMap = new HashMap<>();
+            List<Map<String, Object>> map = dataMonitorService.getBoards(board,page);
+            responseMap.put("boards",list);
+            responseMap.put("page",page);
+            
+           
 
             if (!map.isEmpty()) {
                 list = new ResponseList.ResponseListSuccess<>(
                         HttpMessage.success(Table.BOARD + "(s)", Transaction.Success.RETRIEVE), true, map,
-                        null);
+                        page);
             } else {
                 list = new ResponseList.ResponseListFailure<>(
                         HttpMessage.fail(Table.BOARD + "(s)", Transaction.Fail.RETRIEVE), false,
@@ -194,7 +165,43 @@ public class DataMonitorRestController {
             e.printStackTrace();
         }
 
+        System.out.println(list.getData().toString());
+        System.out.println("COUNT => "+list.getData().size());
+        return new ResponseEntity<ResponseList<Map<String,Object>>>(list, status);
+    }
+    @GetMapping("/advancedSearch")
+    public ResponseEntity<ResponseList<Map<String,Object>>> advancedSearch(AdvancedSearchParams advancedSearchParams,
+    		Pagination page)
+                                                    {
+    	System.out.println(advancedSearchParams.toString());
+    	System.out.println("limit "+page.getLimit() +"offset"+ page.getOffset());
+    	
+    	ResponseList<Map<String,Object>> list = new ResponseList<>();
+        HttpStatus status = HttpStatus.OK;
+        try {
 
+        		Map<String,Object> responseMap = new HashMap<>();
+            List<Map<String, Object>> map = dataMonitorService.advancedSearch(advancedSearchParams,page);
+            responseMap.put("boards",list);
+            responseMap.put("page",page);
+            
+           
+
+            if (!map.isEmpty()) {
+                list = new ResponseList.ResponseListSuccess<>(
+                        HttpMessage.success(Table.BOARD + "(s)", Transaction.Success.RETRIEVE), true, map,
+                        page);
+            } else {
+                list = new ResponseList.ResponseListFailure<>(
+                        HttpMessage.fail(Table.BOARD + "(s)", Transaction.Fail.RETRIEVE), false,
+                        ResponseHttpStatus.RECORD_NOT_FOUNT);
+            }
+
+        }catch(Exception e){
+            e.printStackTrace();
+        }
+
+        System.out.println(list.getData().toString());
         System.out.println("COUNT => "+list.getData().size());
         return new ResponseEntity<ResponseList<Map<String,Object>>>(list, status);
     }

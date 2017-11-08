@@ -50,9 +50,16 @@ public interface DataMonitorRepository {
 //    })
     @SelectProvider(type=BoardSQLBuilder.class, method="getBoards")
     public List<Map<String, Object>> getBoards(@Param("boards") Board board, @Param("pagination") Pagination pagination);
-    
+ 
     @SelectProvider(type=BoardSQLBuilder.class, method="countBoards")
     public int countBoards(Board board);
+    
+    @SelectProvider(type=BoardSQLBuilder.class, method="advancedSearch")
+    public  List<Map<String,Object>> advancedSearch(@Param("filter") AdvancedSearchParams advancedSearchParams,
+    		@Param("pagination") Pagination pagination);
+    
+    @SelectProvider(type=BoardSQLBuilder.class, method="advancedSearchBoardCount")
+    public int countAdvancedSearchBoard(AdvancedSearchParams advancedSearchParams);
     
     
 
@@ -106,19 +113,18 @@ public interface DataMonitorRepository {
             "and a.board_title not like concat('%',#{exclude_three},'%') group by board_num")
             */
     
-    @SelectProvider(type=BoardSQLBuilder.class, method="advancedSearch")
-    public  List<Map<String,Object>> getAllType(AdvancedSearchParams advancedSearchParams);
+   
     
 
 
 
-    @Select("select  count(*) as total from ppomppu_list\n" +
+    @Select("select  count(*) as total, 'ppompu' as type from ppomppu_list\n" +
             "union\n" +
-            "select count(*) as total from dcinside_list\n" +
+            "select count(*) as total, 'dcinside' as type from dcinside_list\n" +
             "union \n" +
-            "select count(*) as total from jihumom_freeboard\n" +
+            "select count(*) as total, 'jihumom' as type from jihumom_freeboard\n" +
             "union \n" +
-            "select  count(*) as total from momcafe_list")
+            "select  count(*) as total, 'momsholic' as type from momsholic_freeboard")
     public List<Map<String,Object>> countBoardByType();
 
 
