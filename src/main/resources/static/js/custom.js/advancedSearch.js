@@ -2,7 +2,7 @@
 console.log('advanced search')
     var REQUEST_URL={
     		server:'http://35.201.252.181:11008/rest',
-    		local:'http://localhost:8080/rest'
+    		local:'http://35.201.252.181:11008/rest'
     } 
     
 	
