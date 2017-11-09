@@ -1,4 +1,4 @@
-
+//http://localhost:8080/rest
     var REQUEST_URL={
     		server:'http://35.201.252.181:11008/rest',
     		local:'http://35.201.252.181:11008/rest'
@@ -30,6 +30,8 @@
 				 var endDate = $("#endDate").val();
 				 var category = $("#category").val();
 				 var keyword = $("#keyword").val();
+				 // get selected category
+				 var type = $('#category').find(":selected").val();
 		    	//TODO: initialization data for passing to server!
 		    	var filter = function filterData(){
 		            var settings = $("#datasetList").dataTable().fnSettings();
@@ -46,7 +48,7 @@
 		            	if(sort.col == index) sort.colName = column.mData;
 		            });
 		          
-		            
+		            console.log("type inside request", type);
 		            //TODO: prepare data for passing to server!
 		            var obj = {
 		                "draw" : settings.iDraw,
@@ -55,6 +57,7 @@
 		                "boardTitle":keyword,
 			       		"startDate":startDate,
 			       		"endDate":endDate,
+			       		"type":type,
 			       		"boardTitle" : settings.oPreviousSearch.sSearch
 		            };
 		            console.log('filter', obj);
@@ -105,7 +108,7 @@
 		            	//TODO: Custom return parameter from server!
 		            	"dataFilter": function(response){
 		     	            var response = jQuery.parseJSON(response);
-		     	            var type = ["뽐뿌","디시인사이드","지후맘카페","맘스홀릭카페"];
+		     	           // var type = ["뽐뿌","디시인사이드","지후맘카페","맘스홀릭카페"];
 
 		     	            console.log(response);
 		     	           //TODO: response pattern for DATATABLE
@@ -332,6 +335,8 @@
 				 var endDate = $("#endDate").val();
 				 var category = $("#category").val();
 				 var keyword = $("#keyword").val();
+				 var type = $('#category').find(":selected").val();
+			    	
 		    	//TODO: initialization data for passing to server!
 		    	var filter = function filterData(){
 		            var settings = $("#datasetList").dataTable().fnSettings();
@@ -348,7 +353,7 @@
 		            	if(sort.col == index) sort.colName = column.mData;
 		            });
 		          
-		            
+		            console.log("type in request => ",type);
 		            //TODO: prepare data for passing to server!
 		            var obj = {
 		                "draw" : settings.iDraw,
@@ -357,6 +362,7 @@
 		                "boardTitle":keyword,
 			       		"startDate":startDate,
 			       		"endDate":endDate,
+			       		"type":$('#category').find(":selected").val(),
 			       		"board_title" : settings.oPreviousSearch.sSearch
 		            };
 		            console.log('filter', obj);
@@ -421,8 +427,10 @@
 		            		    	console.log(response);
 				     	            for(i in response.data){
 				     	           		console.log(response.data[i].type);
-				     	           		if(response.data[i].type=="momcafe"){
+				     	           		if(response.data[i].type=="jihumom"){
 				     	           			response.data[i].type = "지후맘카페"
+				     	           		}else if(response.data[i].type=="momsholic"){
+				     	           		response.data[i].type = "맘스홀릭카페"	
 				     	           		}else if(response.data[i].type=="dcinside"){
 				     	           		response.data[i].type = "디시인사이드"
 				     	           		}else{
@@ -770,6 +778,15 @@
 		var ifmDownload = "<iframe src=\"http://1.246.219.212:19000/download?dataSetUID="+idx+"\" id=\"ifm\" width=\"400\" height=\"200\" frameborder=\"0\" marginwidth=\"0\" marginheight=\"0\" style=\"margin-left: 50px;\"></iframe>";
 		$("#popupDownload").append(ifmDownload);
 	}
+	$(document).ready(function(){
+		$("#category").change(function(){
+			var conceptName = $('#category').find(":selected").val();
+			
+			//console.log('change',conceptName);
+//		request.getBoards();
+		})
+	})	
+	
 
 //	$( "#btn_keyword" ).click(function() {			
 //		request.getDataList();

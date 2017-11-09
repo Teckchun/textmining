@@ -136,7 +136,9 @@ public class BoardSQLBuilder {
 	public String getBoards(@Param("boards") Board board, @Param("pagination") Pagination pagination) {
 		
 		
+		
 		if(board.getBoardTitle().equals("")){
+			
 			String dcinside = new SQL(){{
 				SELECT(" dc_index as board_index,  board_title,board_view,board_recommand,board_url,insert_date,'dcinside' as type ");
 				FROM(" dcinside_list a ");
@@ -158,7 +160,7 @@ public class BoardSQLBuilder {
 			}}.toString();
 			
 			String momcafe = new SQL() {{
-				SELECT(" mml_index as board_index,  board_title,board_view,board_recommand,board_url,insert_date,'momcafe' as type ");
+				SELECT(" mml_index as board_index,  board_title,board_view,board_recommand,board_url,insert_date,'momcafe' as type");
 				FROM(" momcafe_list a ");
 				WHERE(" a.board_title like concat('%','"+board.getBoardTitle()+"','%')");
 				WHERE(" (a.insert_date >= '"+board.getStartDate()+"'");
@@ -167,19 +169,87 @@ public class BoardSQLBuilder {
 				
 			}}.toString();
 			
-			String sql = dcinside +" union "+ ppomppu +" union "+ momcafe+" order by insert_date desc ";
-			String limit = pagination.getLimit()+"";
-			String offset = pagination.getOffset()+"";
-			sql += " limit "+limit+" offset "+offset;
+			String jihumom = new SQL() {{
+				SELECT(" mml_index as board_index,  board_title,board_view,board_recommand,board_url,insert_date,'jihumom' as type");
+				FROM(" momcafe_list a ");
+				WHERE(" a.board_title like concat('%','"+board.getBoardTitle()+"','%')");
+				WHERE(" (a.insert_date >= '"+board.getStartDate()+"'");
+				WHERE(" a.insert_date <= '"+board.getEndDate()+"'"+")");
+				WHERE(" a.category =1 ");
+			}}.toString();
+			
+			String momsholic = new SQL() {{
+				SELECT(" mml_index as board_index,  board_title,board_view,board_recommand,board_url,insert_date,'momsholic' as type");
+				FROM(" momcafe_list a ");
+				WHERE(" a.board_title like concat('%','"+board.getBoardTitle()+"','%')");
+				WHERE(" (a.insert_date >= '"+board.getStartDate()+"'");
+				WHERE(" a.insert_date <= '"+board.getEndDate()+"'"+")");
+				WHERE(" a.category = 2");
+			}}.toString();
 			
 			
-			System.out.println("getboards title empty=> "+sql);
+			
+			String sql = "";
+			if(board.getType().equals("all")) {
+				sql = dcinside +" union "+ ppomppu +" union "+ momcafe+" order by insert_date desc ";
+				String limit = pagination.getLimit()+"";
+				String offset = pagination.getOffset()+"";
+				sql += " limit "+limit+" offset "+offset;
+				System.out.println(sql);
+				
+			}else if(board.getType().equals("dcinside")) {
+				sql = dcinside;
+				String limit = pagination.getLimit()+"";
+				String offset = pagination.getOffset()+"";
+				sql += " limit "+limit+" offset "+offset;
+				System.out.println(sql);
+				
+			}else if(board.getType().equals("ppomppu")) {
+				sql = ppomppu;
+				String limit = pagination.getLimit()+"";
+				String offset = pagination.getOffset()+"";
+				sql += " limit "+limit+" offset "+offset;
+				System.out.println(sql);
+				
+				
+			}else if(board.getType().equals("momsholic")) {
+				sql = momsholic;
+				String limit = pagination.getLimit()+"";
+				String offset = pagination.getOffset()+"";
+				sql += " limit "+limit+" offset "+offset;
+				System.out.println(sql);
+			}else if(board.getType().equals("jihumom")) {
+				sql = jihumom;
+				String limit = pagination.getLimit()+"";
+				String offset = pagination.getOffset()+"";
+				sql += " limit "+limit+" offset "+offset;
+				System.out.println(sql);
+
+				
+			}
+			
 			return sql;
+//			String limit = pagination.getLimit()+"";
+//			String offset = pagination.getOffset()+"";
+//			sql += " limit "+limit+" offset "+offset;
+//			System.out.println(sql);
+			
+//			sql = dcinside +" union "+ ppomppu +" union "+ momcafe+" order by insert_date desc ";
+//			String limit = pagination.getLimit()+"";
+//			String offset = pagination.getOffset()+"";
+//			sql += " limit "+limit+" offset "+offset;
+//			
+//			
+//			System.out.println("getboards title empty=> "+sql);
+//			return sql;
 			
 			
 			
 			
 		}else{
+			
+			
+			
 		String dcinside = new SQL() {{
 			SELECT(" dc_index as board_index,  board_title,board_view,board_recommand,board_url,insert_date,'dcinside' as type ");
 			FROM(" dcinside_list a ");
@@ -210,16 +280,63 @@ public class BoardSQLBuilder {
 			WHERE(" a.insert_date <= '"+board.getEndDate()+"'"+")");
 			
 		}}.toString();
-		String sql = dcinside +" union "+ ppomppu +" union "+ momcafe+" order by insert_date desc ";
-		String limit = pagination.getLimit()+"";
-		String offset = pagination.getOffset()+"";
-		sql += " limit "+limit+" offset "+offset;
 		
+		String momsholic = new SQL() {{
+			SELECT(" mml_index as board_index,  board_title,board_view,board_recommand,board_url,insert_date,'momcafe' as type ");
+			FROM(" momcafe_list a ");
+			WHERE(" a.board_title like concat('%','"+board.getBoardTitle()+"','%')");
+			WHERE(" (a.insert_date >= '"+board.getStartDate()+"'");
+			WHERE(" a.insert_date <= '"+board.getEndDate()+"'"+")");
+			WHERE(" a.category =2 ");
+		}}.toString();
+		String jihumom = new SQL() {{
+			SELECT(" mml_index as board_index,  board_title,board_view,board_recommand,board_url,insert_date,'momcafe' as type ");
+			FROM(" momcafe_list a ");
+			WHERE(" a.board_title like concat('%','"+board.getBoardTitle()+"','%')");
+			WHERE(" (a.insert_date >= '"+board.getStartDate()+"'");
+			WHERE(" a.insert_date <= '"+board.getEndDate()+"'"+")");
+			WHERE(" a.category =1 ");
+		}}.toString();
+		String sql = "";
+		if(board.getType().equals("all")) {
+			sql = dcinside +" union "+ ppomppu +" union "+ momcafe+" order by insert_date desc ";
+			String limit = pagination.getLimit()+"";
+			String offset = pagination.getOffset()+"";
+			sql += " limit "+limit+" offset "+offset;
+			
+		}else if(board.getType().equals("ppomppu")) {
+			sql =  ppomppu +" order by insert_date desc ";
+			String limit = pagination.getLimit()+"";
+			String offset = pagination.getOffset()+"";
+			sql += " limit "+limit+" offset "+offset;
+			
+		}else if(board.getType().equals("momsholic")) {
+			sql =  momsholic +" order by insert_date desc ";
+			String limit = pagination.getLimit()+"";
+			String offset = pagination.getOffset()+"";
+			sql += " limit "+limit+" offset "+offset;
+			
+		}else if(board.getType().equals("jihumom")) {
+			sql =  jihumom +" order by insert_date desc ";
+			String limit = pagination.getLimit()+"";
+			String offset = pagination.getOffset()+"";
+			sql += " limit "+limit+" offset "+offset;
+			
+		}else if(board.getType().equals("dcinside")){
+			sql =  dcinside +" order by insert_date desc ";
+			String limit = pagination.getLimit()+"";
+			String offset = pagination.getOffset()+"";
+			sql += " limit "+limit+" offset "+offset;
+			
+		}
 		
 		System.out.println("getboards=> "+sql);
 		return sql;
 		
-	}
+	
+		}
+		
+		
 		}
 	
 	
@@ -254,10 +371,55 @@ public class BoardSQLBuilder {
 			
 		}}.toString();
 		
-		String sql = new SQL() {{
-			SELECT("("+dcinside+")"+"+"+"("+ppomppu+")"+"+"+"("+momcafe+")");
+		String momsholic = new SQL() {{
+			SELECT(" count(*) ");
+			FROM(" momcafe_list a ");
+			WHERE(" a.board_title like concat('%','"+board.getBoardTitle()+"','%')");
+			WHERE(" (a.insert_date >= '"+board.getStartDate()+"'");
+			WHERE(" a.insert_date <= '"+board.getEndDate()+"'"+")");
+			WHERE(" a.category=2 ");
+			
 		}}.toString();
+		
+		String jihumom = new SQL() {{
+			SELECT(" count(*) ");
+			FROM(" momcafe_list a ");
+			WHERE(" a.board_title like concat('%','"+board.getBoardTitle()+"','%')");
+			WHERE(" (a.insert_date >= '"+board.getStartDate()+"'");
+			WHERE(" a.insert_date <= '"+board.getEndDate()+"'"+")");
+			WHERE(" a.category=1 ");
+			
+		}}.toString();
+		
+		String sql = "";
+		if(board.getType().equals("all")) {
+			sql = new SQL() {{
+				SELECT("("+dcinside+")"+"+"+"("+ppomppu+")"+"+"+"("+momcafe+")");
+			}}.toString();
+	
+		}else if(board.getType().equals("ppomppu")) {
+			sql = new SQL() {{
+				SELECT("("+ppomppu+")");
+			}}.toString();
+		}else if(board.getType().equals("momsholic")) {
+			sql = new SQL() {{
+				SELECT("("+momsholic+")");
+			}}.toString();
+		}else if(board.getType().equals("jihumom")) {
+			sql = new SQL() {{
+				SELECT("("+jihumom+")");
+			}}.toString();
+		}else if(board.getType().equals("dcinside")) {
+			sql = new SQL() {{
+				SELECT("("+dcinside+")");
+			}}.toString();
+		}
+		
+		 
 		//System.out.println("COUNT=> "+sql);
+		
+		
+		
 		return sql;
 	}
 	

@@ -137,7 +137,8 @@ public class DataMonitorRestController {
     */
     @GetMapping("/getBoards")
     public ResponseEntity<ResponseList<Map<String,Object>>> getBaords(Board board,Pagination page) {
-    	System.out.println(board.toString());
+    	//System.out.println(board.toString());
+    	System.out.println("type=> "+board.getType());
     	System.out.println("limit "+page.getLimit() +"offset"+ page.getOffset());
     	
     	ResponseList<Map<String,Object>> list = new ResponseList<>();

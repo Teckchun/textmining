@@ -122,9 +122,9 @@ public interface DataMonitorRepository {
             "union\n" +
             "select count(*) as total, 'dcinside' as type from dcinside_list\n" +
             "union \n" +
-            "select count(*) as total, 'jihumom' as type from jihumom_freeboard\n" +
+            "select count(*) as total, 'jihumom' as type from momcafe_list where category = 1\n" +
             "union \n" +
-            "select  count(*) as total, 'momsholic' as type from momsholic_freeboard")
+            "select  count(*) as total, 'momsholic' as type from momcafe_list where category =2")
     public List<Map<String,Object>> countBoardByType();
 
 
