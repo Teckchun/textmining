@@ -2,14 +2,14 @@ $(document).ready(function() {
 	
 	$('#startDate').datepicker('setDate', new Date());
 	$('#endDate').datepicker('setDate', new Date());
-	setTimeout(function(){ date_minus();  }, 0);
+	//setTimeout(function(){ date_minus();  }, 0);
 
-	var page_url = location.pathname; 	
-	var filename = page_url.substring(page_url.lastIndexOf('/')+1);
-
-	if (filename == "requestDatasetList.php") {		
-		setTimeout(function(){ request.getDataList();  }, 100);
-	} 
+//	var page_url = location.pathname; 	
+//	var filename = page_url.substring(page_url.lastIndexOf('/')+1);
+//
+//	if (filename == "requestDatasetList.php") {		
+//		setTimeout(function(){ request.getDataList();  }, 100);
+//	} 
 
 	
 

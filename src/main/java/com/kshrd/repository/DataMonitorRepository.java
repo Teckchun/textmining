@@ -22,32 +22,7 @@ import java.util.Map;
 @Repository
 public interface DataMonitorRepository {
 
-    final String GET_BOARDS = "" +
-            "select ppom_index as board_index,  board_title,board_view,board_recommand,board_url,insert_date,'ppomppu' as type from ppomppu_list a" +
-            " where a.board_title " +
-            " like concat('%',#{board_title},'%')  " +
-            " and (a.insert_date >=#{start_date} and a.insert_date <=#{end_date}) " +
-            " union " +
-            " select dc_index as board_index, board_title,board_view,board_recommand,board_url,insert_date,'dcinside' as type from dcinside_list b" +
-            " where b.board_title " +
-            " like concat('%',#{board_title},'%') and  (b.insert_date >= #{start_date} and b.insert_date <=#{end_date})" +
-            " union " +
-            " select mml_index as board_index, board_title,board_view,board_recommand,board_url,insert_date,'momcafe' as type from momcafe_list c " +
-            " where c.board_title " +
-            " like concat('%',#{board_title},'%') and  (c.insert_date >= #{start_date} and c.insert_date <=#{end_date})" +
-            " ";
-    //@Select(GET_BOARDS)
-    
-    
-//    @Results(value={
-//    		    @Result(property="boardIndex",column="board_index"),
-//            @Result(property="boardTitle",column="board_title"),
-//            @Result(property="boardView",column="board_view"),
-//            @Result(property="boardRecommand",column="board_recommand"),
-//            @Result(property="boardUrl",column="board_url"),
-//            @Result(property="insertDate",column="insert_date"),
-//            @Result(property="type",column="type")
-//    })
+   
     @SelectProvider(type=BoardSQLBuilder.class, method="getBoards")
     public List<Map<String, Object>> getBoards(@Param("boards") Board board, @Param("pagination") Pagination pagination);
  
@@ -57,6 +32,7 @@ public interface DataMonitorRepository {
     @SelectProvider(type=BoardSQLBuilder.class, method="advancedSearch")
     public  List<Map<String,Object>> advancedSearch(@Param("filter") AdvancedSearchParams advancedSearchParams,
     		@Param("pagination") Pagination pagination);
+    // I have this two method, one for getting data, one for counting it param or not pu? wait
     
     @SelectProvider(type=BoardSQLBuilder.class, method="advancedSearchBoardCount")
     public int countAdvancedSearchBoard(AdvancedSearchParams advancedSearchParams);

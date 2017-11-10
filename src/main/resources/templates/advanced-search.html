@@ -115,7 +115,7 @@
                     </a>
                     <!-- Chat Users -->
                     <!-- <ul class="chat-users clearfix"> -->
-                        <li>
+                        <!-- <li>
                             <a href="javascript:void(0)" class="chat-user-online">
                                 <span></span>
                                 <img src="img\placeholders\avatars\avatar12.jpg" alt="avatar" class="img-circle">
@@ -187,7 +187,7 @@
                                 <img src="img\placeholders\avatars\avatar5.jpg" alt="avatar" class="img-circle">
                             </a>
                         </li>
-                    </ul>
+                    </ul> -->
                     <!-- END Chat Users -->
 
                     <!-- Chat Talk -->
@@ -659,255 +659,18 @@
 <script src="js\vendor\highchart.module.data.js"></script>
 <script src="js\vendor\highchart.module.drilldown.js"></script>
 <script src="js\custom.js\advancedSearch.js"></script>
+<script>	
+$(document).ready(function(){
+	var yesterday = (function(d){ d.setDate(d.getDate()-1); return d})(new Date)
+    $('#startDate').datepicker('setDate', yesterday);
+    $('#endDate').datepicker('setDate', yesterday);
+    
+});
+</script>
 <script>$(function(){request.init();})</script>
 
-<!-- <script>
-    $('#datepicker-start').datepicker({
-        format: 'yyyy-mm-dd'
-    });
-    $('#datepicker-end').datepicker({
-        format: 'yyyy-mm-dd'
-    });
-    var LOCAL_URL = 'http://localhost:8080/rest';
-    var SERVER_URL = 'http://localhost:8080/rest';
-    var data = [];
-    $("#txtContentExclude").on('keyup', function (e) {
-        if (e.keyCode == 13) {
-            var text=$("#txtContentExclude");
-
-            text.val(text.val()+'|');
 
 
-        }
-    });
-    var allData = [];
-    $("#btn_keyword").click(function(e){
-    
-        e.preventDefault();
-        alert()
-        $(".se-pre-con").fadeIn(500);
-         var keywordsVal = $("#keyword").val();
-        var mustKeywordsVal = $("#must_keyword").val();
-       	var excludeKeywordsVal = $("#except_keyword").val(); 
-       	
-       	
-       	
-        var keywords = $("#keyword").serializeArray();
-       
-        
-        var mustKeywords = $("#must_keyword").serializeArray();
-        var excludeKeywords = $("#except_keyword").serializeArray();
-        
-        var concat = "?";
-        keywords[0].value.split(',').forEach(function(a,i){
-        	concat+="keywords=" +a;
-        		if(i<=a.length){
-            		concat += "&"
-            	}
-        })
-        
-         mustKeywords[0].value.split(',').forEach(function(a,i){
-        	concat+="mustKeywords=" +a;
-        		if(i<=a.length){
-            		concat += "&"
-            	}
-        })
-        
-        excludeKeywords[0].value.split(',').forEach(function(a, i){
-        
-        	concat += "excludeKeywords=" + a;
-        	
-        	if(i<=a.length){
-        		concat += "&"
-        	}
-        	
-        });
-        console.log("concat=> ",concat);
-       
-        
-        
-        
-        constructTable(allData);
-        $(".se-pre-con").fadeOut(500);
-        $("#result").show();
-        console.log("data=> ",data);
-    
-        var filter = {
-        		"keywords":keywords,
-        		"mustKeywords":mustKeywords,
-        		"excludeKeywords":excludeKeywords
-        }
-        
-
-
-        console.log("url: ",SERVER_URL+'/data-monitoring/advancedSearch'+concat);
-       
-        
-        $.ajax({
-        	   	
-            method: 'GET',
-            //crossDomain: true,
-			//url: BASE_URL+`/data-monitoring/advancedSearch`,
-            url: SERVER_URL+'/data-monitoring/advancedSearch'+concat,//?keywords=a&keywords=b&mustKeywords=c&mustKeywords=d&excludeKeywords=e',
-			//url:"http://localhost:8080/rest/data-monitoring/advancedSearch?keywords=a&mustKeywords=b&mustKeywords=z&mustKeywords=자국 &excludeKeywords=c&excludeKeywords=자국" 
-            		
-            		/*
-			data : {
-				"keywords"			:	keywords,
-				"mustKeywords"		:	mustKeywords,
-				"excludeKeywords"	:	excludeKeywords
-			}*/
-       
-        
-        }).done(function(res) {
-            console.log("rest=>",res);
-            data = res.data;
-           // allData.push(data);
-
-        },function(){
-
-            constructTable(data);
-            $(".se-pre-con").fadeOut(500);
-            $("#result").show();
-            console.log("data=> ",data);
-
-        });
-
-
-
-
-
-    });
-    function constructTable(data, mytype){
-   	 var keyword = $("#mustkeyword").val();
-   	 console.log("keywords "+keyword)
-        
-        $("#dataset_list").html("");
-        console.log(mytype);
-        for(var i=0; i<data.length; i++){
-            console.log(data[i].product_synonym);
-
-            if(mytype!=null && data[i].type!=mytype){
-                continue;
-            }
-          
-        	/* for(i in data){
-	           		console.log(data[i].type);
-	           		if(data[i].type=="momcafe"){
-	           			data[i].type = "지후맘카페"
-	           		}else if(data[i].type=="dcinside"){
-	           		data[i].type = "디시인사이드"
-	           		}else{
-	           		data[i].type = "뽐뿌"
-	           		}	
-	           	} */
-	          
-            
-            
-            $("#dataset_list").append(`
-                <tr>
-	            		<td>${data[i].board_num}</td>
-	            		<td>${data[i].type}</td>
-	            		<td style="width:70%"><a href="" styele="text-overflow:ellipsis">${data[i].board_title}</a></td>
-                     <td>URL</td>
-	            		<td>${data[i].board_view}</td>
-                    <td>${data[i].board_recommand}</td>
-                    <td>${data[i].insert_date}</td>
-                 </tr>
-                `);
-        }
-
-
-
-    }
-
-    $("#searchOption").change(function(e){
-        e.preventDefault();
-        // alert($("#searchOption").val())
-        switch($("#searchOption").val()){
-
-
-            case "ppomppu":
-                getPpompuContent();
-                break;
-            case "dcinside":
-                getDCInsideContent();
-                break;
-
-
-            default:
-                constructTable(data);
-                break;
-
-
-
-        }
-
-
-    })
-
-
-    function getPpompuContent(){
-
-        $(".se-pre-con").fadeIn(500);
-        var boardTitle = $("#txtContentTitle").val();
-        var contentInclude = $("#txtContentInclude").val();
-        var excludeFields = $("#txtContentExclude").val();
-        var fields = excludeFields.split('|');
-        var excludeOne = fields[0]==undefined?null:fields[0];
-        var excludeTwo = fields[1]==undefined?null:fields[1];
-        var excludeThree = fields[2]==undefined?null:fields[2];
-
-
-
-
-        $.ajax({
-            url: SERVER_URL+`/data-monitoring/getPpommpuContent?product_name=${boardTitle}&content_like=${contentInclude}&exclude_one=${excludeOne}&exclude_two=${excludeTwo}&exclude_three=${excludeThree}`,
-        }).done(function(res) {
-            console.log("rest=>",res);
-            data = res.data;
-            allData.push(data);
-
-
-        },function(){
-            constructTable(data);
-            $(".se-pre-con").fadeOut(500);
-            $("#result").show();
-            console.log("data=> ",data);
-
-        });
-    }
-
-    function getDCInsideContent(){
-
-        $(".se-pre-con").fadeIn(500);
-        var boardTitle = $("#txtContentTitle").val();
-        var contentInclude = $("#txtContentInclude").val();
-        var excludeFields = $("#txtContentExclude").val();
-        var fields = excludeFields.split('|');
-        var excludeOne = fields[0]==undefined?null:fields[0];
-        var excludeTwo = fields[1]==undefined?null:fields[1];
-        var excludeThree = fields[2]==undefined?null:fields[2];
-        $.ajax({
-            url: SERVER_URL+`/data-monitoring/getDCInsideContent?product_name=${boardTitle}&content_like=${contentInclude}&exclude_one=${excludeOne}&exclude_two=${excludeTwo}&exclude_three=${excludeThree}`,
-        }).done(function(res) {
-            console.log("rest=>",res);
-            data = res.data;
-            allData.push(data);
-
-
-        },function(){
-            constructTable(data);
-            $(".se-pre-con").fadeOut(500);
-            $("#result").show();
-            console.log("data=> ",data);
-
-        });
-    }
-
-
-
-</script> -->
 
     </body>
 </html>

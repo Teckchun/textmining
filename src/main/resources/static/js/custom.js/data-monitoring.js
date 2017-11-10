@@ -8,34 +8,23 @@
 	var request = function() {
 
 		return {	
+			// TODO: initial data
 			init:function(){
 				//$(".se-pre-con").fadeIn(500);
-				var today = new Date();
-				var yesterday = today.setDate(today.getDate()-1);
-			  /*  $('#startDate').datepicker('setDate',yesterday);
-				$('#endDate').datepicker('setDate', yesterday);
-				*/
 				
-				var yesterday = (function(){this.setDate(this.getDate()-1); return this})
-                .call(new Date);
-				 $('#startDate').datepicker('setDate',yesterday);
-				 $('#endDate').datepicker('setDate',yesterday);
 				
-				/*$('#startDate').datepicker('setDate',new Date());
-				$('#endDate').datepicker('setDate', new Date());*/
 				
-				/*$("#keyword").val("갤s7"); */
-			        
+				
 				 var startDate = $("#startDate").val();
 				 var endDate = $("#endDate").val();
 				 var category = $("#category").val();
 				 var keyword = $("#keyword").val();
 				 // get selected category
 				 var type = $('#category').find(":selected").val();
-		    	//TODO: initialization data for passing to server!
-		    	var filter = function filterData(){
+				 //TODO: initialization data for passing to server!
+				 var filter = function filterData(){
 		            var settings = $("#datasetList").dataTable().fnSettings();
-		            console.log('datatable_settings: ', settings);
+		            console.log('datatable_settings: init ', settings);
 		            
 		            //TODO: find sorted column
 		            console.log(settings.aLastSort[0]);
@@ -47,16 +36,21 @@
 		            settings.aoColumns.forEach(function(column, index){
 		            	if(sort.col == index) sort.colName = column.mData;
 		            });
-		          
+		            console.log('start end date', startDate + endDate)
 		            console.log("type inside request", type);
+		            
+		            var yesterday = (function(d){ d.setDate(d.getDate()-1); return d})(new Date)
+		            $('#startDate').datepicker('setDate', yesterday);
+		            $('#endDate').datepicker('setDate', yesterday);
+		            
 		            //TODO: prepare data for passing to server!
 		            var obj = {
 		                "draw" : settings.iDraw,
 		                "page" : (settings._iDisplayStart / settings._iDisplayLength) + 1,
 		                "limit": settings._iDisplayLength,
 		                "boardTitle":keyword,
-			       		"startDate":startDate,
-			       		"endDate":endDate,
+			       		"startDate":$('#startDate').val(),
+			       		"endDate":$('#endDate').val(),
 			       		"type":type,
 			       		"boardTitle" : settings.oPreviousSearch.sSearch
 		            };
@@ -115,11 +109,14 @@
 		     	            
 		     	           	for(i in response.data){
 		     	           		console.log(response.data[i].type);
-		     	           		if(response.data[i].type=="momcafe"){
+		     	           		if(response.data[i].type=="jihumom"){
 		     	           			response.data[i].type = "지후맘카페"
-		     	           		}else if(response.data[i].type=="dcinside"){
+		     	           		}else if(response.data[i].type=="momsholic"){
+		     	           		response.data[i].type = "지후맘카페"
+		     	           		}
+		     	           		else if(response.data[i].type=="dcinside"){
 		     	           		response.data[i].type = "디시인사이드"
-		     	           		}else{
+		     	           		}else if(response.data[i].type=="ppomppu"){
 		     	           		response.data[i].type = "뽐뿌"
 		     	           		}
 		     	           		
@@ -246,7 +243,7 @@
 	     		            { "data": "board_title" },
 	     		            { "data": "board_url","render": function(data, type, row, meta){
 	     		               if(type === 'display'){
-	     		                  data = '<a href="' + data + '">' + data + '</a>';
+	     		                  data = '<a href="' + data + ' "  target="_blank"">' + data + '</a>';
 	     		              }
 
 	     		              return data;
@@ -275,7 +272,7 @@
 		        
 			},
 			
-			//TODO: get data count
+			//TODO: count numbers of boards in each category
 			getDataCounts: function(){
 				$(function(){
 					    
@@ -583,192 +580,7 @@
 				
 				
 			}
-			,
-			//TODO: get data by category
-			getDataByCategory:function(){
-				var type = ["뽐뿌","디시인사이드","지후맘카페","맘스홀릭카페"];
 				
-				$('#datasetList').DataTable().clear().destroy();
-//				
-				//$(".se-pre-con").fadeIn(500);
-//			    	$('#startDate').datepicker('setDate', new Date(2017, 9, 10));
-//				$('#endDate').datepicker('setDate', new Date(2017, 9, 22));
-//				$("#keyword").val("갤s7"); 
-			        
-				 var startDate = $("#startDate").val();
-				 var endDate = $("#endDate").val();
-				 var category = $("#category").val();
-				 var keyword = $("#keyword").val();
-		    	//TODO: initialization data for passing to server!
-		    	var filter = function filterData(){
-		            var settings = $("#datasetList").dataTable().fnSettings();
-		            console.log('datatable_settings: ', settings);
-		            
-		            //TODO: find sorted column
-		            console.log(settings.aLastSort[0]);
-		            var sort = {
-		            	col: settings.aLastSort[0].col,
-		            	dir: settings.aLastSort[0].dir,
-		            	colName: null
-		            };
-		            settings.aoColumns.forEach(function(column, index){
-		            	if(sort.col == index) sort.colName = column.mData;
-		            });
-		          
-		            
-		            //TODO: prepare data for passing to server!
-		            var obj = {
-		                "draw" : settings.iDraw,
-		                "page" : (settings._iDisplayStart / settings._iDisplayLength) + 1,
-		                "limit": settings._iDisplayLength,
-		                "boardTitle":keyword,
-			       		"startDate":startDate,
-			       		"endDate":endDate,
-			       		"board_title" : settings.oPreviousSearch.sSearch,
-			       		"type":"ppompu"
-		            };
-		            console.log('filter', obj);
-		            return obj;
-		        };
-		        /* Extend with date sort plugin */
-	            $.extend($.fn.dataTableExt.oSort, {
-	                "date-custom-pre": function ( a ) {
-	                    var customDate = a.split('/');
-	                    return (customDate[2] + customDate[1] + customDate[0]) * 1;
-	                },
-	                "date-custom-asc": function ( a, b ) {
-	                    return ((a < b) ? -1 : ((a > b) ? 1 : 0));
-	                },
-	                "date-custom-desc": function ( a, b ) {
-	                    return ((a < b) ? 1 : ((a > b) ? -1 : 0));
-	                }
-	            } );
-		        App.datatables();
-		        //TODO: advance datatable initialization
-		        var table = $('#datasetList').DataTable({
-		        		columnDefs: [
-	                    { type: 'date-custom', targets: [4] }
-	                ],
-	                "ordering": true,
-	                "searching": false,
-		            "processing": true,
-		            "serverSide": true,
-		            "fnPreDrawCallback": function() { 
-		            //	$(".se-pre-con").fadeIn(500);
-		        			
-		            	},
-		            	"fnDrawCallback": function() {
-		            	//	$(".se-pre-con").fadeOut(500);
-		            		
-		            	},
-		            //TODO: 
-		            "lengthMenu": [[10, 20, 30,50, 70, 100], [10, 20, 30, 50, 70, 100]],
-		            //TODO:
-		            //TODO: 
-		            stateSave: true,
-		            //TODO: 
-		            "ajax":{
-		            	"url" : REQUEST_URL.local+'/data-monitoring/getBoards',
-		            	//TODO: Custom parameter sent to server!
-		            	"data": filter,
-		            	//TODO: Custom return parameter from server!
-		            	"dataFilter": function(response){
-		     	            var response = jQuery.parseJSON(response);
-		     	           if(response.data.length<=0){
-           		    		var jsonDatatable = {
-           		    				"sEcho": 1,
-           		    			    "iTotalRecords": "0",
-           		    			    "iTotalDisplayRecords": "0",
-           		    			    "aaData": []
-				     	            };
-           		    		return JSON.stringify(jsonDatatable);
-           		    	
-           		    }
-           		    else{
-           		    	console.log(response);
-		     	            for(i in response.data){
-		     	           		console.log(response.data[i].type);
-		     	           		if(response.data[i].type=="momcafe"){
-		     	           			response.data[i].type = "지후맘카페"
-		     	           		}else if(response.data[i].type=="dcinside"){
-		     	           		response.data[i].type = "디시인사이드"
-		     	           		}else{
-		     	           		response.data[i].type = "뽐뿌"
-		     	           		}
-		     	           		
-		     	           	}
-		     	            
-		     	            //TODO: response pattern for DATATABLE
-		     	            var jsonDatatable = {
-		     	            "draw" : response.pagination.draw, 
-		     	            	"recordsTotal": response.pagination.total_count,
-		     	            	"recordsFiltered": response.pagination.total_count,
-		     	            	"data": response.data
-		     	            
-		     	            };
-		     	            return JSON.stringify(jsonDatatable); // return JSON string
-           		    }
-    	            
-    	        }
-		            },
-		            //TODO: 
-		            "columns": [
-	     		            { "data": "board_index" },
-	     		            { "data": "type" },
-	     		            { "data": "board_title" },
-	     		            { "data": "board_url" },
-	     		            { "data": "board_recommand" },
-	     		            { "data": "board_view" },
-	     		            { "data": "insert_date" }
-	     		    ]
-		            
-		        	/* ,
-		        	//TODO: Combobox Search
-	     		    "initComplete": function () {
-	     		            this.api().columns().every( function () {
-	     		                var column = this;
-	     		                var select = $('<select class="ui dropdown"><option value="">No Filter</option></select>')
-	     		                    .appendTo( $(column.footer()).empty() )
-	     		                    .on( 'change', function () {
-	     		                        var val = $.fn.dataTable.util.escapeRegex(
-	     		                            $(this).val()
-	     		                        );
-	     		                        column.search( val ? '^'+val+'$' : '', true, false ).draw();
-	     		                    } );
-	     		 
-	     		                column.data().unique().sort().each( function ( d, j ) {
-	     		                    select.append( '<option value="'+d+'">'+d+'</option>' )
-	     		                } );
-	     		            } );
-	     		            $('.ui.dropdown').dropdown();
-	     		      } */ 
-		        });
-		        /* Add placeholder attribute to the search input */
-	            $('.dataTables_filter input').attr('placeholder', '검색');
-		    
-		        
-		        //TODO: TextBox Search
-		    	// Setup - add a text input to each footer cell
-		        $('#example tfoot th').each( function () {
-		            var title = $(this).text();
-		            $(this).html( '<div class="ui input"><input class="ui input" type="text" placeholder="Search '+title+'" /></div>' );
-		        } );
-		     
-		   	  	// Apply the search
-//		        table.columns().every( function () {
-//		            var self = this;
-//		            $( 'input', this.footer() ).on( 'keyup change', function () {
-//		                if ( self.search() !== this.value ) {
-//		                	self.search( this.value ).draw();
-//		                }
-//		            } );
-//		        } );
-		   	  	//TODO: End Search Block
-				
-			}
-
-
-			
 		}
 	}();
 
@@ -778,19 +590,5 @@
 		var ifmDownload = "<iframe src=\"http://1.246.219.212:19000/download?dataSetUID="+idx+"\" id=\"ifm\" width=\"400\" height=\"200\" frameborder=\"0\" marginwidth=\"0\" marginheight=\"0\" style=\"margin-left: 50px;\"></iframe>";
 		$("#popupDownload").append(ifmDownload);
 	}
-	$(document).ready(function(){
-		$("#category").change(function(){
-			var conceptName = $('#category').find(":selected").val();
-			
-			//console.log('change',conceptName);
-//		request.getBoards();
-		})
-	})	
-	
-
-//	$( "#btn_keyword" ).click(function() {			
-//		request.getDataList();
-//	});
-	
 	
 	

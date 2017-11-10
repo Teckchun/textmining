@@ -9,7 +9,7 @@ import com.kshrd.entity.Board;
 
 public class BoardSQLBuilder {
 
-	public String advancedSearch(AdvancedSearchParams advancedSearchParams) {
+	public String advancedSearch(AdvancedSearchParams advancedSearchParams,Pagination pagination) {
 	
 		
 		String dcinside =new SQL() {{
@@ -24,13 +24,14 @@ public class BoardSQLBuilder {
 				WHERE(" a.board_title not like concat('%','"+advancedSearchParams.getExcludeKeywords()[i].toString()+"', '%')");
 			}
 			
-
+			// HOW ABOUT THIS ONE PU??? ohh mayb I forgot lol
 			WHERE(" (a.insert_date >= '"+advancedSearchParams.getStartDate()+"'");
 			WHERE(" a.insert_date <= '"+advancedSearchParams.getEndDate()+"'"+")");
 			
 			GROUP_BY("board_num");
 			
 		}}.toString();
+		
 		
 		String ppomppu =new SQL() {{
 			SELECT(" a.board_num,a.board_view,a.board_recommand,a.board_url,a.board_title, a.insert_date, 'ppomppu' as type ");
@@ -69,19 +70,64 @@ public class BoardSQLBuilder {
 			GROUP_BY("board_num");
 			
 		}}.toString();
+		String momsholic =new SQL() {{
+			SELECT(" a.board_num,a.board_view,a.board_recommand,a.board_url,a.board_title, a.insert_date ,'momcafe' as type ");
+			FROM("momcafe_list a");
+			JOIN("product_synonym_dic b on a.board_title LIKE concat('%',b.product_synonym,'%')");
+			WHERE(" b.product_name = '"+advancedSearchParams.getKeywords()[0]+"'");
+			for(int i =0; i<advancedSearchParams.getMustKeywords().length;i++) {
+				WHERE(" a.board_title like concat('%','"+ advancedSearchParams.getMustKeywords()[i].toString() +"','%')");
+			};
+			for(int i =0; i<advancedSearchParams.getExcludeKeywords().length;i++) {
+				WHERE(" a.board_title not like concat('%','"+advancedSearchParams.getExcludeKeywords()[i].toString()+"', '%')");
+			}
+			
+
+			WHERE(" (a.insert_date >= '"+advancedSearchParams.getStartDate()+"'");
+			WHERE(" a.insert_date <= '"+advancedSearchParams.getEndDate()+"'"+")");
+			
+			WHERE(" a.category =2 ");
+			GROUP_BY("board_num");
+			
+		}}.toString();
+		
+		String jihumom =new SQL() {{
+			SELECT(" a.board_num,a.board_view,a.board_recommand,a.board_url,a.board_title, a.insert_date ,'momcafe' as type ");
+			FROM("momcafe_list a");
+			JOIN("product_synonym_dic b on a.board_title LIKE concat('%',b.product_synonym,'%')");
+			WHERE(" b.product_name = '"+advancedSearchParams.getKeywords()[0]+"'");
+			for(int i =0; i<advancedSearchParams.getMustKeywords().length;i++) {
+				WHERE(" a.board_title like concat('%','"+ advancedSearchParams.getMustKeywords()[i].toString() +"','%')");
+			};
+			for(int i =0; i<advancedSearchParams.getExcludeKeywords().length;i++) {
+				WHERE(" a.board_title not like concat('%','"+advancedSearchParams.getExcludeKeywords()[i].toString()+"', '%')");
+			}
+			
+
+			WHERE(" (a.insert_date >= '"+advancedSearchParams.getStartDate()+"'");
+			WHERE(" a.insert_date <= '"+advancedSearchParams.getEndDate()+"'"+")");
+			WHERE(" a.category =1 ");
+			GROUP_BY("board_num");
+			
+			
+		}}.toString();
 		
 		
 		
+		String limit = pagination.getLimit()+"";
+		String offset = pagination.getOffset()+"";
 		
-		System.out.println("SELECT * FROM ("+dcinside+" union "+ ppomppu + " union "+momcafe+") AS A"+" order by 2 desc");
 		
-		return "SELECT * FROM ("+dcinside+" union "+ ppomppu + " union "+momcafe+") AS A"+" order by 2 desc";
+		System.out.println("SELECT * FROM ("+dcinside+" union "+ ppomppu + " union "+jihumom+ " union "+momsholic+") AS A"+" order by insert_date desc");
+		
+		return "SELECT * FROM ("+dcinside+" union "+ ppomppu + " union "+jihumom+ " union "+momsholic+") AS A"+" order by 2 desc"+
+		" limit "+limit+" offset "+offset;
 	}
+	//TODO: THIS ONE RIGHT TECKCHUN?? yes this one, I want to count from 3 tables and the count should be base on the data from the 
+	// JOS ITS WHERE CLAUSE THE SAME WITH SELECT DATA TE ? ITS WHERE CLAUSE MUST BE THE SAME NA yes
 	public String advancedSearchBoardCount(AdvancedSearchParams advancedSearchParams) {
-	
-		
 		String dcinside =new SQL() {{
-			SELECT(" a.board_num,a.board_view,a.board_recommand,a.board_url,a.board_title, a.insert_date, 'dcinside' as type ");
+			SELECT(" a.board_num,a.board_view,a.board_recommand,a.board_url,a.board_title, a.insert_date ,'dcinside' as type ");
 			FROM("dcinside_list a ");
 			JOIN("product_synonym_dic b on a.board_title LIKE concat('%',b.product_synonym,'%')");
 			WHERE(" b.product_name = '"+advancedSearchParams.getKeywords()[0]+"'");
@@ -91,12 +137,14 @@ public class BoardSQLBuilder {
 			for(int i =0; i<advancedSearchParams.getExcludeKeywords().length;i++) {
 				WHERE(" a.board_title not like concat('%','"+advancedSearchParams.getExcludeKeywords()[i].toString()+"', '%')");
 			}
+
+			WHERE(" (a.insert_date >= '"+advancedSearchParams.getStartDate()+"'");
+			WHERE(" a.insert_date <= '"+advancedSearchParams.getEndDate()+"'"+")");
 			GROUP_BY("board_num");
-			
 		}}.toString();
 		
 		String ppomppu =new SQL() {{
-			SELECT(" a.board_num,a.board_view,a.board_recommand,a.board_url,a.board_title, a.insert_date, 'ppomppu' as type ");
+			SELECT("  a.board_num,a.board_view,a.board_recommand,a.board_url,a.board_title, a.insert_date ,'ppomppu' as type ");
 			FROM("ppomppu_list a ");
 			JOIN("product_synonym_dic b on a.board_title LIKE concat('%',b.product_synonym,'%')");
 			WHERE(" b.product_name = '"+advancedSearchParams.getKeywords()[0]+"'");
@@ -106,12 +154,16 @@ public class BoardSQLBuilder {
 			for(int i =0; i<advancedSearchParams.getExcludeKeywords().length;i++) {
 				WHERE(" a.board_title not like concat('%','"+advancedSearchParams.getExcludeKeywords()[i].toString()+"', '%')");
 			}
+
+			WHERE(" (a.insert_date >= '"+advancedSearchParams.getStartDate()+"'");
+			WHERE(" a.insert_date <= '"+advancedSearchParams.getEndDate()+"'"+")");
 			GROUP_BY("board_num");
+			
 			
 		}}.toString();
 		
 		String momcafe =new SQL() {{
-			SELECT(" a.board_num,a.board_view,a.board_recommand,a.board_url,a.board_title, a.insert_date ,'momcafe' as type ");
+			SELECT("  a.board_num,a.board_view,a.board_recommand,a.board_url,a.board_title, a.insert_date ,'momcafe' as type ");
 			FROM("momcafe_list a ");
 			JOIN("product_synonym_dic b on a.board_title LIKE concat('%',b.product_synonym,'%')");
 			WHERE(" b.product_name = '"+advancedSearchParams.getKeywords()[0]+"'");
@@ -121,15 +173,17 @@ public class BoardSQLBuilder {
 			for(int i =0; i<advancedSearchParams.getExcludeKeywords().length;i++) {
 				WHERE(" a.board_title not like concat('%','"+advancedSearchParams.getExcludeKeywords()[i].toString()+"', '%')");
 			}
+
+			WHERE(" (a.insert_date >= '"+advancedSearchParams.getStartDate()+"'");
+			WHERE(" a.insert_date <= '"+advancedSearchParams.getEndDate()+"'"+")");
+			WHERE(" (a.category=1 OR a.category=2)");
 			GROUP_BY("board_num");
 			
 		}}.toString();
-		
-		
-		
-		
-		
-		return "SELECT COUNT(*)FROM( "+dcinside+" union "+ ppomppu + " union "+momcafe+") AS A";
+		System.out.println("SELECT COUNT(*) FROM "+"("+dcinside+" union "+ ppomppu + " union "+momcafe+") AS A");
+		return "SELECT COUNT(*) FROM "+"("+dcinside+" union "+ ppomppu + " union "+momcafe+") AS A";
+	
+	
 	}
 	
 	
@@ -198,14 +252,14 @@ public class BoardSQLBuilder {
 				System.out.println(sql);
 				
 			}else if(board.getType().equals("dcinside")) {
-				sql = dcinside;
+				sql = dcinside+" order by insert_date desc ";
 				String limit = pagination.getLimit()+"";
 				String offset = pagination.getOffset()+"";
 				sql += " limit "+limit+" offset "+offset;
 				System.out.println(sql);
 				
 			}else if(board.getType().equals("ppomppu")) {
-				sql = ppomppu;
+				sql = ppomppu+" order by insert_date desc ";
 				String limit = pagination.getLimit()+"";
 				String offset = pagination.getOffset()+"";
 				sql += " limit "+limit+" offset "+offset;
@@ -213,13 +267,13 @@ public class BoardSQLBuilder {
 				
 				
 			}else if(board.getType().equals("momsholic")) {
-				sql = momsholic;
+				sql = momsholic+" order by insert_date desc ";
 				String limit = pagination.getLimit()+"";
 				String offset = pagination.getOffset()+"";
 				sql += " limit "+limit+" offset "+offset;
 				System.out.println(sql);
 			}else if(board.getType().equals("jihumom")) {
-				sql = jihumom;
+				sql = jihumom+" order by insert_date desc ";
 				String limit = pagination.getLimit()+"";
 				String offset = pagination.getOffset()+"";
 				sql += " limit "+limit+" offset "+offset;
@@ -229,22 +283,7 @@ public class BoardSQLBuilder {
 			}
 			
 			return sql;
-//			String limit = pagination.getLimit()+"";
-//			String offset = pagination.getOffset()+"";
-//			sql += " limit "+limit+" offset "+offset;
-//			System.out.println(sql);
-			
-//			sql = dcinside +" union "+ ppomppu +" union "+ momcafe+" order by insert_date desc ";
-//			String limit = pagination.getLimit()+"";
-//			String offset = pagination.getOffset()+"";
-//			sql += " limit "+limit+" offset "+offset;
-//			
-//			
-//			System.out.println("getboards title empty=> "+sql);
-//			return sql;
-			
-			
-			
+				
 			
 		}else{
 			

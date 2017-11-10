@@ -33,10 +33,22 @@ public class DataMonitorServiceimpl implements DataMonitorService {
    @Override
 	public List<Map<String, Object>> advancedSearch(AdvancedSearchParams advancedSearchParams, Pagination pagination) {
 		// TODO Auto-generated method stub
+	   
+	   // like this, so in service I call method 2 neng jol , 1 bos jol paginatioin how about this query
 	    pagination.setTotalCount(dataMonitorRepository.countAdvancedSearchBoard(advancedSearchParams));
-		return dataMonitorRepository.advancedSearch(advancedSearchParams,pagination);
+		System.out.println("ADVANCED SEARCH TOTAL COUNT "+dataMonitorRepository.countAdvancedSearchBoard(advancedSearchParams));
+	    return dataMonitorRepository.advancedSearch(advancedSearchParams,pagination);
 	}
 
+   
+   //
+   
+   
+   
+   
+   
+   
+   
     @Override
     public List<Map<String, Object>> getPpommpuContent(String productName, String contentLike, String excludeOne, String excludeTwo, String excludeThree) {
         return dataMonitorRepository.getPpommpuContent(productName,contentLike,excludeOne,excludeTwo,excludeThree);

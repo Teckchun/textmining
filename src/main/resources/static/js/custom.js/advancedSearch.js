@@ -2,18 +2,20 @@ http://localhost:8080/rest
 console.log('advanced search')
     var REQUEST_URL={
     		server:'http://35.201.252.181:11008/rest',
-    		local:'http://35.201.252.181:11008/rest'
+    		local:'http://localhost:8080/rest'
     } 
     
 	
 	var request = function() {
+	
 
 		return {	
 			init:function(){
-				var yesterday = (function(){this.setDate(this.getDate()-1); return this})
-                .call(new Date);
-				 $('#startDate').datepicker('setDate',yesterday);
-				 $('#endDate').datepicker('setDate',yesterday);
+				console.log('init');
+
+				 	
+				
+			
 			        
 			},
 			
@@ -22,12 +24,6 @@ console.log('advanced search')
 				
 				
 				$('#datasetList').DataTable().clear().destroy();
-//				
-				//$(".se-pre-con").fadeIn(500);
-//			    	$('#startDate').datepicker('setDate', new Date(2017, 9, 10));
-//				$('#endDate').datepicker('setDate', new Date(2017, 9, 22));
-//				$("#keyword").val("갤s7"); 
-			
 				 var startDate = $("#startDate").val();
 				 var endDate = $("#endDate").val();
 				 var category = $("#category").val();
@@ -58,12 +54,14 @@ console.log('advanced search')
 		            
 		            //TODO: prepare data for passing to server!
 		            var obj = {
-		                "draw" : settings.iDraw,
-		                "limit": settings._iDisplayLength,
-		                "boardTitle":keyword,
-			       		"startDate":startDate,
-			       		"endDate":endDate,
-			       		"board_title" : settings.oPreviousSearch.sSearch
+		            		  		"draw" : settings.iDraw,
+				                "page" : (settings._iDisplayStart / settings._iDisplayLength) + 1,
+				                "limit": settings._iDisplayLength,
+				                "boardTitle":keyword,
+					       		"startDate":startDate,
+					       		"endDate":endDate,
+					       		"type":type,
+					       		"boardTitle" : settings.oPreviousSearch.sSearch
 		            };
 		            console.log('filter', obj);
 		            return obj;
@@ -147,6 +145,7 @@ console.log('advanced search')
 		            //TODO: 
 		            "ajax":{
 		            	"url" : REQUEST_URL.local+'/data-monitoring/advancedSearch'+concat,
+		            	"data":filter,
 		            	//TODO: Custom parameter sent to server!
 		            	
 		            	//TODO: Custom return parameter from server!
@@ -157,8 +156,10 @@ console.log('advanced search')
 		            		    	console.log(response);
 				     	            for(i in response.data){
 				     	           		console.log(response.data[i].type);
-				     	           		if(response.data[i].type=="momcafe"){
+				     	           		if(response.data[i].type=="jihumom"){
 				     	           			response.data[i].type = "지후맘카페"
+				     	           		}else if(response.data[i].type=="momsholic"){
+				     	           		response.data[i].type = "맘스홀릭카페"
 				     	           		}else if(response.data[i].type=="dcinside"){
 				     	           		response.data[i].type = "디시인사이드"
 				     	           		}else{
@@ -245,6 +246,8 @@ console.log('advanced search')
 			
 		}
 	}();
+	
+	request.init();
 
 	function btnDownload(idx) {
 		$('#popupDownload').empty();
