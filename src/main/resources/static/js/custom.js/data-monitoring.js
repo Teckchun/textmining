@@ -1,7 +1,7 @@
 //http://localhost:8080/rest
     var REQUEST_URL={
     		server:'http://35.201.252.181:11008/rest',
-    		local:'http://35.201.252.181:11008/rest'
+    		local:'http://localhost:8080/rest'
     } 
     
 
@@ -165,8 +165,99 @@
 
 
 		     	              container.innerHTML='';
+		     	              
+		     	              console.log(result)
+		     	              
+				     	       var options = {
+								        title: {
+								            text: '[검색어 추이]',
+								        },
+								        xAxis: {
+								            categories: []
+								        },
+								        yAxis: {
+								            title: {
+								                text: ''
+								            }
+								        },
+								        series: [{
+								            name: '건수',
+								            data: []
+								        }],  /*legend: {
+				     	                    layout: 'vertical',
+				     	                    align: 'right',
+				     	                    verticalAlign: 'middle'
+				     	                },*/responsive: {
+				     	                    rules: [{
+				     	                        condition: {
+				     	                            maxWidth: 500
+				     	                        },
+				     	                        chartOptions: {
+				     	                            legend: {
+				     	                                layout: 'horizontal',
+				     	                                align: 'center',
+				     	                                verticalAlign: 'bottom'
+				     	                            }
+				     	                        }
+				     	                    }]
+				     	                }
+								    };
+		     	              
+		     	             for (var i = 0; i<result.length; i++) {
+		     	                options.xAxis.categories.push(result[i].key);
+		     	                options.series[0].data.push(result[i].value);
+		     	            };
+		     	           $('#container').highcharts(options);
+		     	            
+		     	          /*   Highcharts.chart('container', {
 
-		     	              Morris.Line({
+		     	                title: {
+		     	                    text: 'Solar Employment Growth by Sector, 2010-2016'
+		     	                },
+
+		     	                subtitle: {
+		     	                    text: 'Source: thesolarfoundation.com'
+		     	                },
+
+		     	                yAxis: {
+		     	                    title: {
+		     	                        text: 'Number of Employees'
+		     	                    }
+		     	                },
+		     	                legend: {
+		     	                    layout: 'vertical',
+		     	                    align: 'right',
+		     	                    verticalAlign: 'middle'
+		     	                },
+
+		     	                plotOptions: {
+		     	                    series: {
+		     	                        label: {
+		     	                            connectorAllowed: false
+		     	                        },
+		     	                        pointStart: 2010
+		     	                    }
+		     	                },
+
+		     	                series:data,
+
+		     	                responsive: {
+		     	                    rules: [{
+		     	                        condition: {
+		     	                            maxWidth: 500
+		     	                        },
+		     	                        chartOptions: {
+		     	                            legend: {
+		     	                                layout: 'horizontal',
+		     	                                align: 'center',
+		     	                                verticalAlign: 'bottom'
+		     	                            }
+		     	                        }
+		     	                    }]
+		     	                }
+
+		     	            });*/
+		     	              /*Morris.Line({
 		     	                  // ID of the element in which to
 		     	                  // draw the chart.
 		     	                  element : 'container',
@@ -201,7 +292,7 @@
 		     	                  // Disables line smoothing
 		     	                  smooth : true,
 		     	                  resize : true
-		     	              });
+		     	              });*/
 
 
 
@@ -320,7 +411,6 @@
 			,
 			// TODO: getBoards
 			getBoards:function(){
-				
 				$('#datasetList').DataTable().clear().destroy();
 //				
 				//$(".se-pre-con").fadeIn(500);
@@ -456,7 +546,7 @@
 
 					     	              container.innerHTML='';
 
-					     	              Morris.Line({
+					     	              /*Morris.Line({
 					     	                  // ID of the element in which to
 					     	                  // draw the chart.
 					     	                  element : 'container',
@@ -491,7 +581,48 @@
 					     	                  // Disables line smoothing
 					     	                  smooth : true,
 					     	                  resize : true
-					     	              });
+					     	              });*/
+					     	             var options = {
+					     	            		 title: {
+											            text: '[검색어 추이]',
+											        }, xAxis: {
+											            categories: []
+											        },
+											        yAxis: {
+											            title: {
+											                text: '검색건수'
+											            }
+											        },
+											        series: [{
+											            name: '날짜',
+											            data: []
+											        }],  /*legend: {
+							     	                    layout: 'vertical',
+							     	                    align: 'right',
+							     	                    verticalAlign: 'middle'
+							     	                },*/responsive: {
+							     	                    rules: [{
+							     	                        condition: {
+							     	                            maxWidth: 500
+							     	                        },
+							     	                        chartOptions: {
+							     	                            legend: {
+							     	                                layout: 'horizontal',
+							     	                                align: 'center',
+							     	                                verticalAlign: 'bottom'
+							     	                            }
+							     	                        }
+							     	                    }]
+							     	                }
+											    };
+					     	              
+					     	             for (var i = 0; i<result.length; i++) {
+					     	                options.xAxis.categories.push(result[i].key);
+					     	                options.series[0].data.push(result[i].value);
+					     	               //options.series[1].data.push((result[i].value+6));
+						     	            
+					     	             };
+					     	           $('#container').highcharts(options);
 
 
 
@@ -583,7 +714,10 @@
 				
 		}
 	}();
-
+	$("#frmSearch").on('submit', function(e){
+	    e.preventDefault();
+	   request.getBoards();
+	});
 	function btnDownload(idx) {
 		$('#popupDownload').empty();
 		$("#modal_add_contents").modal("show");

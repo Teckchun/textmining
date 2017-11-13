@@ -1,4 +1,5 @@
 http://localhost:8080/rest
+
 console.log('advanced search')
     var REQUEST_URL={
     		server:'http://35.201.252.181:11008/rest',
@@ -21,7 +22,7 @@ console.log('advanced search')
 			
 			// TODO: getBoards
 			advancedSearch:function(){
-				
+	
 				
 				$('#datasetList').DataTable().clear().destroy();
 				 var startDate = $("#startDate").val();

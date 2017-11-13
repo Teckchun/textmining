@@ -424,16 +424,17 @@
                     <h2><i class="gi gi-inbox_in"></i> <strong>데이터셋 </strong> 리스트</h2>
                 </div>
 				
-				<div class="row">		
+				<div class="row">	
+				<form id="frmSearch" >
 					<div class="col-xs-12" style="margin-bottom: 20px;">
 						<div class="form-inline">							
 							<div class="form-group">
 								<select id="category" name="category"  class="form-control" onchange="request.getBoards()">
-									<option value="all">전체
-									<option value="ppomppu">뽐뿌
-									<option value="dcinside">디시인사이드
-									<option value="jihumom">지후맘카페
-									<option value="momsholic">맘스홀릭카페
+									<option value="all">전체</option>
+									<option value="ppomppu">뽐뿌</option>
+									<option value="dcinside">디시인사이드</option>
+									<option value="jihumom">지후맘카페</option>
+									<option value="momsholic">맘스홀릭카페</option>
 								</select>
 							</div>
 							<div class="form-group">
@@ -474,7 +475,7 @@
 
 						</div>
 					</div>
-				
+				</form>
 
 					<div class="col-xs-12">
 						
@@ -502,8 +503,8 @@
 
                        <div class="col-sm-6">
                           
-                           <h5>[검색어 추이]</h5>
-                           <div id="container" style="min-width: 310px; height: 400px; max-width: 600px;
+                     <!--       <h5>[검색어 추이]</h5>
+                      -->      <div id="container" style="min-width: 310px; height: 400px; max-width: 600px;
                            margin: 0 5 auto"></div>
                            
 
