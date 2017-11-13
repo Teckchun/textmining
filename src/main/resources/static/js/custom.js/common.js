@@ -2,6 +2,7 @@ $(document).ready(function() {
 	
 	$('#startDate').datepicker('setDate', new Date());
 	$('#endDate').datepicker('setDate', new Date());
+	//date_minus();
 	//setTimeout(function(){ date_minus();  }, 0);
 
 //	var page_url = location.pathname; 	
@@ -42,6 +43,7 @@ var comFunc = function() {
 
 
 function date_minus() {	
+	
 	var startDate = document.getElementById("startDate").value;
 	var startDate = new Date(startDate);
 	var startDate_newdate = new Date(startDate);
@@ -75,9 +77,63 @@ function date_minus() {
 	var page_url = location.pathname; 	
 	var filename = page_url.substring(page_url.lastIndexOf('/')+1);
 
-	if (filename == "requestDatasetList.php") {		
-		request.getDataList();	
-	} 
+//	if (filename == "requestDatasetList.php") {		
+//		request.getDataList();	
+//	} 
+}
+
+
+function week_plus(){
+	var startDate = document.getElementById("startDate").value;
+	var startDate = new Date(startDate);
+	var startDate_newdate = new Date();
+	if(localStorage.startDate!=undefined){
+		console.log('!=undefine')
+		var myDate = new Date(localStorage.endDate)
+		//localStorage.startDate = myDate;
+		//myDate = Date.parse(localStorage.startDate)
+		console.log('myDate', myDate);
+		startDate_newdate.setDate(myDate);
+	//	console.log('startDate new date ', startDate_newdate);
+	}else{
+		console.log('undefinedddd')
+		startDate_newdate.setDate(startDate_newdate.getDate() + 1);
+	}
+
+	var dd = startDate_newdate.getDate();
+    var mm = startDate_newdate.getMonth() + 1;
+    var y = startDate_newdate.getFullYear();
+    
+ // TODO: save StartDate to localStorage
+	localStorage.startDate=startDate;
+	console.log('startDate ',localStorage.getItem('startDate'));
+	var startDate = y + '-' + mm + '-' + dd;
+	
+	
+	
+	//endDate 계산
+	var endDate = document.getElementById("endDate").value;
+	var endDate = new Date(endDate);
+	var endDate_newdate = new Date(endDate);
+		endDate_newdate.setDate(endDate_newdate.getDate() + 7);
+	var dd = endDate_newdate.getDate();
+    var mm = endDate_newdate.getMonth() + 1;
+    var y = endDate_newdate.getFullYear();
+	var endDate = y + '-' + mm + '-' + dd;
+	
+	// TODO: save StartDate to localStorage
+	localStorage.endDate=endDate;
+	console.log('endDate ',localStorage.getItem('endDate'));
+	
+	
+	var tab_type = $("#tabItemType").val();
+	var page_url = location.pathname; 	
+	var filename = page_url.substring(page_url.lastIndexOf('/')+1);
+	
+	$('#startDate').datepicker('setDate', startDate);
+	$('#endDate').datepicker('setDate', endDate);
+	
+	
 }
 
 function date_plus() {			
@@ -154,12 +210,8 @@ function printWeek() {
 	$('#endDate').datepicker('setDate', nowYear+"-"+eDate)
 		
 	var tab_type = $("#tabItemType").val();
-	var page_url = location.pathname; 	
-	var filename = page_url.substring(page_url.lastIndexOf('/')+1);
-
-	if (filename == "requestDatasetList.php") {		
-		request.getDataList();	
-	} 
+	
+	
 
 }
 
