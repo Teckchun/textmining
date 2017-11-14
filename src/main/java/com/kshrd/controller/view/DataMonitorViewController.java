@@ -22,6 +22,11 @@ public class DataMonitorViewController {
 
         return "/advanced-search";
     }
+    
+    @GetMapping("/data-analysis-compare")
+    public String dataAnalysisCompare() {
+    		return "/data-analysis-compare";
+    }
 
 
 
