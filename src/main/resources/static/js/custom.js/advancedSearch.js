@@ -21,9 +21,10 @@ console.log('advanced search')
 			
 			// TODO: getBoards
 			advancedSearch:function(){
-				
-				
+
+		       
 				$('#datasetList').DataTable().clear().destroy();
+				
 				 var startDate = $("#startDate").val();
 				 var endDate = $("#endDate").val();
 				 var category = $("#category").val();
@@ -38,7 +39,9 @@ console.log('advanced search')
 		    	//TODO: initialization data for passing to server!
 		    	var filter = function filterData(){
 		            var settings = $("#datasetList").dataTable().fnSettings();
+		            settings.iStart = 0;
 		            console.log('datatable_settings: ', settings);
+		          
 		            
 		            //TODO: find sorted column
 		            console.log(settings.aLastSort[0]);
@@ -52,6 +55,7 @@ console.log('advanced search')
 		            });
 		          
 		            
+		            console.log('settings._iDisplayStart ',settings._iDisplayStart)
 		            //TODO: prepare data for passing to server!
 		            var obj = {
 		            		  		"draw" : settings.iDraw,
@@ -140,8 +144,6 @@ console.log('advanced search')
 		            //TODO: 
 		            "lengthMenu": [[10, 20, 30,50, 70, 100], [10, 20, 30, 50, 70, 100]],
 		            //TODO:
-		            //TODO: 
-		            stateSave: true,
 		            //TODO: 
 		            "ajax":{
 		            	"url" : REQUEST_URL.local+'/data-monitoring/advancedSearch'+concat,
@@ -234,7 +236,7 @@ console.log('advanced search')
 //		            } );
 //		        } );
 		   	  	//TODO: End Search Block
-		        
+		    
 				
 				
 				

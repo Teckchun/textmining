@@ -83,56 +83,125 @@ function date_minus() {
 }
 
 
-function week_plus(){
-	var startDate = document.getElementById("startDate").value;
-	var startDate = new Date(startDate);
-	var startDate_newdate = new Date();
-	if(localStorage.startDate!=undefined){
-		console.log('!=undefine')
-		var myDate = new Date(localStorage.endDate)
-		//localStorage.startDate = myDate;
-		//myDate = Date.parse(localStorage.startDate)
-		console.log('myDate', myDate);
-		startDate_newdate.setDate(myDate);
-	//	console.log('startDate new date ', startDate_newdate);
-	}else{
-		console.log('undefinedddd')
-		startDate_newdate.setDate(startDate_newdate.getDate() + 1);
-	}
 
-	var dd = startDate_newdate.getDate();
-    var mm = startDate_newdate.getMonth() + 1;
-    var y = startDate_newdate.getFullYear();
-    
- // TODO: save StartDate to localStorage
-	localStorage.startDate=startDate;
-	console.log('startDate ',localStorage.getItem('startDate'));
-	var startDate = y + '-' + mm + '-' + dd;
+var isFirst = false;
+function addWeek(){
+	// PU ORT USE THE JQUERY TE EY
+	// use ta use jquery kor ban de YES
+	var startDate = $('#startDate').val();
+	var endDate = $('#endDate').val();
+	console.log('startDate value ', startDate);
+	if(isFirst){
+		var new_start_date = moment(startDate,'YYYY-MM-DD').add('days',6);
+		console.log('new start date ', new_start_date);
+
+		var day = new_start_date.format('DD');
+		var month = new_start_date.format('MM');
+		var year = new_start_date.format('YYYY');
+		console.log(year+'-'+month+'-'+day);
+		$("#startDate").val(new_start_date.format('YYYY-MM-DD'));
+
+		endDate = new_start_date.add('days', 6);
+		$("#endDate").val(endDate.format('YYYY-MM-DD'));
+		//var endDate = document.getElementById('endDate').value;
+	}else{
+		var new_end_date = moment(endDate,'YYYY-MM-DD').add('days',6);
+		//endDate = new_end_date.add('weeks', 1);
+		$("#endDate").val(new_end_date.format('YYYY-MM-DD'));
+	}
 	
 	
 	
-	//endDate 계산
-	var endDate = document.getElementById("endDate").value;
-	var endDate = new Date(endDate);
-	var endDate_newdate = new Date(endDate);
-		endDate_newdate.setDate(endDate_newdate.getDate() + 7);
-	var dd = endDate_newdate.getDate();
-    var mm = endDate_newdate.getMonth() + 1;
-    var y = endDate_newdate.getFullYear();
-	var endDate = y + '-' + mm + '-' + dd;
+	isFirst =  true;
 	
-	// TODO: save StartDate to localStorage
-	localStorage.endDate=endDate;
-	console.log('endDate ',localStorage.getItem('endDate'));
+}
+
+function addMonth(){
+	var startDate = $('#startDate').val();
+	var endDate = $('#endDate').val();
+	console.log('startDate value ', startDate);
+	if(isFirst){
+		var new_start_date = moment(startDate,'YYYY-MM-DD').add('months',1);
+		console.log('new start date ', new_start_date);
+
+		var day = new_start_date.format('DD');
+		var month = new_start_date.format('MM');
+		var year = new_start_date.format('YYYY');
+		console.log(year+'-'+month+'-'+day);
+		$("#startDate").val(new_start_date.format('YYYY-MM-DD'));
+
+		endDate = new_start_date.add('days', 6);
+		$("#endDate").val(endDate.format('YYYY-MM-DD'));
+		//var endDate = document.getElementById('endDate').value;
+	}else{
+		var new_end_date = moment(endDate,'YYYY-MM-DD').add('months',1);
+		//endDate = new_end_date.add('weeks', 1);
+		$("#endDate").val(new_end_date.format('YYYY-MM-DD'));
+	}
 	
 	
-	var tab_type = $("#tabItemType").val();
-	var page_url = location.pathname; 	
-	var filename = page_url.substring(page_url.lastIndexOf('/')+1);
 	
-	$('#startDate').datepicker('setDate', startDate);
-	$('#endDate').datepicker('setDate', endDate);
+	isFirst =  true;
+}
+
+function subtractMonth(){
+	// PU ORT USE THE JQUERY TE EY
+	// use ta use jquery kor ban de YES
+	var startDate = $('#startDate').val();
+	var endDate = $('#endDate').val();
+	console.log('startDate value ', startDate);
+	if(isFirst){
+		var new_end_date = moment(endDate,'YYYY-MM-DD').subtract('months',1);
+		console.log('new start date ', new_end_date);
+
+		var day = new_end_date.format('DD');
+		var month = new_end_date.format('MM');
+		var year = new_end_date.format('YYYY');
+		console.log(year+'-'+month+'-'+day);
+		$("#endDate").val(new_end_date.format('YYYY-MM-DD'));
+
+		startDate = new_end_date.subtract('days', 6);
+		$("#startDate").val(startDate.format('YYYY-MM-DD'));
+		//var endDate = document.getElementById('endDate').value;
+	}else{
+		var new_start_date = moment(startDate,'YYYY-MM-DD').subtract('months',1);
+		//endDate = new_end_date.add('weeks', 1);
+		$("#startDate").val(new_start_date.format('YYYY-MM-DD'));
+	}
 	
+	
+	
+	isFirst =  true;
+}
+
+function subtractWeek(){
+	// PU ORT USE THE JQUERY TE EY
+	// use ta use jquery kor ban de YES
+	var startDate = $('#startDate').val();
+	var endDate = $('#endDate').val();
+	console.log('startDate value ', startDate);
+	if(isFirst){
+		var new_end_date = moment(endDate,'YYYY-MM-DD').subtract('days',6);
+		console.log('new start date ', new_end_date);
+
+		var day = new_end_date.format('DD');
+		var month = new_end_date.format('MM');
+		var year = new_end_date.format('YYYY');
+		console.log(year+'-'+month+'-'+day);
+		$("#endDate").val(new_end_date.format('YYYY-MM-DD'));
+
+		startDate = new_end_date.subtract('days', 6);
+		$("#startDate").val(startDate.format('YYYY-MM-DD'));
+		//var endDate = document.getElementById('endDate').value;
+	}else{
+		var new_start_date = moment(startDate,'YYYY-MM-DD').subtract('days',6);
+		//endDate = new_end_date.add('weeks', 1);
+		$("#startDate").val(new_start_date.format('YYYY-MM-DD'));
+	}
+	
+	
+	
+	isFirst =  true;
 	
 }
 

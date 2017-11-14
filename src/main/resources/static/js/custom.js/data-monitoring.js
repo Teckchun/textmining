@@ -1,7 +1,7 @@
 //http://localhost:8080/rest
     var REQUEST_URL={
     		server:'http://35.201.252.181:11008/rest',
-    		local:'http://35.201.252.181:11008/rest'
+    		local:'http://localhost:8080/rest'
     } 
     
 
@@ -93,7 +93,7 @@
 		            "lengthMenu": [[10, 20, 30,50, 70, 100], [10, 20, 30, 50, 70, 100]],
 		            //TODO:
 		            //TODO: 
-		            stateSave: true,
+		            stateSave: false,
 		            //TODO: 
 		            "ajax":{
 		            	"url" : REQUEST_URL.local+'/data-monitoring/getBoards',
@@ -401,7 +401,7 @@
 		            "lengthMenu": [[10, 20, 30,50, 70, 100], [10, 20, 30, 50, 70, 100]],
 		            //TODO:
 		            //TODO: 
-		            stateSave: true,
+		            stateSave: false,
 		            //TODO: 
 		            "ajax":{
 		            	"url" : REQUEST_URL.local+'/data-monitoring/getBoards',
@@ -584,6 +584,11 @@
 		}
 	}();
 
+	$("#keyword").keyup(function(event) {
+	    if (event.keyCode === 13) {
+	        $("#btn_keyword").click();
+	    }
+	});
 	function btnDownload(idx) {
 		$('#popupDownload').empty();
 		$("#modal_add_contents").modal("show");
