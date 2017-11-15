@@ -340,10 +340,10 @@
 									<li><a href="/advanced-search" >상세검색</a></li>
 									<li><a href="/data-analysis-trend">데이터 분석 -추이</a></li>
 									
-									<li><a href="/data-analysis-assoc" >데이터 분석 -연관어 분석</a></li>
+									<li><a href="/data-analysis-assoc" class="active">데이터 분석 -연관어 분석</a></li>
 								
 								
-									<li><a href="/data-analysis-compare" class="active" >데이터 분석 -비교분석</a></li>
+									<li><a href="/data-analysis-compare" >데이터 분석 -비교분석</a></li>
 								
 								
 								</ul>
@@ -452,67 +452,28 @@
 								</div>
 
 								<div class="row">
-								
-								
-								 <div class="col-xs-6">
-								  <div class="panel panel-default">
-									      <div class="panel-heading">검색어입력</div>
-									      <div class="panel-body">
-									      	<div class="form-group">
-											<label>검색어</label> <input type="text" id="keyword"
+
+									<div class="col-xs-4">
+										<div class="form-group">
+											<label>1. 검색어</label> <input type="text" id="keyword"
 												name="keyword" class="input-tags" value="갤럭시 S8">
 
 										</div>
+									</div>
+									<div class="col-xs-4">
 										<div class="form-group">
-											<label>포함어</label> <input type="text" id="must_keyword"
-												name="must_keyword" class="input-tags" >
+											<label>2. 포함어</label> <input type="text" id="must_keyword"
+												name="must_keyword" class="input-tags" value="배터리">
 
 										</div>
+									</div>
+									<div class="col-xs-4">
 										<div class="form-group">
-											<label>제외어</label> <input type="text" id="except_keyword"
-												name="except_keyword" class="input-tags" >
+											<label>3. 제외어</label> <input type="text" id="except_keyword"
+												name="except_keyword" class="input-tags" value="광고,홍보,모집">
 
 										</div>
-									      </div>
-   								 </div>
-								 	
-										
-								 
-								 </div>
-								
-								 <div class="col-xs-6">
-								  <div class="panel panel-default">
-									      <div class="panel-heading">비교검색어입력</div>
-									      <div class="panel-body">
-									      	<div class="form-group">
-											<label>검색어</label> <input type="text" id="keyword"
-												name="keyword" class="input-tags" value="아이폰">
-
-										</div>
-										<div class="form-group">
-											<label>포함어</label> <input type="text" id="must_keyword"
-												name="must_keyword" class="input-tags" >
-
-										</div>
-										<div class="form-group">
-											<label>제외어</label> <input type="text" id="except_keyword"
-												name="except_keyword" class="input-tags" >
-
-										</div>
-									      </div>
-   								 </div>
-								 	
-										
-								 
-								 </div>
-								
-								</div>
-								<div class="row">
-								
-									
-								
-
-									
+									</div>
 
 									<div class="col-xs-12" style="margin-bottom: 20px;">
 										<div class="form-inline">
@@ -571,31 +532,161 @@
 										</div>
 									</div>
 									<div class="col-xs-12">
-										<img class="img img-responsive" src="../images/data-analysis-compare.png" alt="" />
-									</div>
-
-									<div class="col-xs-12">
-
-										<table id="datasetList"
+										<div class="col-xs-2">
+											<div class="panel-group">
+											    <div class="panel panel-default">
+											      <div class="panel-heading">
+											        <h4 class="panel-title text-center" data-toggle="collapse" href="#collapse1">
+											          제품분류<i class="fa fa-caret-square-o-down" aria-hidden="true"></i>
+											        </h4>
+											      </div>
+											      <div id="collapse1" class="panel-collapse collapse">
+											        <ul class="list-group">
+											          <li class="list-group-item"><input type="checkbox" />  전체</li>
+											          <li class="list-group-item"><input type="checkbox" /> 단체</li>
+											          <li class="list-group-item"><input type="checkbox" /> 장소</li>
+											          <li class="list-group-item"><input type="checkbox" /> 브랜드</li>
+											          <li class="list-group-item"><input type="checkbox" /> 시사/겅제</li>
+											          
+											        </ul>
+											        <!-- <div class="panel-footer">Footer</div> -->
+											      </div>
+											    </div>
+											  </div>
+											  <div class="panel-group">
+											    <div class="panel panel-default">
+											      <div class="panel-heading">
+											        <h4 class="panel-title text-center" data-toggle="collapse" href="#collapse2">
+											          제품명<i class="fa fa-caret-square-o-down" aria-hidden="true"></i>
+											        </h4>
+											      </div>
+											      <div id="collapse2" class="panel-collapse collapse">
+											        <ul class="list-group">
+											          <li class="list-group-item"><input type="checkbox" />  전체</li>
+											          <li class="list-group-item"><input type="checkbox" /> 단체</li>
+											          <li class="list-group-item"><input type="checkbox" /> 장소</li>
+											          <li class="list-group-item"><input type="checkbox" /> 브랜드</li>
+											          <li class="list-group-item"><input type="checkbox" /> 시사/겅제</li>
+											          
+											        </ul>
+											        <!-- <div class="panel-footer">Footer</div> -->
+											      </div>
+											    </div>
+											  </div>
+											  
+										</div>
+										<div class="col-xs-10">
+											<div class="form-group">
+											<label class="radio-inline">
+     										 <input type="radio" name="optradio">주별
+    											</label>
+    											
+    											<label class="radio-inline">
+     										 <input type="radio" name="optradio">월별
+    											</label></div>
+    											<table id="datasetList"
 											class="table text-center table-borderless table-striped table-vcenter table-hover table-bordered display">
 											<thead>
 												<tr>
-													<th class="text-center" style="width: 5%">No</th>
-													<th class="text-center" width="10%">구분</th>
-													<th class="text-center" width="30%">콘텐츠</th>
-													<th class="text-center" width="25%">URL</th>
-
-													<th class="text-center" width="5%">댓글수</th>
-													<th class="text-center" width="5%">조회수</th>
-													<th class="text-center" width="10%">게시일</th>
+													<th class="text-center" style="width: 5%" rowspan="3">순위</th>
+													
+													
 												</tr>
+												<tr>
+													<th class="text-center" width="10%" colspan="2">2017/09/12 - 2017/09/16</th>
+													<th class="text-center" width="10%" colspan="2">2017/09/12 - 2017/09/16</th>
+													<th class="text-center" width="10%" colspan="2">2017/09/12 - 2017/09/16</th>
+													<th class="text-center" width="10%" colspan="2">2017/09/12 - 2017/09/16</th>
+													
+												</tr>
+												<tr>
+													<td>연관어</td>
+													<td>건수</td>
+													<td>연관어</td>
+													<td>건수</td>
+													<td>연관어</td>
+													<td>건수</td>
+													<td>연관어</td>
+													<td>건수</td>
+												
+												</tr>
+												
 
 											</thead>
 											<tbody id="dataset_list">
+												<tr>
+													<td>1</td>
+													<td>체협</td>
+													<td>4</td>
+													<td>체협</td>
+													<td>13</td>
+													<td>체협</td>
+													<td>8</td>
+													<td>체협</td>
+													<td>3</td>
+												
+												</tr>
+												<tr>
+													<td>2</td>
+													<td>체협</td>
+													<td>4</td>
+													<td>체협</td>
+													<td>13</td>
+													<td>체협</td>
+													<td>8</td>
+													<td>체협</td>
+													<td>3</td>
+												
+												
+												</tr>
+												<tr>
+													<td>3</td>
+													<td>체협</td>
+													<td>4</td>
+													<td>체협</td>
+													<td>13</td>
+													<td>체협</td>
+													<td>8</td>
+													<td>체협</td>
+													<td>3</td>
+												
+												
+												</tr>
+												<tr>
+													<td>4</td>
+													<td>체협</td>
+													<td>4</td>
+													<td>체협</td>
+													<td>13</td>
+													<td>체협</td>
+													<td>8</td>
+													<td>체협</td>
+													<td>3</td>
+												
+												
+												</tr>
+												<tr>
+													<td>5</td>
+													<td>체협</td>
+													<td>4</td>
+													<td>체협</td>
+													<td>13</td>
+													<td>체협</td>
+													<td>8</td>
+													<td>체협</td>
+													<td>3</td>
+												
+												
+												</tr>
 											</tbody>
 										</table>
-
+										
+										</div>
+									
+									
 									</div>
+
+									
 
 								</div>
 							</div>
@@ -787,10 +878,6 @@
 	<script src="js\plugins.js"></script>
 	<script src="js\app.js"></script>
 	<script src="js\custom.js\common.js"></script>
-	<script src="js\custom.js\data-analysis-compare.js"></script>
-	<script>$(function(){request.advancedSearch();})</script>
-	
-	
 	<!-- <script src="js\custom.js\requestDetailSearch.js"></script> -->
 
 
@@ -799,7 +886,27 @@
 	<script src="js\vendor\highchart.js"></script>
 	<script src="js\vendor\highchart.module.data.js"></script>
 	<script src="js\vendor\highchart.module.drilldown.js"></script>
-	
+	<script src="js\custom.js\advancedSearch.js"></script>
+	<script>
+		$(document).ready(function() {
+			
+			var someVarName = localStorage.getItem("startDate");
+			console.log("some varname ",someVarName);
+			var yesterday = (function(d) {
+				d.setDate(d.getDate() - 1);
+				return d
+			})(new Date)
+			$('#startDate').datepicker('setDate', yesterday);
+			$('#endDate').datepicker('setDate', yesterday);
+
+			
+		});
+	</script>
+	<script>
+		$(function() {
+			request.init();
+		})
+	</script>
 
 
 

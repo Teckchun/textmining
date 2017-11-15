@@ -27,6 +27,18 @@ public class DataMonitorViewController {
     public String dataAnalysisCompare() {
     		return "/data-analysis-compare";
     }
+    
+    @GetMapping("/data-analysis-trend")
+    public String dataAnalysisTrend() {
+    		return "/data-analysis-trend";
+    }
+    
+    @GetMapping("/data-analysis-assoc")
+    public String dataAnalysisAssoc() {
+    		return "/data-analysis-assoc";
+    }
+    
+    
 
 
 

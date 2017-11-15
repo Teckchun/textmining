@@ -38,8 +38,20 @@ public class Board {
     //@JsonProperty("type")
     private String type;
     
+    private String hasPage;
+    
+    
+    
    
   
+
+	public String getHasPage() {
+		return hasPage;
+	}
+
+	public void setHasPage(String hasPage) {
+		this.hasPage = hasPage;
+	}
 
 	public int getBoardIndex() {
 		return boardIndex;
