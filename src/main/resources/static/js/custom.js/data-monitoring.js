@@ -240,17 +240,17 @@
 							
 				     	              // TODO: create occurences and value of graph
 				     	      		
-				     	      			 var occurences = rows.reduce(function (r, row) {
+				     	      			 var occurences_all = all.reduce(function (r, row) {
 					     	                  r[row.board_date] = ++r[row.board_date] || 1;
 					     	                  return r;
 					     	              }, {});
 					     	         // console.log('occurences=> ',occurences);
 					     	              
 			
-					     	              var result = Object.keys(occurences).map(function (key) {
-					     	                  return { key: key, value: occurences[key],type:type };
+					     	              var result_all = Object.keys(occurences_all).map(function (key) {
+					     	                  return { key: key, value: occurences_all[key],type:type };
 					     	              });
-					     	              console.log('result=>  all ',rows.length);
+					     	              console.log('result=>  all ',all.length);
 					     	             
 				     	      		
 				     	             
@@ -285,7 +285,7 @@
 				     	                  r[row.board_date] = ++r[row.board_date] || 1;
 				     	                  return r;
 				     	              }, {});
-				     	              console.log('occurences=> ',occurenes_ppomppu);
+				     	              console.log('pp occurences=> ',occurenes_ppomppu);
 				     	              
 		
 				     	              var result_ppomppu = Object.keys(occurenes_ppomppu).map(function (key) {
@@ -348,12 +348,14 @@
 						     	     options.xAxis.categories = []
 						     	     options.series = []
 						     	     
+						     	     
 						     	     if(type=="all"){
+						     	    	 console.log('type == all ');
 						     	    	 
 						     	    	 	// TODO: all
-							     	    	for (var i = 0; i<result.length; i++) {
-						     	    			options.xAxis.categories.push(result[i].key);
-						     	    			data.push(result[i].value);
+							     	    	for (var i = 0; i<result_all.length; i++) {
+						     	    			options.xAxis.categories.push(result_all[i].key);
+						     	    			data.push(result_all[i].value);
 						     	    		};
 						     	    
 				     	          			     	            
@@ -368,6 +370,7 @@
 					     	        	   		options.xAxis.categories.push(result_momsholic[i].key);
 					     	                data1.push(result_momsholic[i].value);
 							     	    };
+							     	    console.log('data1=> ',data1)
 					     	           options.series.push({
 				     	            		name :'맘스홀릭카페',
 				     	            		data: data1
@@ -376,11 +379,13 @@
 					     	           //TODO: dcinside
 					     	           var data2=[];
 					     	           for (var i = 0; i<result_dcinside.length; i++) {
-					     	        	   		console.log('dc loop => ', result[i].key);
+					     	        	   		console.log('dc loop => ', result_dcinside[i].key);
 					     	        	   		options.xAxis.categories.push(result_dcinside[i].key);
 					     	                data2.push(result_dcinside[i].value);
 							     	  
 					     	            };
+					     	            
+					     	            console.log('data2 => ',data2)
 					     	           options.series.push({
 				     	            		name :'디시인사이드',
 				     	            		data: data2
@@ -388,10 +393,11 @@
 					     	           //TODO: ppomppu
 					     	          var data3=[];
 					     	           for (var i = 0; i<result_ppomppu.length; i++) {
-					     	        	   		console.log('loop => ', result[i].key);
+					     	        	   		console.log('pp loop => ', result_ppomppu[i].key);
 					     	        	   		options.xAxis.categories.push(result_ppomppu[i].key);
 					     	                data3.push(result_ppomppu[i].value);
 							     	    };
+							     	    console.log('data3 ',data3);
 					     	           options.series.push({
 				     	            		name :'뽐뿌',
 				     	            		data: data3
@@ -408,9 +414,16 @@
 				     	            		data: data4
 				     	            });
 						     	     }
+						     	     console.log('categories=> ',options.xAxis.categories);
+						     	     console.log('series=> ',options.series);
+						     	   
 						     	     // end type all
 						     	     
+						     	     
+						     	     
 						     	     if(type=="momsholic"){
+
+						     	    	 console.log('type == momsholic ');
 						     	    	 	var data1=[];
 						     	           for (var i = 0; i<result_momsholic.length; i++) {
 						     	        	   		options.xAxis.categories.push(result_momsholic[i].key);
