@@ -1,7 +1,7 @@
 //http://localhost:8080/rest
     var REQUEST_URL={
     		server:'http://35.201.252.181:11008/rest',
-    		local:'http://35.201.252.181:11008/rest'
+    		local:'http://localhost:8080/rest'
     } 
     
 
@@ -10,11 +10,7 @@
 		return {	
 			// TODO: initial data
 			init:function(){
-				//$(".se-pre-con").fadeIn(500);
-				
-				
-				
-				
+			
 				 var startDate = $("#startDate").val();
 				 var endDate = $("#endDate").val();
 				 var category = $("#category").val();
@@ -24,10 +20,10 @@
 				 //TODO: initialization data for passing to server!
 				 var filter = function filterData(){
 		            var settings = $("#datasetList").dataTable().fnSettings();
-		            console.log('datatable_settings: init ', settings);
+		        //    console.log('datatable_settings: init ', settings);
 		            
 		            //TODO: find sorted column
-		            console.log(settings.aLastSort[0]);
+		        //    console.log(settings.aLastSort[0]);
 		            var sort = {
 		            	col: settings.aLastSort[0].col,
 		            	dir: settings.aLastSort[0].dir,
@@ -36,8 +32,8 @@
 		            settings.aoColumns.forEach(function(column, index){
 		            	if(sort.col == index) sort.colName = column.mData;
 		            });
-		            console.log('start end date', startDate + endDate)
-		            console.log("type inside request", type);
+		        //    console.log('start end date', startDate + endDate)
+		        //    console.log("type inside request", type);
 		            
 		            var yesterday = (function(d){ d.setDate(d.getDate()-1); return d})(new Date)
 		            $('#startDate').datepicker('setDate', yesterday);
@@ -54,7 +50,7 @@
 			       		"type":type,
 			       		"boardTitle" : settings.oPreviousSearch.sSearch
 		            };
-		            console.log('filter', obj);
+		        //    console.log('filter', obj);
 		            return obj;
 		        };
 		        /* Extend with date sort plugin */
@@ -104,11 +100,11 @@
 		     	            var response = jQuery.parseJSON(response);
 		     	           // var type = ["뽐뿌","디시인사이드","지후맘카페","맘스홀릭카페"];
 
-		     	            console.log(response);
+		     	     //       console.log(response);
 		     	           //TODO: response pattern for DATATABLE
 		     	            
 		     	           	for(i in response.data){
-		     	           		console.log(response.data[i].type);
+		     	    //       		console.log(response.data[i].type);
 		     	           		if(response.data[i].type=="jihumom"){
 		     	           			response.data[i].type = "지후맘카페"
 		     	           		}else if(response.data[i].type=="momsholic"){
@@ -141,186 +137,7 @@
 				     	            };
 		     	           	}
 		     	           	
-		     	           
-		     	            
-		     	          
-		     	            
-		     	            // GRAPH
-		     	           if(response.data.length>0)
-		     	      		$("#resultdiv").show();
-		     	      	else
-		     	      		$("#resultdiv").hide();
-		     	      		
-		     	              var rows = response.data;
-
-		     	              var occurences = rows.reduce(function (r, row) {
-		     	                  r[row.insert_date] = ++r[row.insert_date] || 1;
-		     	                  return r;
-		     	              }, {});
-
-		     	              var result = Object.keys(occurences).map(function (key) {
-		     	                  return { key: key, value: occurences[key] };
-		     	              });
-
-
-
-		     	              container.innerHTML='';
-		     	              
-		     	              console.log(result)
-		     	              
-				     	       var options = {
-								        title: {
-								            text: '[검색어 추이]',
-								        },
-								        xAxis: {
-								            categories: []
-								        },
-								        yAxis: {
-								            title: {
-								                text: ''
-								            }
-								        },
-								        series: [{
-								            name: '건수',
-								            data: []
-								        }],  /*legend: {
-				     	                    layout: 'vertical',
-				     	                    align: 'right',
-				     	                    verticalAlign: 'middle'
-				     	                },*/responsive: {
-				     	                    rules: [{
-				     	                        condition: {
-				     	                            maxWidth: 500
-				     	                        },
-				     	                        chartOptions: {
-				     	                            legend: {
-				     	                                layout: 'horizontal',
-				     	                                align: 'center',
-				     	                                verticalAlign: 'bottom'
-				     	                            }
-				     	                        }
-				     	                    }]
-				     	                }
-								    };
-		     	              
-		     	             for (var i = 0; i<result.length; i++) {
-		     	                options.xAxis.categories.push(result[i].key);
-		     	                options.series[0].data.push(result[i].value);
-		     	            };
-		     	           $('#container').highcharts(options);
-		     	            
-		     	          /*   Highcharts.chart('container', {
-
-		     	                title: {
-		     	                    text: 'Solar Employment Growth by Sector, 2010-2016'
-		     	                },
-
-		     	                subtitle: {
-		     	                    text: 'Source: thesolarfoundation.com'
-		     	                },
-
-		     	                yAxis: {
-		     	                    title: {
-		     	                        text: 'Number of Employees'
-		     	                    }
-		     	                },
-		     	                legend: {
-		     	                    layout: 'vertical',
-		     	                    align: 'right',
-		     	                    verticalAlign: 'middle'
-		     	                },
-
-		     	                plotOptions: {
-		     	                    series: {
-		     	                        label: {
-		     	                            connectorAllowed: false
-		     	                        },
-		     	                        pointStart: 2010
-		     	                    }
-		     	                },
-
-		     	                series:data,
-
-		     	                responsive: {
-		     	                    rules: [{
-		     	                        condition: {
-		     	                            maxWidth: 500
-		     	                        },
-		     	                        chartOptions: {
-		     	                            legend: {
-		     	                                layout: 'horizontal',
-		     	                                align: 'center',
-		     	                                verticalAlign: 'bottom'
-		     	                            }
-		     	                        }
-		     	                    }]
-		     	                }
-
-		     	            });*/
-		     	              /*Morris.Line({
-		     	                  // ID of the element in which to
-		     	                  // draw the chart.
-		     	                  element : 'container',
-
-		     	                  // Chart data records -- each
-		     	                  // entry in this array
-		     	                  // corresponds to a point
-		     	                  // on the chart.
-		     	                  data : result,
-
-		     	                  // The name of the data record
-		     	                  // attribute that contains
-		     	                  // x-values.
-		     	                  xkey : [ 'key' ],
-
-		     	                  // A list of names of data
-		     	                  // record attributes that
-		     	                  // contain y-values.
-		     	                  ykeys : [ 'value' ],
-		     	                  xmin : 1,
-		     	                  xmax : 12,
-		     	                  // Labels for the ykeys -- will
-		     	                  // be displayed when you hover
-		     	                  // over the
-		     	                  // chart.
-		     	                  labels : [ '검색건수' ],
-
-		     	                  xLabels : [ '날짜' ],
-		     	                  lineColors : [ '#0b62a4' ],
-		     	                  parseTime : false,
-
-		     	                  // Disables line smoothing
-		     	                  smooth : true,
-		     	                  resize : true
-		     	              });*/
-
-
-
-
-		     	              var rows = response.data;
-
-		     	              var occurences2 = rows.reduce(function (r, row) {
-		     	                  r[row.type] = ++r[row.type] || 1;
-		     	                  return r;
-		     	              }, {});
-
-		     	              var result2 = Object.keys(occurences2).map(function (key) {
-		     	                  return { key: key, value: occurences2[key] };
-		     	              });
-
-		     	              console.log("result2=> ",result2)
-		     	              var type = ["뽐뿌","디시인사이드","지후맘카페"];
-		     	              $("#dataCount").html("");
-		     	              for(i=0; i<result2.length; i++){
-		     	              
-		     	              	
-		     	              	
-		     	              	 $("#dataCount").append('<div class="alert alert-warning" role="alert">'+
-		     	                  				 '<strong>'+type[i]+':'+result2[i].value+'</strong>'+
-		     	              				 '</div>'
-		     	                   		
-		     	                   		);
-		     	              }
+		     	        
 
 		     	            
 		     	            return JSON.stringify(jsonDatatable); // return JSON string
@@ -341,7 +158,7 @@
 	     		           } },
 	     		            { "data": "board_recommand" },
 	     		            { "data": "board_view" },
-	     		            { "data": "insert_date" }
+	     		            { "data": "board_date" }
 	     		    ]
 		            
 		       
@@ -363,6 +180,376 @@
 		        
 			},
 			
+			// TODO: generate graph
+			generateGraph:function(){
+				$("#resultdiv").hide();
+				
+				 console.log('generate graph calling...');
+				 var startDate = $("#startDate").val();
+				 var endDate = $("#endDate").val();
+				 var category = $("#category").val();
+				 var keyword = $("#keyword").val();
+				 var type = $('#category').find(":selected").val();
+				
+		            
+		            //TODO: prepare data for passing to server!
+		            var obj = {
+		                "boardTitle":keyword,
+			       		"startDate":$('#startDate').val(),
+			       		"endDate":$('#endDate').val(),
+			       		"type":type
+		            };
+				
+		           // show loading
+		            $("#loading").show();
+		          	var all=[],dcinside =[],jihumom =[], ppomppu = [],momsholic=[];
+					  
+				 $.ajax({
+					    url: REQUEST_URL.local+'/data-monitoring/getGraphData',
+					    type: 'GET',
+					    async: true,
+					    dataType: "json",
+					    data: obj,
+					    success: function (response) {
+					    	
+					    
+					
+					    				$("#loading").hide();
+					    				$("#container").show();
+					    				console.log('graph ajax response: ',response);
+				     	           if(response.data.length>0)
+				     	      		$("#resultdiv").show();
+				     	           else
+				     	      		$("#resultdiv").hide();
+				     	      		
+				     	              var rows = response.data; // 
+				     	              console.log('graph rowss=> ',rows);
+				    
+				     	      	for(r in rows){
+							    		all.push(rows[r]);
+							    		if(rows[r].type=="dcinside"){
+							    			dcinside.push(rows[r]);	
+							    		}else if(rows[r].type=="jihumom"){
+							    			jihumom.push(rows[r]);
+							    		}else if(rows[r].type=="momsholic"){
+							    			momsholic.push(rows[r]);
+							    		}else if(rows[r].type=="ppomppu"){
+							    			ppomppu.push(rows[r]);
+							    		}
+							    	}
+							
+				     	              // TODO: create occurences and value of graph
+				     	      		
+				     	      			 var occurences = rows.reduce(function (r, row) {
+					     	                  r[row.board_date] = ++r[row.board_date] || 1;
+					     	                  return r;
+					     	              }, {});
+					     	         // console.log('occurences=> ',occurences);
+					     	              
+			
+					     	              var result = Object.keys(occurences).map(function (key) {
+					     	                  return { key: key, value: occurences[key],type:type };
+					     	              });
+					     	              console.log('result=>  all ',rows.length);
+					     	             
+				     	      		
+				     	             
+				     	              
+				     	              
+				     	             var occurenes_momsholic = momsholic.reduce(function (r, row) {
+				     	                  r[row.board_date] = ++r[row.board_date] || 1;
+				     	                  return r;
+				     	              }, {});
+				     	            //  console.log('occurences=> ',occurenes_momsholic);
+				     	              
+		
+				     	              var result_momsholic = Object.keys(occurenes_momsholic).map(function (key) {
+				     	                  return { key: key, value: occurenes_momsholic[key] };
+				     	              });
+				     	            //  console.log('result momsholic=> ',result_momsholic);
+				     	             var occurenes_dcinside = dcinside.reduce(function (r, row) {
+				     	                  r[row.board_date] = ++r[row.board_date] || 1;
+				     	                  return r;
+				     	              }, {});
+				     	            //  console.log('occurences=> ',occurenes_dcinside);
+				     	              
+		
+				     	              var result_dcinside = Object.keys(occurenes_dcinside).map(function (key) {
+				     	                  return { key: key, value: occurenes_dcinside[key] };
+				     	              });
+				     	              
+				     	              console.log('ppomppu=> ',ppomppu);
+				     	              
+				     	              var occurenes_ppomppu = ppomppu.reduce(function (r, row) {
+				     	            	  	  console.log('row.board_date => ', row.board_date);
+				     	                  r[row.board_date] = ++r[row.board_date] || 1;
+				     	                  return r;
+				     	              }, {});
+				     	              console.log('occurences=> ',occurenes_ppomppu);
+				     	              
+		
+				     	              var result_ppomppu = Object.keys(occurenes_ppomppu).map(function (key) {
+				     	                  return { key: key, value: occurenes_ppomppu[key] };
+				     	              });
+				     	              
+				     	             var occurenes_jihumom = jihumom.reduce(function (r, row) {
+				     	                  r[row.board_date] = ++r[row.board_date] || 1;
+				     	                  return r;
+				     	              }, {});
+				     	              console.log('occurences=> ',occurenes_jihumom);
+				     	              
+		
+				     	              var result_jihumom = Object.keys(occurenes_jihumom).map(function (key) {
+				     	                  return { key: key, value: occurenes_jihumom[key] };
+				     	              });
+				     	             
+				     	              console.log('type=> ', type);
+		
+				     	              container.innerHTML='';
+				     	           
+				     	          
+						     	       
+						     	      var options = {
+										        title: {
+										            text: '[검색어 추이]',
+										        },
+										        xAxis: {
+										            categories: []
+										        },
+										        yAxis: {
+										            title: {
+										                text: ''
+										            }
+										        },
+										       
+										        series: [], 
+										        legend: {
+						     	                    layout: 'vertical',
+						     	                    align: 'right',
+						     	                    verticalAlign: 'middle'
+						     	                },responsive: {
+						     	                    rules: [{
+						     	                        condition: {
+						     	                            maxWidth: 500
+						     	                        },
+						     	                        chartOptions: {
+						     	                            legend: {
+						     	                                layout: 'horizontal',
+						     	                                align: 'center',
+						     	                                verticalAlign: 'bottom'
+						     	                            }
+						     	                        }
+						     	                    }]
+						     	                }
+										    };
+				     	              
+						     	      // TODO: loop to put data in categories and xAxis
+						     	     var data = []
+						     	     options.xAxis.categories = []
+						     	     options.series = []
+						     	     
+						     	     if(type=="all"){
+						     	    	 
+						     	    	 	// TODO: all
+							     	    	for (var i = 0; i<result.length; i++) {
+						     	    			options.xAxis.categories.push(result[i].key);
+						     	    			data.push(result[i].value);
+						     	    		};
+						     	    
+				     	          			     	            
+					     	            options.series.push({
+					     	            		name :'전체',
+					     	            		data: data
+					     	            });
+					     	            
+					     	            // TODO: momsholic
+					     	           var data1=[];
+					     	           for (var i = 0; i<result_momsholic.length; i++) {
+					     	        	   		options.xAxis.categories.push(result_momsholic[i].key);
+					     	                data1.push(result_momsholic[i].value);
+							     	    };
+					     	           options.series.push({
+				     	            		name :'맘스홀릭카페',
+				     	            		data: data1
+					     	           });
+					     	           
+					     	           //TODO: dcinside
+					     	           var data2=[];
+					     	           for (var i = 0; i<result_dcinside.length; i++) {
+					     	        	   		console.log('dc loop => ', result[i].key);
+					     	        	   		options.xAxis.categories.push(result_dcinside[i].key);
+					     	                data2.push(result_dcinside[i].value);
+							     	  
+					     	            };
+					     	           options.series.push({
+				     	            		name :'디시인사이드',
+				     	            		data: data2
+				     	            });
+					     	           //TODO: ppomppu
+					     	          var data3=[];
+					     	           for (var i = 0; i<result_ppomppu.length; i++) {
+					     	        	   		console.log('loop => ', result[i].key);
+					     	        	   		options.xAxis.categories.push(result_ppomppu[i].key);
+					     	                data3.push(result_ppomppu[i].value);
+							     	    };
+					     	           options.series.push({
+				     	            		name :'뽐뿌',
+				     	            		data: data3
+				     	            });
+					     	           //TODO: jihumom
+					     	          var data4=[];
+						     	         
+					     	           for (var i = 0; i<result_jihumom.length; i++) {
+					     	        	   		options.xAxis.categories.push(result_jihumom[i].key);	
+					     	                data4.push(result_jihumom[i].value);
+							     	    };
+					     	           options.series.push({
+				     	            		name :'지후맘카페',
+				     	            		data: data4
+				     	            });
+						     	     }
+						     	     // end type all
+						     	     
+						     	     if(type=="momsholic"){
+						     	    	 	var data1=[];
+						     	           for (var i = 0; i<result_momsholic.length; i++) {
+						     	        	   		options.xAxis.categories.push(result_momsholic[i].key);
+						     	                data1.push(result_momsholic[i].value);
+								     	    };
+						     	           options.series.push({
+					     	            		name :'맘스홀릭카페',
+					     	            		data: data1
+					     	            });
+						     	     }
+						     	     
+						     	     if(type=="dcinside"){
+						     	    	 	var data2=[];
+						     	           for (var i = 0; i<result_dcinside.length; i++) {
+						     	        	   		options.xAxis.categories.push(result_dcinside[i].key);
+						     	                data2.push(result_dcinside[i].value);
+								     	  
+						     	            };
+						     	           options.series.push({
+					     	            		name :'디시인사이드',
+					     	            		data: data2
+					     	            });
+						     	     }
+						     	     
+						     	     if(type=="ppomppu"){
+						     	    	 	var data3=[];
+						     	           for (var i = 0; i<result_ppomppu.length; i++) {
+						     	        	   		options.xAxis.categories.push(result_ppomppu[i].key);
+						     	        	   		console.log('pp type value = > ',result[i].key)
+						     	                
+						     	        	   		console.log('pp type value = > ',result_ppomppu[i].value)
+						     	                data3.push(result_ppomppu[i].value);
+								     	    };
+						     	           options.series.push({
+					     	            		name :'뽐뿌',
+					     	            		data: data3
+					     	            });
+						     	     }
+						     	     
+						     	     if(type=="jihumom"){
+						     	    	 	var data4=[];
+						     	         
+						     	           for (var i = 0; i<result_jihumom.length; i++) {
+						     	        	   		options.xAxis.categories.push(result_jihumom[i].key);	
+						     	                data4.push(result_jihumom[i].value);
+								     	    };
+						     	           options.series.push({
+					     	            		name :'지후맘카페',
+					     	            		data: data4
+					     	            });
+						     	           
+						     	     }
+						     	   
+						     	    		
+				     	            
+				     	           
+						     	          
+				     	          
+				     	           
+				     	         
+				     	           
+				     	           
+				     	           
+				     	           $('#container').highcharts(options);
+				     	           
+				     	           
+				     	           
+				     	           console.log('type=> ',type);
+				     	              
+				     	              var rows = response.data;
+						              var occurences2 = rows.reduce(function (r, row) {
+						                  r[row.board_date] = ++r[row.board_date] || 1;
+						                  return r;
+						              }, {});
+
+						              var result2 = Object.keys(occurences2).map(function (key) {
+						            	  
+						            	  	console.log("graph result2 = > key : ",key)
+						            	  
+						                  return { key: key, value: occurences2[key] };
+						              });
+
+
+				     	           
+				     	           
+//					    		  for(i in result){
+//				            	  console.log('i=> ',result[i].key)
+//				            	  	if(result[i].type=="dcinside"){
+//				            	  		result[i].type = "디시인사이드";
+//				            	  	}else if(result[i].type=="ppomppu"){
+//				            	  		result[i].type = "뽐뿌";
+//				            	  	}else if(result2[i].type=="momsholic"){
+//				            	  		result[i].type = "맘스홀릭카페";
+//				            	  	}
+//				            	  	else if(result2[i].type=="jihumom"){
+//				            	  		result[i].type = "지후맘카페";
+//				            	  	}else{
+//				            	  		result[i].type = "전체";
+//				            	  	}
+//				            	  
+//				              }
+					    		  
+					    		  $("#dataCount").html("");
+					    			
+					              	 $("#dataCount").append('<div class="alert alert-warning" role="alert" onclick="alert(\'11\')">'+
+					                  				 '<strong>'+'전체'+':'+rows.length+'</strong>'+
+					              				 '</div>'+
+					              				'<div class="alert alert-warning" role="alert">'+
+				                  				 '<strong>'+'맘스홀릭카페'+':'+momsholic.length+'</strong>'+
+				              				 '</div>'+
+				              				'<div class="alert alert-warning" role="alert">'+
+			                  				 '<strong>'+'디시인사이드'+':'+dcinside.length+'</strong>'+
+			              				 '</div>'+
+				              				'<div class="alert alert-warning" role="alert">'+
+			                  				 '<strong>'+'뽐뿌'+':'+ppomppu.length+'</strong>'+
+			              				 '</div>'+
+				              				'<div class="alert alert-warning" role="alert">'+
+			                  				 '<strong>'+'지후맘카페'+':'+jihumom.length+'</strong>'+
+			              				 '</div>'
+					                   		
+					                   		);
+//					              for(i=0; i<response.data.length; i++){
+//					            	  	
+//					              	 $("#dataCount").append('<div class="alert alert-warning" role="alert">'+
+//					                  				 '<strong>'+response.data[i].type+':'+response.data.length+'</strong>'+
+//					              				 '</div>'
+//					                   		
+//					                   		);
+//					              }
+				              
+				              
+				              
+					        
+					        
+					    }
+					  });
+		
+			},
+			
 			//TODO: count numbers of boards in each category
 			getDataCounts: function(){
 				$(function(){
@@ -372,7 +559,6 @@
 				            url: REQUEST_URL.local+'/data-monitoring/count'
 
 				        }).done(function(res) {
-				            console.log("res ",res);
 				            data = res.total;
 							//var type = ["뽐뿌","디시인사이드","지후맘카페","맘스홀릭카페"];
 				            for(i in res.data){
@@ -412,11 +598,8 @@
 			// TODO: getBoards
 			getBoards:function(){
 				$('#datasetList').DataTable().clear().destroy();
-//				
-				//$(".se-pre-con").fadeIn(500);
-//			    	$('#startDate').datepicker('setDate', new Date(2017, 9, 10));
-//				$('#endDate').datepicker('setDate', new Date(2017, 9, 22));
-//				$("#keyword").val("갤s7"); 
+				 request.generateGraph();
+				  
 			        
 				 var startDate = $("#startDate").val();
 				 var endDate = $("#endDate").val();
@@ -427,10 +610,10 @@
 		    	//TODO: initialization data for passing to server!
 		    	var filter = function filterData(){
 		            var settings = $("#datasetList").dataTable().fnSettings();
-		            console.log('datatable_settings: ', settings);
+		      //      console.log('datatable_settings: ', settings);
 		            
 		            //TODO: find sorted column
-		            console.log(settings.aLastSort[0]);
+		      //      console.log(settings.aLastSort[0]);
 		            var sort = {
 		            	col: settings.aLastSort[0].col,
 		            	dir: settings.aLastSort[0].dir,
@@ -440,7 +623,7 @@
 		            	if(sort.col == index) sort.colName = column.mData;
 		            });
 		          
-		            console.log("type in request => ",type);
+		       //     console.log("type in request => ",type);
 		            //TODO: prepare data for passing to server!
 		            var obj = {
 		                "draw" : settings.iDraw,
@@ -452,7 +635,7 @@
 			       		"type":$('#category').find(":selected").val(),
 			       		"board_title" : settings.oPreviousSearch.sSearch
 		            };
-		            console.log('filter', obj);
+		      //      console.log('filter', obj);
 		            return obj;
 		        };
 		        /* Extend with date sort plugin */
@@ -511,147 +694,21 @@
 		            		    	
 		            		    }
 		            		    else{
-		            		    	console.log(response);
-				     	            for(i in response.data){
-				     	           		console.log(response.data[i].type);
-				     	           		if(response.data[i].type=="jihumom"){
+		            	
+		            		    		  for(i in response.data){
+				     	           		console.log("RESPONSE TYPE = > ",response.data[i].type);
+				     	           	if(response.data[i].type=="jihumom"){
 				     	           			response.data[i].type = "지후맘카페"
 				     	           		}else if(response.data[i].type=="momsholic"){
 				     	           		response.data[i].type = "맘스홀릭카페"	
 				     	           		}else if(response.data[i].type=="dcinside"){
 				     	           		response.data[i].type = "디시인사이드"
-				     	           		}else{
+				     	           		}else if(response.data[i].type=="ppomppu"){
 				     	           		response.data[i].type = "뽐뿌"
 				     	           		}
 				     	           		
 				     	           	}
-				     	           // GRAPH
-					     	           if(response.data.length>0)
-					     	      		$("#resultdiv").show();
-					     	      	else
-					     	      		$("#resultdiv").hide();
-					     	      		
-					     	              var rows = response.data;
-
-					     	              var occurences = rows.reduce(function (r, row) {
-					     	                  r[row.insert_date] = ++r[row.insert_date] || 1;
-					     	                  return r;
-					     	              }, {});
-
-					     	              var result = Object.keys(occurences).map(function (key) {
-					     	                  return { key: key, value: occurences[key] };
-					     	              });
-
-
-
-					     	              container.innerHTML='';
-
-					     	              /*Morris.Line({
-					     	                  // ID of the element in which to
-					     	                  // draw the chart.
-					     	                  element : 'container',
-
-					     	                  // Chart data records -- each
-					     	                  // entry in this array
-					     	                  // corresponds to a point
-					     	                  // on the chart.
-					     	                  data : result,
-
-					     	                  // The name of the data record
-					     	                  // attribute that contains
-					     	                  // x-values.
-					     	                  xkey : [ 'key' ],
-
-					     	                  // A list of names of data
-					     	                  // record attributes that
-					     	                  // contain y-values.
-					     	                  ykeys : [ 'value' ],
-					     	                  xmin : 1,
-					     	                  xmax : 12,
-					     	                  // Labels for the ykeys -- will
-					     	                  // be displayed when you hover
-					     	                  // over the
-					     	                  // chart.
-					     	                  labels : [ '검색건수' ],
-
-					     	                  xLabels : [ '날짜' ],
-					     	                  lineColors : [ '#0b62a4' ],
-					     	                  parseTime : false,
-
-					     	                  // Disables line smoothing
-					     	                  smooth : true,
-					     	                  resize : true
-					     	              });*/
-					     	             var options = {
-					     	            		 title: {
-											            text: '[검색어 추이]',
-											        }, xAxis: {
-											            categories: []
-											        },
-											        yAxis: {
-											            title: {
-											                text: '검색건수'
-											            }
-											        },
-											        series: [{
-											            name: '날짜',
-											            data: []
-											        }],  /*legend: {
-							     	                    layout: 'vertical',
-							     	                    align: 'right',
-							     	                    verticalAlign: 'middle'
-							     	                },*/responsive: {
-							     	                    rules: [{
-							     	                        condition: {
-							     	                            maxWidth: 500
-							     	                        },
-							     	                        chartOptions: {
-							     	                            legend: {
-							     	                                layout: 'horizontal',
-							     	                                align: 'center',
-							     	                                verticalAlign: 'bottom'
-							     	                            }
-							     	                        }
-							     	                    }]
-							     	                }
-											    };
-					     	              
-					     	             for (var i = 0; i<result.length; i++) {
-					     	                options.xAxis.categories.push(result[i].key);
-					     	                options.series[0].data.push(result[i].value);
-					     	               //options.series[1].data.push((result[i].value+6));
-						     	            
-					     	             };
-					     	           $('#container').highcharts(options);
-
-
-
-
-					     	              var rows = response.data;
-
-					     	              var occurences2 = rows.reduce(function (r, row) {
-					     	                  r[row.type] = ++r[row.type] || 1;
-					     	                  return r;
-					     	              }, {});
-
-					     	              var result2 = Object.keys(occurences2).map(function (key) {
-					     	                  return { key: key, value: occurences2[key] };
-					     	              });
-
-					     	              console.log("result2=> ",result2)
-					     	              var type = ["뽐뿌","디시인사이드","지후맘카페"];
-					     	              $("#dataCount").html("");
-					     	              for(i=0; i<result2.length; i++){
-					     	              
-					     	              	
-					     	              	
-					     	              	 $("#dataCount").append(
-					     	                   		'<div class="alert alert-warning" role="alert">'+
-					     	                  				 '<strong>'+type[i]+':'+result2[i].value+'</strong>'+
-					     	              				 '</div>'
-					     	                  				 )
-					     	              }
-				     	            
+				     	          
 				     	            //TODO: response pattern for DATATABLE
 				     	            var jsonDatatable = {
 				     	            "draw" : response.pagination.draw, 
@@ -679,7 +736,7 @@
 	     		            } },
 	     		            { "data": "board_recommand" },
 	     		            { "data": "board_view" },
-	     		            { "data": "insert_date" }
+	     		            { "data": "board_date" }
 	     		    ]
 		            
 		       
@@ -694,17 +751,7 @@
 		            var title = $(this).text();
 		            $(this).html( '<div class="ui input"><input class="ui input" type="text" placeholder="Search '+title+'" /></div>' );
 		        } );
-		     
-		   	  	// Apply the search
-//		        table.columns().every( function () {
-//		            var self = this;
-//		            $( 'input', this.footer() ).on( 'keyup change', function () {
-//		                if ( self.search() !== this.value ) {
-//		                	self.search( this.value ).draw();
-//		                }
-//		            } );
-//		        } );
-		   	  	//TODO: End Search Block
+		  
 		        
 				
 				
@@ -714,9 +761,14 @@
 				
 		}
 	}();
+	
+//	$("#btn_keyword").click(function(){
+//		request.generateGraph();
+//	})
 	$("#frmSearch").on('submit', function(e){
 	    e.preventDefault();
-	   request.getBoards();
+	   
+	 
 	});
 	function btnDownload(idx) {
 		$('#popupDownload').empty();
@@ -725,4 +777,10 @@
 		$("#popupDownload").append(ifmDownload);
 	}
 	
+	
+	$("#keyword").keyup(function(event) {
+	    if (event.keyCode === 13) {
+	        $("#btn_keyword").click();
+	    }
+	});
 	

@@ -20,6 +20,8 @@ public interface DataMonitorService {
     // TODO: 10/24/17 get All board by title
     public List<Map<String, Object>> getBoards(Board board,Pagination pagination);
     
+    // TODO: getGrpah data
+    public List<Map<String, Object>> getGraphData(Board board);
     
     
 

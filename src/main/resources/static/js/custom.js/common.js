@@ -238,8 +238,13 @@ function date_plus() {
 }
 
 function today() {
-	$('#startDate').datepicker('setDate', new Date());
-	$('#endDate').datepicker('setDate', new Date());
+	
+//	$('#startDate').datepicker('setDate', new Date());
+//	$('#endDate').datepicker('setDate', new Date());
+	console.log('today func')
+	var yesterday = (function(d){ d.setDate(d.getDate()-1); return d})(new Date)
+    $('#startDate').datepicker('setDate', yesterday);
+    $('#endDate').datepicker('setDate', yesterday);
 
 	var tab_type = $("#tabItemType").val();
 	var page_url = location.pathname; 	
@@ -257,6 +262,7 @@ function formatDate(date) {
 }
 
 function printWeek() {
+	console.log('print week');
 	
 	var now = new Date();
 	var nowDayOfWeek = now.getDay();

@@ -29,10 +29,15 @@ public interface DataMonitorRepository {
     @SelectProvider(type=BoardSQLBuilder.class, method="countBoards")
     public int countBoards(Board board);
     
+    
+    @SelectProvider(type = BoardSQLBuilder.class, method="getBoardForGraph")
+    public List<Map<String,Object>> getBoardsForGraph(@Param("boards") Board baord);
+    
+    
+    
     @SelectProvider(type=BoardSQLBuilder.class, method="advancedSearch")
     public  List<Map<String,Object>> advancedSearch(@Param("filter") AdvancedSearchParams advancedSearchParams,
     		@Param("pagination") Pagination pagination);
-    // I have this two method, one for getting data, one for counting it param or not pu? wait
     
     @SelectProvider(type=BoardSQLBuilder.class, method="advancedSearchBoardCount")
     public int countAdvancedSearchBoard(AdvancedSearchParams advancedSearchParams);

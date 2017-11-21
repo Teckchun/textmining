@@ -26,9 +26,19 @@ public class DataMonitorServiceimpl implements DataMonitorService {
    public List<Map<String, Object>> getBoards(Board board, Pagination pagination) {
 	// TODO Auto-generated method stub
 	   System.out.println("count board "+dataMonitorRepository.countBoards(board));
-	  pagination.setTotalCount(dataMonitorRepository.countBoards(board));
+	  if(pagination!=null) {
+		  pagination.setTotalCount(dataMonitorRepository.countBoards(board));
+	  }
+	  
 	return dataMonitorRepository.getBoards(board, pagination);
    }
+   
+   @Override
+public List<Map<String, Object>> getGraphData(Board board) {
+	// TODO Auto-generated method stub
+	   System.out.println("service board "+board.toString());
+	return dataMonitorRepository.getBoardsForGraph(board);
+}
    
    @Override
 	public List<Map<String, Object>> advancedSearch(AdvancedSearchParams advancedSearchParams, Pagination pagination) {
