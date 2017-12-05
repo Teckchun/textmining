@@ -51,7 +51,13 @@ public List<Map<String, Object>> getGraphData(Board board) {
 	}
 
    
-   //
+   // TODO: trend graph
+   
+   @Override
+   public List<Map<String, Object>> trendGraph(AdvancedSearchParams advancedSearchParams) {
+	// TODO Auto-generated method stub
+	return dataMonitorRepository.trendGraph(advancedSearchParams);
+   }
    
    
    

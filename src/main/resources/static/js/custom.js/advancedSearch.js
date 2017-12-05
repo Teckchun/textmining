@@ -1,9 +1,9 @@
-http://localhost:8080/rest
+//http://localhost:8080/rest
 
 console.log('advanced search')
     var REQUEST_URL={
     		server:'http://35.201.252.181:11008/rest',
-    		local:'http://localhost:8081/rest'
+    		local:'http://localhost:8080/rest'
     } 
     
 	
@@ -33,9 +33,7 @@ console.log('advanced search')
 					 alert("Title can not be empty");
 					 return false;
 				 }
-				
-				 
-				 
+	
 		    	//TODO: initialization data for passing to server!
 		    	var filter = function filterData(){
 		            var settings = $("#datasetList").dataTable().fnSettings();
@@ -142,7 +140,7 @@ console.log('advanced search')
 		            "lengthMenu": [[10, 20, 30,50, 70, 100], [10, 20, 30, 50, 70, 100]],
 		            //TODO:
 		            //TODO: 
-		            stateSave: true,
+		            stateSave: false,
 		            //TODO: 
 		            "ajax":{
 		            	"url" : REQUEST_URL.local+'/data-monitoring/advancedSearch'+concat,
@@ -209,7 +207,7 @@ console.log('advanced search')
 	     		            } },
 	     		            { "data": "board_recommand" },
 	     		            { "data": "board_view" },
-	     		            { "data": "insert_date" }
+	     		            { "data": "board_date" }
 	     		    ]
 		            
 		       
@@ -224,18 +222,7 @@ console.log('advanced search')
 		            var title = $(this).text();
 		            $(this).html( '<div class="ui input"><input class="ui input" type="text" placeholder="Search '+title+'" /></div>' );
 		        } );
-		     
-		   	  	// Apply the search
-//		        table.columns().every( function () {
-//		            var self = this;
-//		            $( 'input', this.footer() ).on( 'keyup change', function () {
-//		                if ( self.search() !== this.value ) {
-//		                	self.search( this.value ).draw();
-//		                }
-//		            } );
-//		        } );
-		   	  	//TODO: End Search Block
-		        
+
 				
 				
 				

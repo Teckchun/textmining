@@ -23,6 +23,13 @@ public interface DataMonitorService {
     // TODO: getGrpah data
     public List<Map<String, Object>> getGraphData(Board board);
     
+    // TODO: advancedSearch
+    public List<Map<String,Object>> advancedSearch(AdvancedSearchParams advancedSearchParams,Pagination page);
+    
+    // TODO: trend graph
+    public List<Map<String,Object>> trendGraph(AdvancedSearchParams advancedSearchParams);
+    
+    
     
 
     // TODO: 10/24/17 get content advanced search
@@ -39,8 +46,6 @@ public interface DataMonitorService {
             String excludeTwo,
             String excludeThree);
     
-    public List<Map<String,Object>> advancedSearch(AdvancedSearchParams advancedSearchParams,Pagination page);
-  
     
 
     // TODO: 10/25/17 count

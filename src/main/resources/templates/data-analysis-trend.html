@@ -482,7 +482,8 @@
 													<input type="text" id="startDate" name="startDate"
 														class="form-control text-center" placeholder="From"
 														readonly=""> <span class="input-group-addon"><i
-														class="fa fa-angle-right"></i></span> <input type="text"
+														class="fa fa-angle-right"></i></span>
+													 <input type="text"
 														id="endDate" name="endDate"
 														class="form-control text-center" placeholder="To"
 														readonly="">
@@ -531,14 +532,16 @@
 										</div>
 									</div>
 
-
+									<div class="row-text-center" style="margin-top:20px; display:none" id="loading">
+											<img src="./images/loading.gif" class="img-responsive" style="margin:0 auto;">
+										</div>	
 									<div class="col-xs-12">
 										
-									<div class="col-sm-12">
+									<div class="col-sm-12" id="graph_container" style="display:none">
 										<!-- <img class="img img-responsive" src="../images/data-analysis-trend.png" alt="" /> -->
-										 <div class="col-sm-6" id="line_container" style="min-width: 310px; height: 400px; 
+										 <div class="col-sm-8" id="line_container" style="min-width: 310px; height: 400px; 
                            "></div>
-                           				<div class="col-sm-6" id="pie_container" style="min-width: 310px; height: 400px;
+                           				<div class="col-sm-4" id="pie_container" style="min-width: 310px; height: 400px;
                            "></div>
                            
 									</div>
@@ -563,6 +566,7 @@
 											<tbody id="dataset_list">
 											</tbody>
 										</table>
+									
 
 									</div>
 
@@ -764,7 +768,7 @@
 	<script src="js\vendor\highchart.js"></script>
 	<script src="js\vendor\highchart.module.data.js"></script>
 	<script src="js\vendor\highchart.module.drilldown.js"></script>
-	<script src="js\custom.js\advancedSearch.js"></script>
+	<script src="js\custom.js\data-analysis-trend.js"></script>
 
 	<script>
 		$(document).ready(function() {
@@ -782,12 +786,8 @@
 
 		});
 	</script>
-	<script>
-		$(function() {
-			request.init();
-		})
-	</script>
-	<script>
+	
+	<!-- <script>
 	// Build the chart
 	Highcharts.chart('line_container', {
 
@@ -853,8 +853,8 @@
 
 });
 	
-	</script>
-	<script>
+	</script> -->
+	<!-- <script>
 	// Build the chart
 	Highcharts.chart('pie_container', {
 	    chart: {
@@ -906,7 +906,7 @@
 	    }]
 	});
 	
-	</script>
+	</script> -->
 
 
 

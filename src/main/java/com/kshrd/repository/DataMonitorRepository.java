@@ -39,6 +39,10 @@ public interface DataMonitorRepository {
     public  List<Map<String,Object>> advancedSearch(@Param("filter") AdvancedSearchParams advancedSearchParams,
     		@Param("pagination") Pagination pagination);
     
+    // TODO: for trend graph
+    @SelectProvider(type=BoardSQLBuilder.class, method="trendGraph")
+    public List<Map<String,Object>> trendGraph(@Param("filter") AdvancedSearchParams advancedSearchParams);
+    
     @SelectProvider(type=BoardSQLBuilder.class, method="advancedSearchBoardCount")
     public int countAdvancedSearchBoard(AdvancedSearchParams advancedSearchParams);
     

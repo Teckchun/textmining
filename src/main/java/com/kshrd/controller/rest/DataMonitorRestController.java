@@ -31,73 +31,73 @@ public class DataMonitorRestController {
     
 
 
-    @GetMapping("/getPpommpuContent")
-    public ResponseEntity<ResponseList<Map<String,Object>>> getPpommpu(
-                                                    @RequestParam(value="product_name" ,required = false) String productName,
-                                                    @RequestParam(value="content_like" ,required = false) String contentLike,
-                                                    @RequestParam(value="exclude_one" ,required = false) String exclude_one,
-                                                                            @RequestParam(value="exclude_two" ,required = false) String exclude_two,
-                                                    @RequestParam(value="exclude_three" ,required = false) String exclude_three){
+//    @GetMapping("/getPpommpuContent")
+//    public ResponseEntity<ResponseList<Map<String,Object>>> getPpommpu(
+//                                                    @RequestParam(value="product_name" ,required = false) String productName,
+//                                                    @RequestParam(value="content_like" ,required = false) String contentLike,
+//                                                    @RequestParam(value="exclude_one" ,required = false) String exclude_one,
+//                                                                            @RequestParam(value="exclude_two" ,required = false) String exclude_two,
+//                                                    @RequestParam(value="exclude_three" ,required = false) String exclude_three){
+//
+//       // System.out.println(productName+"||"+contentLike+"||"+exclude_one+"||"+exclude_two+"||"+exclude_three);
+//        ResponseList<Map<String,Object>> list = new ResponseList<>();
+//        HttpStatus status = HttpStatus.OK;
+//        try {
+//
+//            List<Map<String, Object>> map = dataMonitorService.getPpommpuContent(productName, contentLike, exclude_one,exclude_two,exclude_three);
+//
+//            if (!map.isEmpty()) {
+//                list = new ResponseList.ResponseListSuccess<>(
+//                        HttpMessage.success(Table.BOARD + "(s)", Transaction.Success.RETRIEVE), true, map,
+//                        null);
+//            } else {
+//                list = new ResponseList.ResponseListFailure<>(
+//                        HttpMessage.fail(Table.BOARD + "(s)", Transaction.Fail.RETRIEVE), false,
+//                        ResponseHttpStatus.RECORD_NOT_FOUNT);
+//            }
+//
+//        }catch(Exception e){
+//            e.printStackTrace();
+//        }
+//
+//
+//        System.out.println("COUNT => "+list.getData().size());
+//        return new ResponseEntity<ResponseList<Map<String,Object>>>(list, status);
+//    }
 
-       // System.out.println(productName+"||"+contentLike+"||"+exclude_one+"||"+exclude_two+"||"+exclude_three);
-        ResponseList<Map<String,Object>> list = new ResponseList<>();
-        HttpStatus status = HttpStatus.OK;
-        try {
-
-            List<Map<String, Object>> map = dataMonitorService.getPpommpuContent(productName, contentLike, exclude_one,exclude_two,exclude_three);
-
-            if (!map.isEmpty()) {
-                list = new ResponseList.ResponseListSuccess<>(
-                        HttpMessage.success(Table.BOARD + "(s)", Transaction.Success.RETRIEVE), true, map,
-                        null);
-            } else {
-                list = new ResponseList.ResponseListFailure<>(
-                        HttpMessage.fail(Table.BOARD + "(s)", Transaction.Fail.RETRIEVE), false,
-                        ResponseHttpStatus.RECORD_NOT_FOUNT);
-            }
-
-        }catch(Exception e){
-            e.printStackTrace();
-        }
-
-
-        System.out.println("COUNT => "+list.getData().size());
-        return new ResponseEntity<ResponseList<Map<String,Object>>>(list, status);
-    }
-
-    @GetMapping("/getDCInsideContent")
-    public ResponseEntity<ResponseList<Map<String,Object>>> getDCInside(
-            @RequestParam(value="product_name" ,required = false) String productName,
-            @RequestParam(value="content_like" ,required = false) String contentLike,
-            @RequestParam(value="exclude_one" ,required = false) String exclude_one,
-            @RequestParam(value="exclude_two" ,required = false) String exclude_two,
-            @RequestParam(value="exclude_three" ,required = false) String exclude_three){
-
-        System.out.println(productName+"||"+contentLike+"||"+exclude_one+"||"+exclude_two+"||"+exclude_three);
-        ResponseList<Map<String,Object>> list = new ResponseList<>();
-        HttpStatus status = HttpStatus.OK;
-        try {
-
-            List<Map<String, Object>> map = dataMonitorService.getDCInsideContent(productName, contentLike, exclude_one,exclude_two,exclude_three);
-
-            if (!map.isEmpty()) {
-                list = new ResponseList.ResponseListSuccess<>(
-                        HttpMessage.success(Table.BOARD + "(s)", Transaction.Success.RETRIEVE), true, map,
-                        null);
-            } else {
-                list = new ResponseList.ResponseListFailure<>(
-                        HttpMessage.fail(Table.BOARD + "(s)", Transaction.Fail.RETRIEVE), false,
-                        ResponseHttpStatus.RECORD_NOT_FOUNT);
-            }
-
-        }catch(Exception e){
-            e.printStackTrace();
-        }
-
-
-        System.out.println("COUNT => "+list.getData().size());
-        return new ResponseEntity<ResponseList<Map<String,Object>>>(list, status);
-    }
+//    @GetMapping("/getDCInsideContent")
+//    public ResponseEntity<ResponseList<Map<String,Object>>> getDCInside(
+//            @RequestParam(value="product_name" ,required = false) String productName,
+//            @RequestParam(value="content_like" ,required = false) String contentLike,
+//            @RequestParam(value="exclude_one" ,required = false) String exclude_one,
+//            @RequestParam(value="exclude_two" ,required = false) String exclude_two,
+//            @RequestParam(value="exclude_three" ,required = false) String exclude_three){
+//
+//        System.out.println(productName+"||"+contentLike+"||"+exclude_one+"||"+exclude_two+"||"+exclude_three);
+//        ResponseList<Map<String,Object>> list = new ResponseList<>();
+//        HttpStatus status = HttpStatus.OK;
+//        try {
+//
+//            List<Map<String, Object>> map = dataMonitorService.getDCInsideContent(productName, contentLike, exclude_one,exclude_two,exclude_three);
+//
+//            if (!map.isEmpty()) {
+//                list = new ResponseList.ResponseListSuccess<>(
+//                        HttpMessage.success(Table.BOARD + "(s)", Transaction.Success.RETRIEVE), true, map,
+//                        null);
+//            } else {
+//                list = new ResponseList.ResponseListFailure<>(
+//                        HttpMessage.fail(Table.BOARD + "(s)", Transaction.Fail.RETRIEVE), false,
+//                        ResponseHttpStatus.RECORD_NOT_FOUNT);
+//            }
+//
+//        }catch(Exception e){
+//            e.printStackTrace();
+//        }
+//
+//
+//        System.out.println("COUNT => "+list.getData().size());
+//        return new ResponseEntity<ResponseList<Map<String,Object>>>(list, status);
+//    }
     
     
 /*    @GetMapping("/getAllContent")
@@ -137,9 +137,7 @@ public class DataMonitorRestController {
     */
     @GetMapping("/getBoards")
     public ResponseEntity<ResponseList<Map<String,Object>>> getBaords(Board board,Pagination page) {
-    	//System.out.println(board.toString());
-    //	System.out.println("type=> "+board.getType());
-    	//System.out.println("limit "+page.getLimit() +"offset"+ page.getOffset());
+  
     	
     	ResponseList<Map<String,Object>> list = new ResponseList<>();
         HttpStatus status = HttpStatus.OK;
@@ -179,6 +177,7 @@ public class DataMonitorRestController {
     @GetMapping("/getGraphData")
     public ResponseEntity<ResponseList<Map<String,Object>>> getGraphData(Board board) {
     	
+    	System.out.println("BOARD=>> "+board.getEndDate());
     	
     	ResponseList<Map<String,Object>> list = new ResponseList<>();
         HttpStatus status = HttpStatus.OK;
@@ -216,7 +215,7 @@ public class DataMonitorRestController {
     public ResponseEntity<ResponseList<Map<String,Object>>> advancedSearch(AdvancedSearchParams advancedSearchParams,
     		Pagination page)
                                                     {
-    //	System.out.println(advancedSearchParams.toString());
+   	System.out.println(advancedSearchParams.getEndDate());
     	//System.out.println("limit "+page.getLimit() +"offset"+ page.getOffset());
     	
     	ResponseList<Map<String,Object>> list = new ResponseList<>();
@@ -243,9 +242,37 @@ public class DataMonitorRestController {
         }catch(Exception e){
             e.printStackTrace();
         }
+        return new ResponseEntity<ResponseList<Map<String,Object>>>(list, status);
+    }
+    
+    // TODO: trend graph
+    @GetMapping("/trendGraphData")
+    public ResponseEntity<ResponseList<Map<String,Object>>> advancedSearchGraph(AdvancedSearchParams advancedSearchParams){ 	
+    System.out.println("PARAMS=> "+advancedSearchParams.toString());
+    	ResponseList<Map<String,Object>> list = new ResponseList<>();
+        HttpStatus status = HttpStatus.OK;
+        try {
 
-      //  System.out.println(list.getData().toString());
-      //  System.out.println("COUNT => "+list.getData().size());
+        		Map<String,Object> responseMap = new HashMap<>();
+            List<Map<String, Object>> map = dataMonitorService.trendGraph(advancedSearchParams);
+            responseMap.put("boards",list);
+    
+            
+           
+
+            if (!map.isEmpty()) {
+                list = new ResponseList.ResponseListSuccess<>(
+                        HttpMessage.success(Table.BOARD + "(s)", Transaction.Success.RETRIEVE), true, map,
+                        null);
+            } else {
+                list = new ResponseList.ResponseListFailure<>(
+                        HttpMessage.fail(Table.BOARD + "(s)", Transaction.Fail.RETRIEVE), false,
+                        ResponseHttpStatus.RECORD_NOT_FOUNT);
+            }
+
+        }catch(Exception e){
+            e.printStackTrace();
+        }
         return new ResponseEntity<ResponseList<Map<String,Object>>>(list, status);
     }
 

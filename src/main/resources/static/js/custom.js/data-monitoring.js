@@ -1,7 +1,7 @@
 //http://localhost:8080/rest
     var REQUEST_URL={
     		server:'http://35.201.252.181:11008/rest',
-    		local:'http://localhost:8080/rest'
+    		local:'http://35.201.252.181:11008/rest'
     } 
     
 
@@ -358,11 +358,13 @@
 						     	    			data.push(result_all[i].value);
 						     	    		};
 						     	    
-				     	          			     	            
-					     	            options.series.push({
+				     	          		if(data.length>0){
+				     	          			options.series.push({
 					     	            		name :'전체',
 					     	            		data: data
 					     	            });
+				     	          		}	     	            
+					     	            
 					     	            
 					     	            // TODO: momsholic
 					     	           var data1=[];
@@ -371,10 +373,12 @@
 					     	                data1.push(result_momsholic[i].value);
 							     	    };
 							     	    console.log('data1=> ',data1)
-					     	           options.series.push({
-				     	            		name :'맘스홀릭카페',
-				     	            		data: data1
-					     	           });
+					     	           if(data1.length>0){
+					     	        	   	   options.series.push({
+					     	            		name :'맘스홀릭카페',
+					     	            		data: data1
+						     	           });
+					     	           }
 					     	           
 					     	           //TODO: dcinside
 					     	           var data2=[];
@@ -386,10 +390,12 @@
 					     	            };
 					     	            
 					     	            console.log('data2 => ',data2)
-					     	           options.series.push({
-				     	            		name :'디시인사이드',
-				     	            		data: data2
-				     	            });
+					     	           if(data2.length>0){
+					     	        	   	options.series.push({
+					     	            		name :'디시인사이드',
+					     	            		data: data2
+					     	            });
+					     	           }
 					     	           //TODO: ppomppu
 					     	          var data3=[];
 					     	           for (var i = 0; i<result_ppomppu.length; i++) {
@@ -398,10 +404,12 @@
 					     	                data3.push(result_ppomppu[i].value);
 							     	    };
 							     	    console.log('data3 ',data3);
-					     	           options.series.push({
-				     	            		name :'뽐뿌',
-				     	            		data: data3
-				     	            });
+					     	           if(data3.length>0){
+					     	        	   	options.series.push({
+					     	            		name :'뽐뿌',
+					     	            		data: data3
+					     	            });
+					     	           }
 					     	           //TODO: jihumom
 					     	          var data4=[];
 						     	         
@@ -409,10 +417,12 @@
 					     	        	   		options.xAxis.categories.push(result_jihumom[i].key);	
 					     	                data4.push(result_jihumom[i].value);
 							     	    };
-					     	           options.series.push({
-				     	            		name :'지후맘카페',
-				     	            		data: data4
-				     	            });
+					     	          if(data4.length>0){
+					     	        	  	options.series.push({
+					     	            		name :'지후맘카페',
+					     	            		data: data4
+					     	            });
+					     	          }
 						     	     }
 						     	     console.log('categories=> ',options.xAxis.categories);
 						     	     console.log('series=> ',options.series);
